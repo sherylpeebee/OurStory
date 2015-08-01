@@ -4,15 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var cors = require('cors');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-// var ig = require('instagram-node').instagram();
-// var secrets = require('./secrets/ig-secrets.js');
-// ig.use({ client_id: secrets.YOUR_CLIENT_ID, client_secret: secrets.YOUR_CLIENT_SECRET });
-// var redirect_uri = 'http://localhost:3000/auth';
+
+var secrets = require('./secrets/ig-secrets.js');
+mongoose.connect(secrets.MONGOLAB_URI);
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,9 +29,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
 app.use('/', routes);
 app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

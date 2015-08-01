@@ -6,6 +6,9 @@ var secrets = require('../secrets/ig-secrets.js');
 var redirect_uri = 'http://localhost:3000/auth';
 var access_token, currentUser;
 
+
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   // res.render('index', { title: 'Express' });
@@ -38,10 +41,11 @@ router.get('/auth', function(req, res, next) {
 
 router.get('/authorize_user', function(req, res, next) {
   ig.use({ client_id: secrets.YOUR_CLIENT_ID, client_secret: secrets.YOUR_CLIENT_SECRET });
-  res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes', 'basic', 'comments', 'relationships'], state: 'a state' }));
+  res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes', 'basic', 'comments', 'relationships']}))
+  //optional "state" can be given in scope object above;
 });
 
-
+// HOW DO I ALLOW CORSSSSS?!?!?/1/1
 
 
 
