@@ -10,12 +10,12 @@ angular.module("OurStory")
   //     }
   //     console.log(data);
   // });
-  // $http.get('/authorize_user')
-  //   .success(function(data){
-  //
-  //     console.log("%%%%%", data);
-  // })
-  // .error(function(err){
-  //   console.log(err);
-  // });
+  $http.jsonp('http://localhost:3000/authorize_user')
+    .success(function(data){
+
+      console.log("%%%%%", data);
+  })
+  .error(function(err){
+    console.log("ERROR ERROR", err);
+  });
 }]);

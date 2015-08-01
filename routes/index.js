@@ -22,13 +22,14 @@ router.get('/poo', function(req, res, next) {
 
 router.get('/auth', cors(), function(req, res, next) {
   console.log("LETS AUTH!!!");
-  router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*, http://localhost:8080/public/layout/");
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+  // router.use(function(req, res, next) {
+  //   res.header("Access-Control-Allow-Origin", "*, http://localhost:8080/public/layout/");
+  //   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  //   next();
+  // });
   ig.authorize_user(req.query.code, redirect_uri, function(err, result) {
+    console.log('step thrrreeeee....');
     if (err) {
       console.log(err.body);
       res.send("Didn't work");
@@ -39,6 +40,7 @@ router.get('/auth', cors(), function(req, res, next) {
       // console.log('The authenticated user is ' , result.user);
       currentUser = result.user;
       console.log('The authenticated user is ' , currentUser);
+
       //looks like:
   // { username: 'feralsheral',
   // bio: '',
@@ -46,19 +48,19 @@ router.get('/auth', cors(), function(req, res, next) {
   // profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_309408871_75sq_1361853907.jpg',
   // full_name: 'Sheryl',
   // id: '309408871' }
-      res.status(200);
+      res.send("angular.callbacks._0(" + JSON.stringify(currentUser) + ")");
     }
   });
 });
 
 router.get('/authorize_user', cors(), function(req, res, next) {
-  router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*, http://localhost:8080/public/layout/");
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-  console.log("yayyyyy!!!");
+  // router.use(function(req, res, next) {
+  //   res.header("Access-Control-Allow-Origin", "*, http://localhost:8080/public/layout/");
+  //   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  //   next();
+  // });
+  console.log("STep oNNNEee!!!");
   ig.use({ client_id: secrets.YOUR_CLIENT_ID, client_secret: secrets.YOUR_CLIENT_SECRET });
   res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes', 'basic', 'comments', 'relationships']}));
 });
