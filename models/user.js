@@ -1,24 +1,23 @@
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
-  
-    id           : String,
-    token        : String,
-    tokenSecret  : String,
-    displayName  : String,
-    username     : String
+
+    ig_id           : String,
+    access_token    : String,
+    full_name       : String,
+    username        : String,
+    profile_picture : String,
+    incoming_requests     :
+      {
+        from: String, approved: Boolean
+      },
+        outgoing_request     :
+      {
+        to: String, approved: Boolean
+      },
+    partner      : String,
+    relationship : {type: mongoose.Schema.Types.ObjectId, ref: 'Couple'}
 
 });
 
 module.exports = mongoose.model('User', userSchema);
-
-
-// owner:
-//    { lastName: 'sam',
-//      email: 'doo@you.coo',
-//      location: 'fremont ca',
-//      image: 'http://boobs.com',
-//      info: { pets: false, noSmoking: true },
-//      startDate: '2015-07-17T07:00:00.000Z',
-//      endDate: '2016-05-24T07:00:00.000Z',
-//      firstName: 'sheryl' }
