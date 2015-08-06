@@ -1,0 +1,26 @@
+
+    <!-- {{test}} -->
+<div class="container">
+  <form class="row" ng-submit="submitPic()">
+    <!-- action="http://our-story.s3.amazonaws.com/" method="post" enctype="multipart/form-data" -->
+    <input class="col s3" type="file" ng-model='file' id="myfile"><br>
+    <img src="" class="col s3" height="200" alt="Image preview...">
+    <button class="btn col s3" type="submit" name="button">Add to your story</button>
+  </form>
+  <button class="btn yellow darken-3 col s3"  type="button" name="button" ng-click='previewFile()'>Preview Pics</button>
+  <div class="row">
+    <a class="col s12" href="" id="resetLink">Reset file input</a>
+  </div>
+</div>
+<div class="" ng-if='authenticatedUser'>{{authenticatedUser}}</div>
+
+  <!-- <a href="" ng-click="test()">test</a> -->
+
+<!--
+<form>
+    <input type="text" /> <br>
+    <input type="file"  />
+</form> -->
+
+<!-- https://www.youtube.com/watch?v=VC0k-noNwOU -->
+<!-- see vid 29:21 for policy update to make objects accessible from outside of bucket -->

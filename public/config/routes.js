@@ -2,6 +2,8 @@ angular.module("OurStory")
 .config(function($stateProvider, $urlRouterProvider){
    $urlRouterProvider.otherwise("/");
   $stateProvider
-    .state('primary', { url: "/primary", templateUrl: "./templates/primary.html", controller: "PrimaryCtrl"})
-    .state('test', { url: "/test", templateUrl: "./templates/test.html", controller: "PrimaryCtrl" });
+    .state('home', { url: "/", controller: "currentUserCtrl"})
+    .state('currentUser', { url: "/:id", templateUrl: "./templates/currentUser.html", controller: "currentUserCtrl"})
+    .state('test', { url: "/test", templateUrl: "./templates/test.html", controller: "TestCtrl" })
+    .state('new-pics', { url: "/new-pics", templateUrl: "./templates/new-pics.html", controller: "currentUserCtrl" });
 });
