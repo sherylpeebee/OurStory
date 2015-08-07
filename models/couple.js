@@ -7,9 +7,9 @@ var coupleSchema = mongoose.Schema({
     [
       {
         title       : String,
-        story     : String,
-        created_at  : { type: Date, default: Date.now }
-        // pictures: ???
+        story       : String,
+        created_at  : { type: Date, default: Date.now },
+        picUrls     : [String]
       }
     ]
 
