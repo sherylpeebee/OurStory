@@ -116,3 +116,24 @@ h6.update {
     position: absolute;
     right: 38%;
 }
+
+.hidden {
+  display: none;
+}
+
+.btn.red.lighten-1 {
+    background-color: #EF5350 !important;
+    width: 29%;
+    height: 33px;
+    position: relative;
+    bottom: 87px;
+    left: 5%;
+}
+
+i.material-icons {
+    height: 30px;
+    position: relative;
+    bottom: 14px;
+    color: white;
+    font-weight: bold;
+}

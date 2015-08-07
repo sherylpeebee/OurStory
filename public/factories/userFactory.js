@@ -1,8 +1,11 @@
 angular.module("OurStory")
 .factory('UserFactory', function($http){
   return {
-    getCurrentData : function (authenticatedUser){
-      return $http.post('http://localhost:3000/userData', authenticatedUser);
+    updateUser : function (user){
+      return $http.post('http://localhost:3000/updateUser', user);
+    },
+    findUser : function (user){
+      return $http.post('http://localhost:3000/findUser', user);
     }
   };
 });

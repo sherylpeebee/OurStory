@@ -40,13 +40,8 @@
   <nav class="side-nav"  id="slide-out">
     <div class="row">
         <div id="stat_header" class="header center" style="color:black"><h4 id="profileHeader">Account Details</h4></div>
-        <h6 class="update" ng-if="verifyInfo"> You haven't created an account yet! </h6>
-        <!-- <p ng-if="verifyInfo" style="color:black" class="update">
-          (We've entered some information just to get you started.  Add or edit, then save below.)
-        </p> -->
+        <h6 class="update" ng-class="{ 'hidden': verifyInfo }"> You haven't created an account yet! </h6>
           <form class="" ng-submit="updateAccount(current)">
-               <!-- <input id="username" type="text" ng-model="current.username">
-               <label for="username" class="active">username</label> -->
 
                <input id="full_name" type="text" ng-model="current.full_name">
                <label for="full_name">full name</label>
@@ -61,12 +56,18 @@
                <p>
                  <input name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="current.partner.search" />
                  <label for="full_name_search">Search by full name</label>
+                 <a class="btn red lighten-1 search_partner" ng-click="findPartner()">
+                   <i class=" material-icons">search</i>
+                 </a>
                </p>
+
+
+
 
                <!-- <input id="profile_pic" type="text" ng-model="current.profile_picture">
                <label for="profile_pic">profile picture url</label> -->
-               <button class="btn account_info" ng-show="verifyInfo" type="submit" name="button">Create Account</button>
-               <button class="btn account_info" ng-hide="verifyInfo" type="submit" name="button">Update Account</button>
+               <button class="btn account_info" ng-show="verifyInfo" ng-class="{ 'hidden': verifyInfo }" type="submit" name="button">Create Account</button>
+               <button class="btn account_info" ng-show="verifyInfo" type="submit" name="button">Update Account</button>
           </form>
     </div>
   </nav>

@@ -63,8 +63,8 @@ router.get('/authorize_user', cors(), function(req, res, next) {
   res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes', 'basic', 'comments', 'relationships']}));
 });
 
-router.post('/userData', cors(), function(req, res, next) {
-  console.log("request body: ", req.body);
+router.post('/findUser', cors(), function(req, res, next) {
+  console.log("find User request body: ", req.body.id);
 
   User.find({ 'ig_id': req.body.id }, function (err, docs) {
     if(err){
@@ -72,41 +72,15 @@ router.post('/userData', cors(), function(req, res, next) {
     }
     if(!docs[0]){
       console.log("nothing here!");
-      res.status(200).send(null);
+      res.status(200).send("nothing here!");
     }
     else{
     console.log("docs: ", docs);
-    res.status(200).send("ok");
+    res.status(200).send(docs[0]);
     }
   });
 });
-//
-// { full_name: 'susan sarandon',
-//   partner: { name: 'feralsheral', search: 'username' },
-//   username: 'sherpeebee',
-//   profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_173576403_75sq_1337832370.jpg',
-//   ig_id: '173576403',
-//   access_token: '173576403.1d87646.4719ebb953924fbbb9cf961bf45fa5c2' }
-// var userSchema = mongoose.Schema({
-//
-//     ig_id           : String,
-//     access_token    : String,
-//     display_name    : String,
-//     full_name       : String,
-//     username        : String,
-//     profilePic      : String,
-//     incoming_requests     :
-//       {
-//         from: String, approved: Boolean
-//       },
-//     outgoing_requests     :
-//       {
-//         to: String, approved: Boolean
-//       },
-//     partner      : String,
-//     relationship : {type: mongoose.Schema.Types.ObjectId, ref: 'Couple'}
-//
-// });
+
 router.post('/updateUser', cors(), function(req, res, next) {
   console.log("request body: ", req.body);
 
@@ -117,11 +91,10 @@ router.post('/updateUser', cors(), function(req, res, next) {
     username : req.body.username,
     profile_picture : req.body.profile_picture,
     outgoing_request : {
-      from : req.body.partner,
+      to : req.body.partner.name,
       approved: false
     }
   });
-
   updatedUser.save(function(err, user){
     if(err){
       console.log(err);
@@ -129,11 +102,12 @@ router.post('/updateUser', cors(), function(req, res, next) {
     console.log('success!');
     res.send('you added' + user);
   });
-  res.send('ok');
-   
 });
 
-//after registration, if user returns, on view/edit profile
+router.post("/findPartner", function(req, res){
+  console.log(req.body);
+});
+
 
 //add "/update_userProfile" route which should include handling of adding partner, adding friends (in format of array),
 //add "/new_story" which should enable adding of pics to instagram with blurbs

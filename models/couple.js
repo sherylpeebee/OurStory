@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var coupleSchema = mongoose.Schema({
 
-    names        : [],
+    names        : [String],
     stories      : [
       {
         title       : String,

@@ -55,13 +55,6 @@ $(document).ready(function(){
 });
 
 
-// var str = "This is my compression test.";
-// console.log("Size of sample is: " + str.length);
-// var compressed = LZString.compress(str);
-// console.log("Size of compressed sample is: " + compressed.length);
-// str = LZString.decompress(compressed);
-// console.log("Sample is: " + str);
-
 
 
 }]);

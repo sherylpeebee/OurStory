@@ -7,7 +7,7 @@ angular.module("OurStory")
     $(".collapse").sideNav({
       menuWidth: 300, // Default is 240
       edge: 'left', // Choose the horizontal origin
-      closeOnClick: true
+      closeOnClick: false
     });
     // $('.collapse').sideNav('hide');
     $('.tooltipped').tooltip({delay: 50});
@@ -32,46 +32,64 @@ $scope.login = function(){
 };
 
 $scope.logout = function(){
+  window.open("https://instagram.com/accounts/logout/", "_blank");
+  // window.location.href = "https://instagram.com/accounts/logout/";
   $rootScope.authenticatedUser = null;
   $scope.userCheck = false;
   $("img#profile-pic").attr("src", "");
 };
 
 $scope.verifyInfo = function(currentData){
-  if (!currentData){
-    return true;
+  if (currentData){
+    console.log("data found: " , currentData);
+    return false;
   }
   else {
-    return false;
+    console.log("no data");
+    return true;
   }
 };
 
 $scope.findUser = function(){
-  UserFactory.getCurrentData($rootScope.authenticatedUser)
+  UserFactory.findUser($rootScope.authenticatedUser)
     .success(function(currentData){
       $scope.verifyInfo(currentData);
-    console.log("@#$@#@#$@#$", currentData);
+    // console.log("currentData: ", currentData);
   })
   .error(function(err){
     console.log(err);
   });
 };
 
-$scope.updateAccount = function(person){
+$scope.findPartner = function(){
+  console.log("find mate");
+  // UserFactory.findPartner($rootScope.authenticatedUser)
+  //   .success(function(currentData){
+  //     $scope.verifyInfo(currentData);
+  //   // console.log("currentData: ", currentData);
+  // })
+  // .error(function(err){
+  //   console.log(err);
+  // });
+};
+
+$scope.updateAccount = function(current){
   console.log('edit account');
-  person.username = $rootScope.authenticatedUser.username;
-  person.profile_picture = $rootScope.authenticatedUser.profile_picture;
-  person.ig_id = $rootScope.authenticatedUser.id;
-  person.access_token = $rootScope.authenticatedUser.access_token;
-  console.log("appended person :", person);
-  $http.post("http://localhost:3000/userData", person)
-  .then(function(res){
-    console.log("response: ", res);
-    $scope.current = {};
-  })
-  .catch(function(res){
-    console.log("error: ", res);
-  });
+  console.log(current);
+  // person.username = $rootScope.authenticatedUser.username;
+  // person.profile_picture = $rootScope.authenticatedUser.profile_picture;
+  // person.ig_id = $rootScope.authenticatedUser.id;
+  // person.access_token = $rootScope.authenticatedUser.access_token;
+  // console.log("appended person :", person);
+  // // $http.post("http://localhost:3000/updateUser", person)
+  // UserFactory.updateUser(person)
+  // .success(function(res){
+  //   console.log("response: ", res);
+  //   $scope.current = {};
+  // })
+  // .error(function(res){
+  //   console.log("error: ", res);
+  // });
 };
 
 
