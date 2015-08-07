@@ -105,7 +105,58 @@ router.post('/updateUser', cors(), function(req, res, next) {
 });
 
 router.post("/findPartner", function(req, res){
-  console.log(req.body);
+  console.log("partner search: ", req.body);
+
+  // var searchTerm = req.body.search === "username" ? "username" : "full_name";
+  // console.log("searchTerm: ", searchTerm + typeof searchTerm);
+  switch(req.body.search) {
+    case "username":
+    User.findOne({"username" : req.body.name}, function(err, doc){
+      if(err){
+        console.log(err);
+      }
+      if(doc){
+        console.log(doc);
+        var query = { "username" : req.body.name };
+        var update = {};
+        User.findOneandUpdate(query, req.newData, {upsert:true}, function(err, doc){
+
+        });
+
+
+        //example -- will likely need to use query chaining with .exec to find, then update just one field
+//         var query = {'username':req.user.username};
+// req.newData.username = req.user.username;
+// MyModel.findOneAndUpdate(query, req.newData, {upsert:true}, function(err, doc){
+//     if (err) return res.send(500, { error: err });
+//     return res.send("succesfully saved");
+// });
+
+        res.send({found: doc.username});
+      }
+      else{
+        res.send("invite your partner to join");
+      }
+    });
+        break;
+    case "full_name":
+    User.find({"full_name" : req.body.name}, function(err, doc){
+      if(err){
+        console.log(err);
+      }
+      if(doc){
+        console.log(doc);
+        res.send({found: doc.username});
+      }
+      else{
+        res.send("invite your partner to join");
+      }
+    });
+        break;
+
+}
+
+  // res.send(req.body);
 });
 
 

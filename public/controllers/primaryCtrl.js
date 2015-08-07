@@ -61,35 +61,40 @@ $scope.findUser = function(){
   });
 };
 
-$scope.findPartner = function(){
-  console.log("find mate");
-  // UserFactory.findPartner($rootScope.authenticatedUser)
-  //   .success(function(currentData){
-  //     $scope.verifyInfo(currentData);
-  //   // console.log("currentData: ", currentData);
-  // })
-  // .error(function(err){
-  //   console.log(err);
-  // });
+$scope.findPartner = function(partner){
+  console.log(partner);
+  UserFactory.findPartner(partner)
+    .success(function(response){
+      // $scope.verifyInfo(currentData);
+      if(typeof response !== "object"){
+        alert(response);
+      }
+      else{
+        alert("Success! We'll send them a request for you.");
+      }
+  })
+  .error(function(err){
+    console.log(err);
+  });
 };
 
-$scope.updateAccount = function(current){
+$scope.updateAccount = function(person){
   console.log('edit account');
-  console.log(current);
-  // person.username = $rootScope.authenticatedUser.username;
-  // person.profile_picture = $rootScope.authenticatedUser.profile_picture;
-  // person.ig_id = $rootScope.authenticatedUser.id;
-  // person.access_token = $rootScope.authenticatedUser.access_token;
-  // console.log("appended person :", person);
-  // // $http.post("http://localhost:3000/updateUser", person)
-  // UserFactory.updateUser(person)
-  // .success(function(res){
-  //   console.log("response: ", res);
-  //   $scope.current = {};
-  // })
-  // .error(function(res){
-  //   console.log("error: ", res);
-  // });
+  console.log(person);
+  person.username = $rootScope.authenticatedUser.username;
+  person.profile_picture = $rootScope.authenticatedUser.profile_picture;
+  person.ig_id = $rootScope.authenticatedUser.id;
+  person.access_token = $rootScope.authenticatedUser.access_token;
+  console.log("appended person :", person);
+  // $http.post("http://localhost:3000/updateUser", person)
+  UserFactory.updateUser(person)
+  .success(function(res){
+    console.log("response: ", res);
+    $scope.current = {};
+  })
+  .error(function(res){
+    console.log("error: ", res);
+  });
 };
 
 

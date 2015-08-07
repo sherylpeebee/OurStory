@@ -6,6 +6,9 @@ angular.module("OurStory")
     },
     findUser : function (user){
       return $http.post('http://localhost:3000/findUser', user);
+    },
+    findPartner : function (partner){
+      return $http.post('http://localhost:3000/findPartner', partner);
     }
   };
 });
