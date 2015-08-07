@@ -3,10 +3,11 @@ var mongoose = require('mongoose');
 var coupleSchema = mongoose.Schema({
 
     names        : [String],
-    stories      : [
+    stories      :
+    [
       {
         title       : String,
-        details     : String,
+        story     : String,
         created_at  : { type: Date, default: Date.now }
         // pictures: ???
       }

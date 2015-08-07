@@ -107,10 +107,7 @@ router.post("/findPartner", function(req, res){
       }
     });
         break;
-
-}
-
-  // res.send(req.body);
+  }
 });
 
 router.post('/pic', function(req, res, next) {
