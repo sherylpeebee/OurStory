@@ -40,3 +40,35 @@ router.get('/findKitty', function(req, res){
   //.exec();
 
 });
+
+
+
+User.findOne({"username" : req.body.name}, function(err, doc){
+  if(err){
+    console.log(err);
+  }
+  if(doc){
+    console.log(doc);
+    // var query = { "username" : req.body.name };
+    // var update = {};
+    doc.incoming_requests.from = "";
+    doc.incoming_requests.approved = false;
+    // User.findOneandUpdate(query, req.newData, {upsert:true}, function(err, doc){
+    //
+    // });
+
+
+    //example -- will likely need to use query chaining with .exec to find, then update just one field
+//         var query = {'username':req.user.username};
+// req.newData.username = req.user.username;
+// MyModel.findOneAndUpdate(query, req.newData, {upsert:true}, function(err, doc){
+//     if (err) return res.send(500, { error: err });
+//     return res.send("succesfully saved");
+// });
+
+    res.send({found: doc.username});
+  }
+  else{
+    res.send("invite your partner to join");
+  }
+});

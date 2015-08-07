@@ -63,6 +63,7 @@ $scope.findUser = function(){
 
 $scope.findPartner = function(partner){
   console.log(partner);
+  partner.from = $rootScope.authenticatedUser.username;
   UserFactory.findPartner(partner)
     .success(function(response){
       // $scope.verifyInfo(currentData);

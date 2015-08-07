@@ -117,22 +117,15 @@ router.post("/findPartner", function(req, res){
       }
       if(doc){
         console.log(doc);
-        var query = { "username" : req.body.name };
-        var update = {};
-        User.findOneandUpdate(query, req.newData, {upsert:true}, function(err, doc){
-
+        doc.incoming_requests.from = req.body.from;
+        doc.incoming_requests.approved = false;
+        doc.save(function(err, updatedDoc){
+          if(err){
+            console.log(err);
+          }
+          console.log(updatedDoc);
+          res.send({test: 'ok'});
         });
-
-
-        //example -- will likely need to use query chaining with .exec to find, then update just one field
-//         var query = {'username':req.user.username};
-// req.newData.username = req.user.username;
-// MyModel.findOneAndUpdate(query, req.newData, {upsert:true}, function(err, doc){
-//     if (err) return res.send(500, { error: err });
-//     return res.send("succesfully saved");
-// });
-
-        res.send({found: doc.username});
       }
       else{
         res.send("invite your partner to join");
