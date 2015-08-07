@@ -117,14 +117,16 @@ router.post("/findPartner", function(req, res){
       }
       if(doc){
         console.log(doc);
-        doc.incoming_requests.from = req.body.from;
-        doc.incoming_requests.approved = false;
+        doc.incoming_requests.push({
+        from : req.body.from,
+        approved : false
+      });
         doc.save(function(err, updatedDoc){
           if(err){
             console.log(err);
           }
           console.log(updatedDoc);
-          res.send({test: 'ok'});
+          res.send({sentTo: updatedDoc.username});
         });
       }
       else{
@@ -133,13 +135,23 @@ router.post("/findPartner", function(req, res){
     });
         break;
     case "full_name":
-    User.find({"full_name" : req.body.name}, function(err, doc){
+    User.findOne({"full_name" : req.body.name}, function(err, doc){
       if(err){
         console.log(err);
       }
       if(doc){
         console.log(doc);
-        res.send({found: doc.username});
+        doc.incoming_requests.push({
+        from : req.body.from,
+        approved : false
+        });
+        doc.save(function(err, updatedDoc){
+          if(err){
+            console.log(err);
+          }
+          console.log(updatedDoc);
+          res.send({sentTo: updatedDoc.full_name});
+        });
       }
       else{
         res.send("invite your partner to join");

@@ -8,13 +8,13 @@ var userSchema = mongoose.Schema({
     username        : String,
     profile_picture : String,
     incoming_requests     :
-      {
+      [{
         from: String, approved: Boolean
-      },
-        outgoing_request     :
-      {
+      }],
+        outgoing_requests     :
+      [{
         to: String, approved: Boolean
-      },
+      }],
     partner      : String,
     relationship : {type: mongoose.Schema.Types.ObjectId, ref: 'Couple'}
 
