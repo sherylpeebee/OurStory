@@ -1,8 +1,82 @@
 <!-- {{authenticatedUser}} -->
 <div class="container">
+
+  <!-- <input name="file" type="file"
+     class="cloudinary-fileupload" data-cloudinary-field="image_upload"
+     data-form-data=" ... html-escaped JSON data ... " >
+  </input> -->
+
+
     <div class="page-header">
         <h1 id="timeline">Timeline</h1>
     </div>
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+      <a class="btn-floating btn-large pink darken-2" >
+        <i class="large material-icons">add</i>
+      </a>
+      <ul>
+        <li class="modal-trigger" href="#messageModal"><a class="btn-floating yellow darken-3"><i class="material-icons">message</i></i></a></li>
+        <li class="modal-trigger" href="#entryModal"><a class="btn-floating blue"><i class="material-icons">mode_edit</i></a></li>
+        <!-- <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+        <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li> -->
+      </ul>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="entryModal" class="modal">
+      <div class="modal-content">
+          <h4 class="center-align modal-header valign">A New Page</h4>
+        <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input placeholder="The Giants Game" id="title" type="text" class="validate modal-input">
+                  <label for="title">Title</label>
+                </div>
+                <div class="input-field col s12">
+                  <textarea id="summary" class="materialize-textarea modal-input" placeholder="Last Saturday, we went to the game and ran into some old friends..."></textarea>
+                  <label for="summary">What would you like to say?</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="date" type="date" class="validate modal-input">
+                  <label for="date">Date</label>
+                </div>
+                <div class="input-field col s6">
+                  <input placeholder="http://place.com/cool_pic.jpg" id="imgUrl" type="url" class="validate modal-input">
+                  <label for="imgUrl">Pictures</label>
+                </div>
+                <!-- <div class="input-field col s6">
+                  <input id="img" type="file" class="validate modal-input">
+                  <label for="password">img</label>
+                </div> -->
+              </div>
+              <!-- <div class="row">
+                <div class="input-field col s12">
+                  <input id="email" type="email" class="validate modal-input">
+                  <label for="email">Email</label>
+                </div>
+              </div> -->
+            </form>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      </div>
+    </div>
+
+    <div id="messageModal" class="modal">
+      <div class="modal-content">
+        <h4 class="center-align modal-header">Send a Message</h4>
+        <p>A bunch of text</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      </div>
+    </div>
+
+
     <ul class="timeline">
         <li>
           <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>

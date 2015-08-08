@@ -16,6 +16,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/cloudinary_cors', function(req, res, next) {
+  res.render('cloudinary_cors');
+});
+
 router.get('/auth', cors(), function(req, res, next) {
   console.log("LETS AUTH!!!");
   ig.authorize_user(req.query.code, redirect_uri, function(err, result) {

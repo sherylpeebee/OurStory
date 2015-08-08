@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var User = require("../models/user.js");
 var Couple = require("../models/couple.js");
 
+
 var access_token, currentUser;
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -110,20 +111,6 @@ router.post("/findPartner", function(req, res){
   }
 });
 
-router.post('/pic', function(req, res, next) {
-  console.log('delivering a pic');
-  var img = req.body.img;
-  var newPic = new Pic({uri: img});
-  newPic.save(function(err, pic){
-    if(err){
-      console.log(err);
-    }
-    console.log('success!');
-    // res.send('you added' + pic);
-  res.status(200).send(pic);
-  });
-
-});
 
 //add "/update_userProfile" route which should include handling of adding partner, adding friends (in format of array),
 //add "/new_story" which should enable adding of pics to instagram with blurbs

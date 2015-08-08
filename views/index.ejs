@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>OurStory</title>
+    <title>A History Of Us</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
@@ -17,7 +17,7 @@
   <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper">
-        <a ui-sref="home" class="brand-logo">OurStory</a>
+        <a ui-sref="home" class="brand-logo">A History Of Us</a>
         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
           <!-- <li ng-show="userCheck()" >Welcome back, {{authenticatedUser.full_name}}!</li> -->
@@ -75,6 +75,12 @@
 
     <div ui-view></div>
 
+    <!-- <input name="file" type="file"
+       class="cloudinary-fileupload" data-cloudinary-field="image_id"
+       data-form-data="" >
+    </input> -->
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="/bower_components/lightbox2/dist/js/lightbox.js"></script>
     <!-- // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
@@ -84,10 +90,14 @@
     <script src="config/routes.js" type="text/javascript"></script>
     <script src="controllers/primaryCtrl.js" type="text/javascript"></script>
     <script src="controllers/currentUserCtrl.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+    <script src="/javascripts/cloudinary/iframe-transport.js" type="text/javascript"></script>
+    <script src="/javascripts/cloudinary/jquery-ui-widget.js" type="text/javascript"></script>
+    <script src="/javascripts/cloudinary/fileupload.js" type="text/javascript"></script>
+    <script src="/javascripts/cloudinary/jquery.cloudinary.js" type="text/javascript"></script>
+    <script language="javascript" src="javascripts/lz-string.js"></script>
     <script src="factories/authFactory.js" type="text/javascript"></script>
     <script src="factories/userFactory.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
     <!-- // <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.43.min.js"></script> -->
-    <script language="javascript" src="javascripts/lz-string.js"></script>
   </body>
 </html>
