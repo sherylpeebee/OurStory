@@ -2,67 +2,66 @@
     <div class="page-header">
         <h1 id="timeline">Timeline</h1>
     </div>
-    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+
+
+    <!-- <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
       <a class="btn-floating btn-large pink darken-2" >
-        <i class="large material-icons">add</i>
-      </a>
-      <ul>
-        <li class="modal-trigger" href="#messageModal"><a class="btn-floating yellow darken-3"><i class="material-icons">message</i></i></a></li>
-        <li class="modal-trigger" href="#entryModal"><a class="btn-floating blue"><i class="material-icons">mode_edit</i></a></li>
+        <i class="large material-icons fab">add</i>
+      </a> -->
+      <ul class="fab-wrap">
+        <li class="modal-trigger" href="#messageModal"><a class="btn-floating yellow darken-3 "><i class="material-icons fab">message</i></i></a></li>
+        <li class="modal-trigger" href="#entryModal"><a class="btn-floating blue"><i class="material-icons fab">mode_edit</i></a></li>
         <!-- <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
         <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li> -->
       </ul>
-    </div>
+    <!-- </div> -->
 
     <!-- Modal Structure -->
     <div id="entryModal" class="modal">
       <div class="modal-content">
           <h4 class="center-align modal-header valign">A New Page</h4>
         <div class="row">
-            <form class="col s12">
+            <form class="col s12" ng-submit="addPage(story)">
               <div class="row">
                 <div class="input-field col s12">
-                  <input placeholder="The Giants Game" id="title" type="text" class="validate modal-input">
+                  <input placeholder="The Giants Game" id="title" type="text" class="validate modal-input" ng-model="story.title" required="true">
                   <label for="title">Title</label>
                 </div>
                 <div class="input-field col s12">
-                  <textarea id="summary" class="materialize-textarea modal-input" placeholder="Last Saturday, we went to the game and ran into some old friends..."></textarea>
+                  <textarea id="summary" class="materialize-textarea modal-input" placeholder="Last Saturday, we went to the game and ran into some old friends..." ng-model="story.summary" required="true"></textarea>
                   <label for="summary">What would you like to say?</label>
                 </div>
               </div>
               <div class="row">
-                <div class="input-field col s6">
-                  <input id="date" type="date" class="validate modal-input">
-                  <label for="date">Date</label>
+                <div class="input-field col s6" id="datediv">
+                  <input id="datepicker" class="validate modal-input" placeholder="select a date" ng-model="story.date">
+                  <label for="date" id="datelabel">If no date is selected, default is today</label>
                 </div>
                 <div class="input-field col s6">
-                  <input placeholder="http://place.com/cool_pic.jpg" id="imgUrl" type="url" class="validate modal-input">
+                  <input placeholder="http://place.com/cool_pic.jpg" id="imgUrl" type="url" class="validate modal-input" ng-model="story.images">
                   <label for="imgUrl">Pictures</label>
                 </div>
               </div>
-              <!-- <div class="container"> -->
-                <form ng-submit="submitPic()">
-                  <div class="row">
-                    <input class="col s3" type="file" ng-model='file' id="myfile"><br>
-                  </div>
-                  <div class="row">
-                    <img id="imgPreview" src="" class="col s3" height="200" alt="Image preview...">
-                  </div>
-                  <a class="col s12" href="" id="resetLink">Reset file input</a>
-                  <div class="row">
-                    <button class="btn yellow darken-3 col s3"  type="button" name="button" ng-click='previewFile()'>Preview Pics</button>
-                  </div>
-                  <div class="row">
-                    <button class="btn col s3" type="submit" name="button">Add to your story</button>
-                  </div>
-                </form>
-              <!-- </div> -->
-              <div class="" ng-if='authenticatedUser'>{{authenticatedUser}}</div>
+              <!-- <form ng-submit="submitPic()"> -->
+                <div class="row">
+                  <input class="col s3" type="file" ng-model='file' id="myfile"><br>
+                </div>
+                <div class="row">
+                  <img id="imgPreview" src="" class="col s3" height="200" alt="Image preview...">
+                </div>
+                <a class="col s12" href="" id="resetLink">Reset file input</a>
+                <div class="row">
+                  <button class="btn yellow darken-3 col s3"  type="button" name="button" ng-click='previewFile()'>Preview Pics</button>
+                </div>
+                <div class="row">
+                  <button class="btn col s3" type="submit" name="button" id="addToStory">Add to your story</button>
+                </div>
+              <!-- </form> -->
             </form>
           </div>
       </div>
       <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        <!-- <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a> -->
       </div>
     </div>
 
@@ -72,7 +71,7 @@
         <p>A bunch of text</p>
       </div>
       <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        <!-- <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a> -->
       </div>
     </div>
 
@@ -83,7 +82,7 @@
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>
+              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{ 12/31/92 | date : longDate }}</small></p>
             </div>
             <div class="timeline-body">
               <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
@@ -101,11 +100,15 @@
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 12/3/15 </small></p>
+              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{ 3/5/14 | date : longDate }}</small></p>
             </div>
             <div class="timeline-body">
               <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
               <p>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Ut scelerisque neque et turpis posuere pulvinar pellentesque nibh ullamcorper. Pharetra in mattis molestie, volutpat elementum justo. Aenean ut ante turpis. Pellentesque laoreet mé vel lectus scelerisque interdum cursus velit auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac mauris lectus, non scelerisque augue. Aenean justo massa.</p>
+              <hr>
+              <a href="http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg" data-lightbox="roadtrip" data-title="this is some stuff"> Image #1</a>
+              <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">Image #3</a>
+              <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #4</a>
             </div>
           </div>
         </li>
@@ -115,24 +118,34 @@
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 7/4/15</small></p>
+              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{ 7/4/15 | date : longDate }}</small></p>
             </div>
             <div class="timeline-body">
               <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
               <hr>
+              <a href="http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg" data-lightbox="roadtrip" data-title="this is some stuff"> Image #1</a>
+              <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">Image #3</a>
+              <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #4</a>
               <!-- bootstrap stuff ... doesn't work -->
-              <div class="btn-group">
-                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                  <i class="glyphicon glyphicon-cog"></i> <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </div>
+            </div>
+          </div>
+        </li>
+
+        <li ng-repeat="story in stories">
+          <!-- need to assign badges by logged in member of couple b/w two colors -->
+          <div class="timeline-badge info"></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">{{story.title}}</h4>
+              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{ story.date }}</small></p>
+            </div>
+            <div class="timeline-body">
+              <p>{{story.summary}}</p>
+              <hr>
+              <a ng-repeat="image in story.images track by $index" href="{{image}}" data-lightbox="{{story.title}}" data-title="{{image.caption}}"> Image {{$index}}</a>
+              <!-- <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">Image #3</a>
+              <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #4</a> -->
+              <!-- bootstrap stuff ... doesn't work -->
             </div>
           </div>
         </li>

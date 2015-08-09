@@ -42,6 +42,10 @@ $scope.logout = function(){
 $scope.verifyInfo = function(currentData){
   if (currentData){
     console.log("data found: " , currentData);
+    $rootScope.currentData = currentData;
+    if(currentData.incoming_requests[0]){
+      $scope.newRequests = false;
+    }
     return false;
   }
   else {
@@ -98,22 +102,8 @@ $scope.updateAccount = function(person){
   });
 };
 
-// $scope.stories = [
-//   {owner: "Jack and Jill",
-//   pics: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
-//   title: "The Giants Game"},
-//   {owner: "Jim and Jan",
-//   pics: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
-//   title: "Anniversary"},
-//   {owner: "Sue and Biff",
-//   pics: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
-//   title: "Coffee Date"},
-//   {owner: "Carl and Andie",
-//   pics: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
-//   title: "On Half Dome"},
-//   {owner: "Liz and Stu",
-//   pics: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
-//   title: "Jenny's Wedding"},
-// ];
+$scope.updatePartner = function(request){
+  console.log(request);
+};
 
 }]);

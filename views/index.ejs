@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- <link src="/bower_components/bootstrap/dist/css/bootstrap.css"> -->
     <link href="/bower_components/lightbox2/dist/css/lightbox.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel='stylesheet' href="stylesheets/timeline.css"/>
     <link rel='stylesheet' href="stylesheets/style.css"/>
   </head>
@@ -27,53 +28,83 @@
           <li><a href="" ng-show="userCheck" ng-click="logout()">log out</a></li>
           <li data-activates="slide-out" class="collapse" id="profile-pic-li"><a ng-click="findUser()"><img id="profile-pic" class="responsive-img circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="View Account" ng-src="{{authenticatedUser.profile_picture}}" alt="" /></a></li>
         </ul>
-
-
-        <!-- <ul class="side-nav" id="mobile-demo">
-          <li ng-if="userCheck()">Welcome back, {{authenticatedUser.full_name}}!</li>
-          <li ng-if="userCheck()"><a href="">sign in/sign up</a></li>
-          <li><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit Account"><img class="responsive-img circle"alt="" /></a></li>
-          <li><a ui-sref="currentUser({id:id})">your profile</a></li>
-          <li><a href="" ng-show="userCheck()">log out</a></li>
-        </ul> -->
       </div>
     </nav>
   </div>
 
-  <nav class="side-nav"  id="slide-out">
+<nav class="side-nav"  id="slide-out">
     <div class="row">
-        <div id="stat_header" class="header center" style="color:black"><h4 id="profileHeader">Account Details</h4></div>
-        <h6 class="update" ng-class="{ 'hidden': verifyInfo }"> You haven't created an account yet! </h6>
-          <form class="" ng-submit="updateAccount(current)">
+      <div class="header center deep-purple lighten-5"><h4 id="profileHeader">Account Details</h4></div>
+      <h6 class="update" ng-class="{ 'hidden': verifyInfo }"> You haven't created an account yet! </h6>
+        <div class="row">
+          <div class="col s12 accordian_wrapper">
+              <ul class="collapsible" data-collapsible="accordion" style="width:100%">
+                <li>
+                  <div class="collapsible-header"><i class="material-icons">perm_identity</i>Vitals</div>
+                  <div class="collapsible-body accordian-menu" style="color:white">
+                    <br>
+                    <form class="" ng-submit="updateAccount(current)">
 
-               <input id="full_name" type="text" ng-model="current.full_name">
-               <label for="full_name">full name</label>
+                         <input id="full_name" type="text" ng-model="current.full_name">
+                         <label for="full_name">full name</label>
 
-               <input id="partner" type="text" ng-model="current.partner.name">
-               <label for="partner">partner</label>
+                         <input id="partner" type="text" ng-model="current.partner.name">
+                         <label for="partner">partner</label>
 
-               <p>
-                 <input name="partner_search" type="radio" id="username_search" value="username" ng-model="current.partner.search" />
-                 <label for="username_search">Search by username</label>
-               </p>
-               <p>
-                 <input name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="current.partner.search" />
-                 <label for="full_name_search">Search by full name</label>
-                 <a class="btn red lighten-1 search_partner" ng-click="findPartner(current.partner)">
-                   <i class=" material-icons">search</i>
-                 </a>
-               </p>
+                         <p>
+                           <input name="partner_search" type="radio" id="username_search" value="username" ng-model="current.partner.search" />
+                           <label for="username_search">Search by username</label>
+                         </p>
+                         <p>
+                           <input name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="current.partner.search" />
+                           <label for="full_name_search">Search by full name</label>
+                           <a class="btn red lighten-1 search_partner" ng-click="findPartner(current.partner)">
+                             <i class="material-icons lookup">search</i>
+                           </a>
+                         </p>
+                         <!-- <input id="profile_pic" type="text" ng-model="current.profile_picture">
+                         <label for="profile_pic">profile picture url</label> -->
+                         <button class="btn account_info" ng-show="verifyInfo" ng-class="{ 'hidden': verifyInfo }" type="submit" name="button">Create Account</button>
+                         <button class="btn account_info" ng-show="verifyInfo" type="submit" name="button">Update Account</button>
+                         <br>
+                         <br>
 
-               <!-- <input id="profile_pic" type="text" ng-model="current.profile_picture">
-               <label for="profile_pic">profile picture url</label> -->
-               <button class="btn account_info" ng-show="verifyInfo" ng-class="{ 'hidden': verifyInfo }" type="submit" name="button">Create Account</button>
-               <button class="btn account_info" ng-show="verifyInfo" type="submit" name="button">Update Account</button>
-          </form>
+                    </form>
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header"><i class="material-icons">new_releases</i>Notifications</div>
+                    <div class="collapsible-body side_nav" >
+                      <h5 id="newRequests" ng-hide={{newRequests}} style="font-weight: 100" class="center-align">New Requests</h5>
+                      <form  ng-repeat="request in currentData.incoming_requests track by $index" name="request{{$index}}" ng-submit="updatePartner()">
+                        <div class="incoming-requests">
+                          <p class="incoming-requests" >
+                           <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}yes" />
+                           <label for="{{request.from}}yes">{{request.from}} (accept)</label>
+                          </p>
+                          <p class="incoming-requests" >
+                           <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}no"/>
+                           <label for="{{request.from}}no">{{request.from}} (deny)</label>
+                          </p>
+                          <button type="submit" name="button" class="btn amber darken-3">update</button>
+                          <div class="divider"></div>
+                        </div>
+                      </form>
+                    </div>
+                </li>
+                <li>
+                  <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+                  <div class="collapsible-body side_nav"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+              </ul>
+          </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
 
     <div ui-view></div>
+
 
     <!-- <input name="file" type="file"
        class="cloudinary-fileupload" data-cloudinary-field="image_id"
@@ -82,6 +113,7 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script src="/bower_components/lightbox2/dist/js/lightbox.js"></script>
     <!-- // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>

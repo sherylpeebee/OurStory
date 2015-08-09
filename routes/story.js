@@ -40,21 +40,29 @@ router.post('/createCouple', function(req, res, next) {
 
 router.post('/pic', function(req, res, next) {
   console.log('delivering a pic');
-  var img = req.body.img;
-  var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
+  if(req.body.img){
+    var img = req.body.img;
 
-  //store at this point in mongo for backup here; on read out, will need to prepend string with jpg, jpeg, png, etc.
+    var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
 
-  var buf = new Buffer(base64, 'base64');
-  console.log(buf);
+    //store at this point in mongo for backup here; on read out, will need to prepend string with jpg, jpeg, png, etc.
 
-  fs.writeFile('output.jpg', buf, 'binary', function(err, data){
-    if (err) {
-     return console.log(err);
-   }
-   console.log(data);
-   res.status(200).send('ok');
-  });
+    var buf = new Buffer(base64, 'base64');
+    console.log(buf);
+
+    fs.writeFile('output.jpg', buf, 'binary', function(err, data){
+      if (err) {
+       return console.log(err);
+     }
+     console.log(data);
+     res.status(200).send('ok');
+    });
+  }
+  else{
+    res.status(200).send('no images sent');
+    return;
+  }
+
 
 });
 

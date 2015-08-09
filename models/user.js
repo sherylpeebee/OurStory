@@ -9,12 +9,13 @@ var userSchema = mongoose.Schema({
     profile_picture : String,
     incoming_requests     :
       [{
-        from: String, approved: Boolean
+        from: String, approved: Boolean, reviewed: Boolean
       }],
-        outgoing_requests     :
+    outgoing_requests     :
       [{
-        to: String, approved: Boolean
+        to: String, approved: Boolean, reviewed: Boolean    
       }],
+
     partner      : String,
     relationship : {type: mongoose.Schema.Types.ObjectId, ref: 'Couple'}
 
