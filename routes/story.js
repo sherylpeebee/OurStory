@@ -43,6 +43,8 @@ router.post('/pic', function(req, res, next) {
   var img = req.body.img;
   var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
 
+  //store at this point in mongo for backup here; on read out, will need to prepend string with jpg, jpeg, png, etc.
+
   var buf = new Buffer(base64, 'base64');
   console.log(buf);
 

@@ -46,70 +46,13 @@ var uri, preview = document.querySelector('img#imgPreview');
   }
 
   $scope.submitPic = function(){
-
-    // console.log(downloadURI(uri, "name"));
-
-    //below may be of use if i get response from cloudinary
-
     $http.post('http://localhost:3000/story/pic', {img: uri})
     .success(function(data){
       preview.src = "";
-      // console.log(data);
     })
     .error(function(err){
       console.log(err);
     });
   };
-
-
-
-
-
-  $("input.cloudinary-fileupload[type=file]").cloudinary_fileupload();
-  $.cloudinary.config({"api_key":"811217315275282","cloud_name":"our-story"});
-
-  // $('.upload_form').append($.cloudinary.unsigned_upload_tag("igz7dqsd",
-  //   { cloud_name: 'our-story' }));
-
-  $http.get("http://localhost:3000/story/secret")
-  .then(function(res){
-    var CLOUD_API_SECRET = res.data.CLOUD_API_SECRET;
-    var obj =
-    {
-      "timestamp":  Date.now(),
-      "callback": "http://localhost:3000/cloudinary_cors",
-      "signature": CLOUD_API_SECRET,
-      "api_key": "811217315275282"
-    };
-    // var data = JSON.stringify(obj);
-    $("input[type='file']").attr('data-form-data', obj);
-  })
-  .catch(function(err){
-    console.log("error: ", err);
-  });
-
-
-// $("input.cloudinary-fileupload[type=file]").cloudinary_fileupload();
-// $.cloudinary.config({"api_key":"811217315275282","cloud_name":"our-story"});
-//
-// $('.upload_form').append($.cloudinary.unsigned_upload_tag("igz7dqsd",
-//   { cloud_name: 'our-story' }));
-//
-// $http.get("http://localhost:3000/story/secret")
-// .then(function(res){
-//   var CLOUD_API_SECRET = res.data.CLOUD_API_SECRET;
-//   var obj =
-//   {
-//     "timestamp":  Date.now(),
-//     "callback": "http://localhost:3000/cloudinary_cors",
-//     "signature": CLOUD_API_SECRET,
-//     "api_key": "811217315275282"
-//   };
-//   var data = JSON.stringify(obj);
-//   $("input[type='file']").attr('data-form-data', encodeURI(data));
-// })
-// .catch(function(err){
-//   console.log("error: ", err);
-// });
 
 }]);
