@@ -4,6 +4,7 @@ var ig = require('instagram-node').instagram();
 var secrets = require('../secrets/ig-secrets.js');
 var cors = require('cors');
 var mongoose = require('mongoose');
+var fs = require('fs');
 var cloudinary = require("cloudinary");
 var User = require("../models/user.js");
 var Couple = require("../models/couple.js");
@@ -40,20 +41,18 @@ router.post('/createCouple', function(req, res, next) {
 router.post('/pic', function(req, res, next) {
   console.log('delivering a pic');
   var img = req.body.img;
-  console.log(img);
-  cloudinary.uploader.upload(img, function(result) {
-    console.log(result);
+  var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
+
+  var buf = new Buffer(base64, 'base64');
+  console.log(buf);
+
+  fs.writeFile('output.jpg', buf, 'binary', function(err, data){
+    if (err) {
+     return console.log(err);
+   }
+   console.log(data);
+   res.status(200).send('ok');
   });
-  // var newPic = new Pic({uri: img});
-  // newPic.save(function(err, pic){
-  //   if(err){
-  //     console.log(err);
-  //   }
-  //   console.log('success!');
-  //   // res.send('you added' + pic);
-  // res.status(200).send(pic);
-  // });
-  res.status(200).send('ok');
 
 });
 

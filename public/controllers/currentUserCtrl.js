@@ -1,7 +1,7 @@
 angular.module("OurStory")
 .controller("currentUserCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', function($scope, $http, AuthFactory, $rootScope){
 
-var base64img, preview = document.querySelector('img#imgPreview');
+var uri, preview = document.querySelector('img#imgPreview');
   $(document).ready(function(){
     function reset_form_element (e) {
       preview.src = "";
@@ -29,16 +29,29 @@ var base64img, preview = document.querySelector('img#imgPreview');
     }
 
     reader.onloadend = function () {
-      base64img = reader.result;
-      preview.src = base64img;
+      uri = reader.result;
+      preview.src = uri;
       // debugger;
-      console.log(base64img);
+      console.log(uri);
     };
 
   };
 
+  function downloadURI(uri, name) {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    var result = link.click();
+    return result;
+  }
+
   $scope.submitPic = function(){
-    $http.post('http://localhost:3000/story/pic', {img: base64img})
+
+    // console.log(downloadURI(uri, "name"));
+
+    //below may be of use if i get response from cloudinary
+
+    $http.post('http://localhost:3000/story/pic', {img: uri})
     .success(function(data){
       preview.src = "";
       // console.log(data);
