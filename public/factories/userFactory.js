@@ -9,6 +9,10 @@ angular.module("OurStory")
     },
     findPartner : function (partner){
       return $http.post('http://localhost:3000/users/findPartner', partner);
+    },
+    addPicture : function (img){
+      console.log("submitting: ",img);
+      return $http.post('http://localhost:3000/story/pic', img);
     }
   };
 });

@@ -76,18 +76,21 @@
                   <div class="collapsible-header"><i class="material-icons">new_releases</i>Notifications</div>
                     <div class="collapsible-body side_nav" >
                       <h5 id="newRequests" ng-hide={{newRequests}} style="font-weight: 100" class="center-align">New Requests</h5>
-                      <form  ng-repeat="request in currentData.incoming_requests track by $index" name="request{{$index}}" ng-submit="updatePartner()">
-                        <div class="incoming-requests">
-                          <p class="incoming-requests" >
-                           <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}yes" />
-                           <label for="{{request.from}}yes">{{request.from}} (accept)</label>
-                          </p>
-                          <p class="incoming-requests" >
-                           <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}no"/>
-                           <label for="{{request.from}}no">{{request.from}} (deny)</label>
-                          </p>
-                          <button type="submit" name="button" class="btn amber darken-3">update</button>
-                          <div class="divider"></div>
+                      <form class="">
+                        <div class="incoming-requests" ng-repeat="request in currentData.incoming_requests track by $index">
+                          <!-- <div class="" ng-hide="reviewed"> -->
+                            <p class="incoming-requests" >
+                             <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}yes" value="{{request.from}}" ng-model="response.accept"/>
+                             <label for="{{request.from}}yes">{{request.from}} (accept)</label>
+                            </p>
+                            <p class="incoming-requests" >
+                             <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}no" value="{{request.from}}yes" ng-model="response.reject"/>
+                             <label for="{{request.from}}no">{{request.from}} (reject)</label>
+                            </p>
+                            <button type="button" name="button" class="btn amber darken-3" ng-click="updatePartner(response, request)">reply</button>
+                            <div class="divider"></div>
+                          <!-- </div> -->
+
                         </div>
                       </form>
                     </div>

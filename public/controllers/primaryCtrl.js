@@ -102,8 +102,14 @@ $scope.updateAccount = function(person){
   });
 };
 
-$scope.updatePartner = function(request){
-  console.log(request);
+$scope.updatePartner = function(res, req){
+  console.log(res);
+
+  var index = $scope.currentData.incoming_requests.indexOf(req);
+  console.log(index);
+  $scope.currentData.incoming_requests.splice(index, 1);
+
+  // $scope.reviewed = true;
 };
 
 }]);

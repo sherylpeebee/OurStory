@@ -1,5 +1,5 @@
 angular.module("OurStory")
-.controller("currentUserCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', function($scope, $http, AuthFactory, $rootScope){
+.controller("currentUserCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', 'UserFactory', function($scope, $http, AuthFactory, $rootScope, UserFactory){
 console.log("in currentUserCtrl");
 var uri, preview = document.querySelector('img#imgPreview');
   $(document).ready(function(){
@@ -40,13 +40,15 @@ var uri, preview = document.querySelector('img#imgPreview');
     };
   };
 
-  function downloadURI(uri, name) {
-    var link = document.createElement("a");
-    link.download = name;
-    link.href = uri;
-    var result = link.click();
-    return result;
-  }
+  // function downloadURI(uri, name) {
+  //   var link = document.createElement("a");
+  //   link.download = name;
+  //   link.href = uri;
+  //   var result = link.click();
+  //   return result;
+  // }
+
+
   $scope.stories  = [];
   $scope.addPage = function(story){
     if(!story){
@@ -62,9 +64,11 @@ var uri, preview = document.querySelector('img#imgPreview');
     }
     console.log(story);
     $scope.stories.push(story);
+    $scope.story = { };
     console.log($scope.stories);
     console.log('SUBMITTING A PIC');
-    $http.post('http://localhost:3000/story/pic', {img: uri})
+    // $http.post('http://localhost:3000/story/pic', {img: uri})
+    UserFactory.addPicture({img: uri})
     .success(function(data){
       preview.src = "";
     })
