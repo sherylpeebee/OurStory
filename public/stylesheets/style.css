@@ -323,6 +323,7 @@ i.material-icons {
     display: inline-block;
     position: relative;
     top: 53px;
+    margin-bottom: 13vh;
 }
 
 .request_from.ng-binding {

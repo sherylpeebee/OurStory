@@ -14,6 +14,18 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.post('/updatePartner', function(req, res, next) {
+  console.log(req.body);
+  var id = req.body._id;
+  User.findOneAndUpdate({"_id": id}, req.body, {upsert:true}, function(err, doc){
+    if(err){
+      console.log(err);
+    }
+    console.log(doc);
+  });
+  res.send('done');
+});
+
 router.post('/findUser', cors(), function(req, res, next) {
   console.log("find User request body: ", req.body.id);
 
@@ -34,7 +46,6 @@ router.post('/findUser', cors(), function(req, res, next) {
 
 router.post('/updateUser', cors(), function(req, res, next) {
   console.log("request body: ", req.body);
-
   var updatedUser = new User({
     ig_id : req.body.ig_id,
     access_token : req.body.access_token,

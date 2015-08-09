@@ -103,13 +103,29 @@ $scope.updateAccount = function(person){
 };
 
 $scope.updatePartner = function(res, req){
-  console.log(res);
-
+  console.log("RESPONSE: ",res);
+  var match;
+  var response = res;
+  console.log("allData: ", $scope.currentData);
   var index = $scope.currentData.incoming_requests.indexOf(req);
-  console.log(index);
-  $scope.currentData.incoming_requests.splice(index, 1);
-
-  // $scope.reviewed = true;
+  var wholeObj = $scope.currentData.incoming_requests[index];
+  var toEdit = $scope.currentData.incoming_requests[index]._id;
+  $scope.currentData.incoming_requests.forEach(function(request){
+    if(request._id === toEdit){
+      match = request;
+    }
+  });
+  match.approved = response.reject ? false : true;
+  match.reviewed = true;
+  $scope.currentData.incoming_requests.splice([index], 1, wholeObj);
+  // $scope.currentData.incoming_requests.splice(index, 1);
+  UserFactory.updatePartner($scope.currentData)
+  .then(function(data){
+    console.log(data);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
 };
 
 }]);
