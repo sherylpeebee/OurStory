@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var User = require("../models/user.js");
 var Couple = require("../models/couple.js");
 
-var redirect_uri = 'http://localhost:3000/auth';
+var redirect_uri = 'http://localhost:8080/auth';
 var access_token, currentUser;
 
 /* GET home page. */
@@ -32,7 +32,7 @@ router.get('/auth', cors(), function(req, res, next) {
       console.log('Yay! Access token is ' + access_token);
       currentUser = result.user;
       currentUser.access_token = access_token;
-      currentUser.back = "http://localhost:3000";
+      currentUser.back = "http://localhost:8080";
       console.log('The authenticated user is ' , currentUser);
       res.send("angular.callbacks._0(" + JSON.stringify(currentUser) + ")");
     }

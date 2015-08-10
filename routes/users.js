@@ -17,10 +17,36 @@ router.get('/', function(req, res, next) {
 router.post('/updatePartner', function(req, res, next) {
   console.log(req.body);
   var id = req.body._id;
-  User.findOneAndUpdate({"_id": id}, req.body, {upsert:true}, function(err, doc){
+  User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
     if(err){
       console.log(err);
     }
+
+    doc.incoming_requests.forEach(function(request){
+      if(request.approved === true){
+        User.find({"username" : request.from}, function(err, person){
+          console.log("person: ", person);
+          var couple = new Couple({
+            names : [doc.full_name || doc.username, person.full_name || person.username],
+            partnerIds : {
+              one: doc._id,
+              two: person._id
+            },
+          });
+          couple.save(function(err, couple){
+            if(err){
+              console.log(err);
+            }
+            doc.relationships.push(couple._id);
+            person.relationships.push(couple._id);
+            console.log(couple);
+          });
+        });
+      }
+      else{
+        console.log("no dice");
+      }
+    });
     console.log(doc);
   });
   res.send('done');

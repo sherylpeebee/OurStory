@@ -13,11 +13,11 @@ var userSchema = mongoose.Schema({
       }],
     outgoing_requests     :
       [{
-        to: String, approved: Boolean, reviewed: Boolean    
+        to: String, approved: Boolean, reviewed: Boolean
       }],
 
     partner      : String,
-    relationship : {type: mongoose.Schema.Types.ObjectId, ref: 'Couple'}
+    relationships : [{type: mongoose.Schema.Types.ObjectId, ref: 'Couple'}]
 
 });
 

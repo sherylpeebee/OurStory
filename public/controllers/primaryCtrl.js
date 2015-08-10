@@ -25,9 +25,8 @@ $scope.login = function(){
     $rootScope.authenticatedUser.partner = { };
   })
   .error(function(err){
-
-    window.location.href = 'https://instagram.com/accounts/login/?force_classic_login=&next=/oauth/authorize%3Fclient_id%3D1d876469ae47431984b3e92b67014b84%26redirect_uri%3Dhttp%3A//localhost%3A3000/auth%26response_type%3Dcode%26scope%3Dlikes%2Bbasic%2Bcomments%2Brelationships';
-    // console.log("ERROR ERROR", err);
+    console.log("darn it... it broked");
+    window.location.href = 'https://instagram.com/accounts/login/?force_classic_login=&next=/oauth/authorize%3Fclient_id%3D1d876469ae47431984b3e92b67014b84%26redirect_uri%3Dhttp%3A//localhost%3A8080/auth%26response_type%3Dcode%26scope%3Dlikes%2Bbasic%2Bcomments%2Brelationships';
   });
 };
 
@@ -91,7 +90,7 @@ $scope.updateAccount = function(person){
   person.ig_id = $rootScope.authenticatedUser.id;
   person.access_token = $rootScope.authenticatedUser.access_token;
   console.log("appended person :", person);
-  // $http.post("http://localhost:3000/updateUser", person)
+  // $http.post("http://localhost:8080/updateUser", person)
   UserFactory.updateUser(person)
   .success(function(res){
     console.log("response: ", res);

@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var coupleSchema = mongoose.Schema({
 
     names        : [String],
+    partnerIds   : Object,
     stories      :
     [
       {
