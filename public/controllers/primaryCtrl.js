@@ -18,7 +18,7 @@ angular.module("OurStory")
 $scope.login = function(){
   AuthFactory.authUser()
   .success(function(authenticatedUser){
-    console.log("authenticatedUser", authenticatedUser);
+    // console.log("authenticatedUser", authenticatedUser);
     $scope.userCheck = true;
     $rootScope.authenticatedUser = authenticatedUser;
     $rootScope.id = authenticatedUser.id;
@@ -40,7 +40,7 @@ $scope.logout = function(){
 
 $scope.verifyInfo = function(currentData){
   if (currentData){
-    console.log("data found: " , currentData);
+    // console.log("data found: " , currentData);
     $rootScope.currentData = currentData;
     if(currentData.incoming_requests[0]){
       $scope.newRequests = false;
@@ -48,7 +48,7 @@ $scope.verifyInfo = function(currentData){
     return false;
   }
   else {
-    console.log("no data");
+    // console.log("no data");
     return true;
   }
 };
@@ -65,7 +65,7 @@ $scope.findUser = function(){
 };
 
 $scope.findPartner = function(partner){
-  console.log(partner);
+  // console.log(partner);
   partner.from = $rootScope.authenticatedUser.username;
   UserFactory.findPartner(partner)
     .success(function(response){
@@ -83,17 +83,17 @@ $scope.findPartner = function(partner){
 };
 
 $scope.updateAccount = function(person){
-  console.log('edit account');
-  console.log(person);
+  // console.log('edit account');
+  // console.log(person);
   person.username = $rootScope.authenticatedUser.username;
   person.profile_picture = $rootScope.authenticatedUser.profile_picture;
   person.ig_id = $rootScope.authenticatedUser.id;
   person.access_token = $rootScope.authenticatedUser.access_token;
-  console.log("appended person :", person);
+  // console.log("appended person :", person);
   // $http.post("http://localhost:8080/updateUser", person)
   UserFactory.updateUser(person)
   .success(function(res){
-    console.log("response: ", res);
+    // console.log("response: ", res);
     $scope.current = {};
   })
   .error(function(res){
@@ -102,10 +102,10 @@ $scope.updateAccount = function(person){
 };
 
 $scope.updatePartner = function(res, req){
-  console.log("RESPONSE: ",res);
+  // console.log("RESPONSE: ",res);
   var match;
   var response = res;
-  console.log("allData: ", $scope.currentData);
+  // console.log("allData: ", $scope.currentData);
   var index = $scope.currentData.incoming_requests.indexOf(req);
   var wholeObj = $scope.currentData.incoming_requests[index];
   var toEdit = $scope.currentData.incoming_requests[index]._id;
@@ -118,6 +118,7 @@ $scope.updatePartner = function(res, req){
   match.reviewed = true;
   $scope.currentData.incoming_requests.splice([index], 1, wholeObj);
   // $scope.currentData.incoming_requests.splice(index, 1);
+  console.log($scope.currentData);
   UserFactory.updatePartner($scope.currentData)
   .then(function(data){
     console.log(data);

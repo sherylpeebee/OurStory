@@ -15,18 +15,22 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/updatePartner', function(req, res, next) {
-  console.log(req.body);
   var id = req.body._id;
+  console.log("id here **********##$#$#$#$#$#******: "+ id);
+  console.log("@#$%^&^$#@#$%^&*%$#@#$%^&*(!@#$%^%$#@!@#$%^&!@#$%)");
+  console.log("@#$%^&^$#@#$%^&*%$#@#$%^&*(!@#$%^%$#@!@#$%^&!@#$%)");
+  console.log("#$#%$#$%#$#%#$%#%$#$#%$#%$#$%#$#$%#%#$%#$%#$%#$%#$%#");
   User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
     if(err){
       console.log(err);
     }
-
+    console.log("SAVED DOCCCCCC!!!!: ", doc);
     doc.incoming_requests.forEach(function(request){
       if(request.approved === true){
-        User.find({"username" : request.from}, function(err, person){
-          console.log("person: ", person);
+        User.findOne({"username" : request.from}).lean().exec(function(err, person){
+          console.log("PERSONNNNNUHhhH!!: ", person);
           var couple = new Couple({
+            //breaking here
             names : [doc.full_name || doc.username, person.full_name || person.username],
             partnerIds : {
               one: doc._id,
@@ -39,7 +43,7 @@ router.post('/updatePartner', function(req, res, next) {
             }
             doc.relationships.push(couple._id);
             person.relationships.push(couple._id);
-            console.log(couple);
+            console.log("COUPLEUPPPLEUPPPPPLELELELEDDCUPZZZZZZ: ", couple);
           });
         });
       }
@@ -72,6 +76,10 @@ router.post('/findUser', cors(), function(req, res, next) {
 
 router.post('/updateUser', cors(), function(req, res, next) {
   console.log("request body: ", req.body);
+
+  //need to do guard in here against duplicate registration and
+  //only UPDATE if user already exists (check with ig_id)
+
   var updatedUser = new User({
     ig_id : req.body.ig_id,
     access_token : req.body.access_token,
