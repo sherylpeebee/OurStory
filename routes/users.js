@@ -16,10 +16,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/updatePartner', function(req, res, next) {
   var id = req.body._id;
-  console.log("id here **********##$#$#$#$#$#******: "+ id);
-  console.log("@#$%^&^$#@#$%^&*%$#@#$%^&*(!@#$%^%$#@!@#$%^&!@#$%)");
-  console.log("@#$%^&^$#@#$%^&*%$#@#$%^&*(!@#$%^%$#@!@#$%^&!@#$%)");
-  console.log("#$#%$#$%#$#%#$%#%$#$#%$#%$#$%#$#$%#%#$%#$%#$%#$%#$%#");
   User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
     if(err){
       console.log(err);
@@ -41,9 +37,21 @@ router.post('/updatePartner', function(req, res, next) {
             if(err){
               console.log(err);
             }
-            doc.relationships.push(couple._id);
-            person.relationships.push(couple._id);
             console.log("COUPLEUPPPLEUPPPPPLELELELEDDCUPZZZZZZ: ", couple);
+            doc.relationships.push(couple._id);
+            doc.save(function(err, savedOne){
+              if(err){
+                console.log(err);
+              }
+              console.log("FIRST SAVED MEMBER HEEEERRREEUHHUH$$#$#$#!", savedOne);
+            });
+            console.log("LINE 49 -- DOES THIS PERSON EXIST???!!!! SANITY CHECK HEEEERRREEUHHUH$$#$#$#!", person);
+            User.findOne({"username" : person.username}, function(err, member2){
+              member2.relationships.push(couple._id);
+              member2.save(function(err, savedTwo){
+                console.log("SEGUNDOOOOO SAVED MEMBER HEEEERRREEUHHUH$$#$#$#!", savedTwo);
+              });
+            });
           });
         });
       }
