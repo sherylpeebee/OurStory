@@ -11,8 +11,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var story = require('./routes/story');
 
-var secrets = require('./secrets/ig-secrets.js');
-mongoose.connect(secrets.MONGOLAB_URI);
+// var secrets = require('./secrets/ig-secrets.js');
+mongoose.connect(process.env.MONGOLAB_URI);
 
 var app = express();
 app.use(cors());
