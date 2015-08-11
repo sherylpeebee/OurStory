@@ -1,5 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Pacifico);
-@import url(http://fonts.googleapis.com/css?family=Raleway);
+@import url(//fonts.googleapis.com/css?family=Pacifico);
+@import url(//fonts.googleapis.com/css?family=Raleway);
 @font-face {
     font-family: 'Quicksand_Dash';
     src: url('/fonts/quicksand/Quicksand_Dash.otf');
@@ -227,7 +227,7 @@ body {
     /*background-image: url("http://besthqimages.mobi/wp-content/uploads/background-transparent-tumblr-photo-4.png");*/
     /*background-image: url("http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=83755721");*/
     /*background-image: url("http://static.vecteezy.com/assets/footer-popup/eezy-premium-kite-32c30c86715a0044e6032c1dc9a69451.png");*/
-    background-image: url("http://www.itsaulgood.com/sitecm/i/stories_illustration_transparent.png?Width=400");
+    background-image: url("/images/stories_illustration_transparent");
     background-repeat: no-repeat;
     background-attachment: fixed;
     /*background-position: -5px 56px;*/

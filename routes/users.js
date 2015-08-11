@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var ig = require('instagram-node').instagram();
 var cors = require('cors');
 var mongoose = require('mongoose');
 var User = require("../models/user.js");
