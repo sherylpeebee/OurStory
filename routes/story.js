@@ -8,7 +8,6 @@ var fs = require('fs');
 var User = require("../models/user.js");
 var Couple = require("../models/couple.js");
 var Story = require("../models/story.js");
-var KEYFILE = require("../secrets/keyFilename.json");
 var cloudinary = require('cloudinary');
 // var projectObj = require("../secrets/projectid.js");
 // var PROJECT_ID = projectObj.id;
