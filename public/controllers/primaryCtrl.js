@@ -32,7 +32,7 @@ $scope.login = function(){
     })
     .error(function(err){
       console.log("darn it... it broked");
-      window.location.href = "instagram.com/accounts/login/?force_classic_login=&next=/oauth/authorize%3F…6response_type%3Dcode%26scope%3Dlikes%2Bbasic%2Bcomments%2Brelationships:1" ;
+      window.location.href = 'https://instagram.com/accounts/login/?force_classic_login=&next=/oauth/authorize%3F…6response_type%3Dcode%26scope%3Dlikes%2Bbasic%2Bcomments%2Brelationships:1';
     });
   }
   else{
