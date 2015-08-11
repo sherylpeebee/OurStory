@@ -21,9 +21,7 @@ cloudinary.config({
   api_secret: '4nvdaocOW-aDmnUL15WwwpT_nNI'
 });
 
-cloudinary.uploader.upload("output.jpg", function(result) { console.log(result); });
-
-
+// cloudinary.uploader.upload("output.jpg", function(result) { console.log(result); });
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -60,28 +58,80 @@ router.post('/pic', function(req, res, next) {
 
 router.post("/addStory", function(req, res){
   console.log("hi");
-  // console.log(req.body);
-  var images = req.body.img;
-  var newStory = new Story({
-    title: req.body.title,
-    story: req.body.summary,
-    created_at: req.body.date,
-    // pics: req.body.img
-  });
-  newStory.save(function(err, story){
-    //pics not saving here;
-    if(err){
-      console.log(err);
-    }
-    console.log(story);
-    console.log(story._id);
-    Story.findOneAndUpdate({"_id": story._id}, {pics: images}, {upsert: true}, function(err, affecred, raw){
-      if(err){
-        console.log(err);
+  console.log(req.body);
+  var counter = 0;
+  var images;
+  if(req.body.image){
+    var importPics = function(cb){
+      images = req.body.image;
+      for(var i=0; i<images.length; i++){
+        var base64 = images[i].replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
+        var buf = new Buffer(base64, 'base64');
+        // console.log(buf);
+        fs.writeFile('output' + counter + '.jpg', buf, 'binary', function(err, data){
+         if (err) {
+           return console.log(err);
+         }
+         console.log(data);
+         cb();
+        //  res.status(200).send('ok');
+        });
       }
-      res.send('done');
-    });
-  });
+    };
+
+    importPics(upload);
+
+    function upload(){
+      for(var j=0; j<images.length; j++){
+        var counter2 = 0;
+        cloudinary.uploader.upload('output' + counter2 + '.jpg', function(result) {
+          console.log(result);
+          counter ++;
+        });
+      }
+    }
+  }
+
+    // var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
+    // var buf = new Buffer(base64, 'base64');
+    //
+    // console.log(buf);
+    //
+    // fs.writeFile('output.jpg', buf, 'binary', function(err, data){
+    //  if (err) {
+    //    return console.log(err);
+    //  }
+    //  console.log(data);
+    //  res.status(200).send('ok');
+    // });
+  else{
+    res.status(200).send('no images sent');
+    return;
+  }
+
+
+
+  // var images = req.body.img;
+  // var newStory = new Story({
+  //   title: req.body.title,
+  //   story: req.body.summary,
+  //   created_at: req.body.date,
+  //   // pics: req.body.img
+  // });
+  // newStory.save(function(err, story){
+  //   //pics not saving here;
+  //   if(err){
+  //     console.log(err);
+  //   }
+  //   console.log(story);
+  //   console.log(story._id);
+  //   Story.findOneAndUpdate({"_id": story._id}, {pics: images}, {upsert: true}, function(err, affecred, raw){
+  //     if(err){
+  //       console.log(err);
+  //     }
+  //     res.send('done');
+  //   });
+  // });
 });
 
 router.get("/secret", function(req, res){
