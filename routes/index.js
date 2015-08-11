@@ -28,7 +28,7 @@ router.get('/auth', cors(), function(req, res, next) {
       console.log('Yay! Access token is ' + access_token);
       currentUser = result.user;
       currentUser.access_token = access_token;
-      currentUser.back = "http://the-history-of-us.com";
+      currentUser.back = "https://the-history-of-us.com";
       console.log('The authenticated user is ' , currentUser);
       res.send("angular.callbacks._0(" + JSON.stringify(currentUser) + ")");
     }
