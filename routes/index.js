@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var User = require("../models/user.js");
 var Couple = require("../models/couple.js");
 
-var redirect_uri = 'http://the-history-of-us.herokuapp.com/auth';
+var redirect_uri = 'https://the-history-of-us.herokuapp.com/auth';
 var access_token, currentUser;
 
 /* GET home page. */
