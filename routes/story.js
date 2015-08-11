@@ -16,9 +16,9 @@ var cloudinary = require('cloudinary');
 // var storage;
 
 cloudinary.config({
-  cloud_name: 'our-story',
-  api_key: '811217315275282',
-  api_secret: '4nvdaocOW-aDmnUL15WwwpT_nNI'
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
 });
 
 // cloudinary.uploader.upload("output.jpg", function(result) { console.log(result); });
@@ -32,9 +32,6 @@ router.post('/pic', function(req, res, next) {
   if(req.body.img){
     var img = req.body.img;
 
-  //   //grab uri and save to a new story obj here, respond with success message
-  //   this below is good for if you have a cloud cdn. come back to it
-  //
   //   var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
   //
   //   //store at this point in mongo for backup here; on read out, will need to prepend string with jpg, jpeg, png, etc.
@@ -108,9 +105,6 @@ router.post("/addStory", function(req, res){
     res.status(200).send('no images sent');
     return;
   }
-
-
-
   // var images = req.body.img;
   // var newStory = new Story({
   //   title: req.body.title,
@@ -134,13 +128,6 @@ router.post("/addStory", function(req, res){
   // });
 });
 
-router.get("/secret", function(req, res){
-  res.json(CLOUD_API_SECRET);
-});
 
-router.get("/cloudinary_response", function(req, res){
-  console.log(req);
-  res.send('ok');
-});
 
 module.exports = router;

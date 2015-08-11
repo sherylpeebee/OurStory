@@ -1,4 +1,23 @@
 @import url(http://fonts.googleapis.com/css?family=Pacifico);
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+@font-face {
+    font-family: 'Quicksand_Dash';
+    src: url('/fonts/quicksand/Quicksand_Dash.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Quicksand-Light';
+    src: url('/fonts/quicksand/Quicksand-Light.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Quicksand-Bold';
+    src: url('/fonts/quicksand/Quicksand-Bold.otf');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /*body {
   padding: 50px;
@@ -24,6 +43,9 @@ nav .brand-logo {
     letter-spacing: 9px;
     position: relative;
     left: 34%;
+    text-transform: lowercase;
+    font-family: 'Quicksand-Light';
+    /*font-family: 'Raleway', sans-serif;*/
     /*text-decoration: underline;*/
 }
 
@@ -201,6 +223,7 @@ h4.modal-header {
 }
 body {
     background-color: #F5DF65;
+    /*background-color: rgb(244, 225, 127);*/
     /*background-image: url("http://besthqimages.mobi/wp-content/uploads/background-transparent-tumblr-photo-4.png");*/
     /*background-image: url("http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=83755721");*/
     /*background-image: url("http://static.vecteezy.com/assets/footer-popup/eezy-premium-kite-32c30c86715a0044e6032c1dc9a69451.png");*/
@@ -450,6 +473,7 @@ button#addToStory {
     background-color: #5BC0DE;
     color: floralwhite;
     width: 94%;
+
 }
 input#imgUrl {
     width: 90%;
@@ -463,4 +487,138 @@ li#userGreet {
 }
 #user{
   text-decoration: underline;
+}
+
+/*.splashBody.ng-scope {
+    height: 120vh;
+    width: 100vw;
+    background-color: hotpink;
+    position: relative;
+    top: -32px;
+}*/
+
+.splashBody.ng-scope {
+    height: 100vh;
+    width: 100vw;
+    /*background-color: rgba(23, 24, 32, 0.95);*/
+    /*background-color: rgba(0, 8, 37, 0.89);*/
+    /*background-color: rgba(0, 0, 0, 0.79);*/
+    background-color: rgba(0, 0, 0, 0.89);
+    /*rgba(0, 15, 27, 0.79);*/
+    position: relative;
+    top: -32px;
+    /*background-image: url("http://thewordsmithblog.com/wp-content/uploads/2014/12/59460350-holding-hands.jpg");*/
+    /*background-size: cover;*/
+}
+
+#splashHeader {
+    /*font-family: 'Raleway', sans-serif;*/
+    font-family: 'Pacifico', cursive;
+    /*color: white;*/
+    /*color: aliceblue;*/
+    /*color: rgb(164, 108, 169);*/
+    color: #F9A825;
+    font-size: xx-large;
+    position: fixed;
+    letter-spacing: 6px;
+    border-bottom: 2px solid #F5DF65;
+}
+.page-intro {
+    /*font-family: 'Raleway', sans-serif;*/
+    font-family: 'Quicksand-Light';
+    /* color: white; */
+    /* color: aliceblue; */
+    color: #F9A825;
+    /* color: rgb(164, 108, 169); */
+    /* font-size: xx-large; */
+    position: fixed;
+    top: 29%;
+    left: 15%;
+    width: 44vw;
+}
+
+.goto-next {
+    background-image: url("http://www.springingtheblues.com/wp-content/uploads/arrow-down@2x.png");
+    background-size: cover;
+    border: 0;
+    bottom: 0;
+    display: block;
+    height: 5em;
+    left: 52%;
+    margin: 0 0 0 -5em;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 10em;
+    white-space: nowrap;
+    width: 9em;
+    z-index: 1;
+}
+
+/*.deco {
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #ddd;
+    border: 2px dashed rgba(150,150,150,0.4);
+    border-radius: 50%;
+    position: static;
+    bottom: 50%;
+    left: 50%;
+    margin: 0 0 0 -130px;
+    border: 1px solid #F5DF65;
+    background-color: #F5DF65;
+}*/
+
+button#comeIn {
+    position: fixed;
+    top: 52%;
+    left: 15%;
+    /*color: #392138;*/
+    /*color: #2D041A;*/
+    color: black;
+    /*color: #F5DF65;*/
+    font-weight: bold;
+    font-family: 'Quicksand-Bold';
+
+}
+button#startNow {
+    position: fixed;
+    top: 52%;
+    left: 43%;
+    /* color: #392138; */
+    /* color: #2D041A; */
+    color: black;
+    /* color: #F5DF65; */
+    font-weight: bold;
+    font-family: 'Quicksand-Bold';
+    margin-left: 30px;
+}
+
+/*button#comeIn {
+    position: fixed;
+    top: 52%;
+    left: 15%;
+    text-transform: capitalize;
+}*/
+
+button#comeIn:hover {
+    /*background-color: rgb(164, 108, 169);*/
+    background-color: #F5DF65 !important;
+
+}
+button#startNow:hover {
+    /*background-color: rgb(164, 108, 169);*/
+    background-color: #F5DF65 !important;
+
+}
+
+p#callToAction {
+  margin-bottom: 2px;
+}
+
+#recentStoryHeader{
+  font-family: 'Pacifico', cursive;
+}
+
+img.thumbnail {
+    max-height: 20vh;
 }
