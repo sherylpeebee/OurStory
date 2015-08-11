@@ -4,15 +4,7 @@ var coupleSchema = mongoose.Schema({
 
     names        : [String],
     partnerIds   : Object,
-    stories      :
-    [
-      {
-        title       : String,
-        story       : String,
-        created_at  : { type: Date, default: Date.now },
-        picUrls     : [String]
-      }
-    ]
+    stories      : [{type: mongoose.Schema.Types.ObjectId, ref: 'Story'}]
 
 });
 

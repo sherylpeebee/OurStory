@@ -14,11 +14,25 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.post('/getRequestUpdates', function(req, res, next) {
+  console.log(req.body);
+  var id = req.body._id;
+  console.log("THE DOCUMENT YOU WERE LOKING FOR: ", id);
+  User.findOne({'_id': id}, function(err, doc){
+    if(err){
+      console.log(err);
+    }
+    console.log("THE DOCUMENT YOU WERE LOKING FOR: ", doc);
+    res.send('super done');
+  });
+});
+
 router.post('/updatePartner', function(req, res, next) {
   var id = req.body._id;
   User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
     if(err){
       console.log(err);
+      res.send();
     }
     console.log("SAVED DOCCCCCC!!!!: ", doc);
     doc.incoming_requests.forEach(function(request){
@@ -26,22 +40,23 @@ router.post('/updatePartner', function(req, res, next) {
         User.findOne({"username" : request.from}).lean().exec(function(err, person){
           console.log("PERSONNNNNUHhhH!!: ", person);
           var couple = new Couple({
-            //breaking here
             names : [doc.full_name || doc.username, person.full_name || person.username],
             partnerIds : {
-              one: doc._id,
-              two: person._id
+              one: doc._id, imgOne: doc.profile_picture,
+              two: person._id, imgTwo: person.profile_picture
             },
           });
           couple.save(function(err, couple){
             if(err){
               console.log(err);
+              res.send();
             }
             console.log("COUPLEUPPPLEUPPPPPLELELELEDDCUPZZZZZZ: ", couple);
             doc.relationships.push(couple._id);
             doc.save(function(err, savedOne){
               if(err){
                 console.log(err);
+                res.send();
               }
               console.log("FIRST SAVED MEMBER HEEEERRREEUHHUH$$#$#$#!", savedOne);
             });
@@ -53,33 +68,53 @@ router.post('/updatePartner', function(req, res, next) {
               });
             });
           });
+              res.send('done');
+              console.log(doc);
         });
       }
       else{
         console.log("no dice");
       }
     });
-    console.log(doc);
+
   });
-  res.send('done');
 });
+// Item.find({}).populate('comments.created_by').exec(function(err, items) {
+//     console.log(items[0].comments[0].created_by.name);
+// });
+
 
 router.post('/findUser', cors(), function(req, res, next) {
   console.log("find User request body: ", req.body.id);
+  User.findOne({ 'ig_id': req.body.id }).populate('relationships').exec(function(err, doc){
+      if(err){
+        console.log(err);
+      }
+      if(!doc){
+        console.log("nothing here!");
+        res.status(200).send("nothing here!");
+      }
+      else{
 
-  User.find({ 'ig_id': req.body.id }, function (err, docs) {
-    if(err){
-      console.log(err);
-    }
-    if(!docs[0]){
-      console.log("nothing here!");
-      res.status(200).send("nothing here!");
-    }
-    else{
-    console.log("docs: ", docs);
-    res.status(200).send(docs[0]);
-    }
+      console.log("doc: ", doc);
+      res.status(200).send(doc);
+      }
   });
+
+  // User.findOne({ 'ig_id': req.body.id }, function (err, doc) {
+  //   if(err){
+  //     console.log(err);
+  //   }
+  //   if(!doc){
+  //     console.log("nothing here!");
+  //     res.status(200).send("nothing here!");
+  //   }
+  //   else{
+  //
+  //   console.log("doc: ", doc);
+  //   res.status(200).send(doc);
+  //   }
+  // });
 });
 
 router.post('/updateUser', cors(), function(req, res, next) {

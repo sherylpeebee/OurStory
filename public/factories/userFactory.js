@@ -13,9 +13,14 @@ angular.module("OurStory")
     findPartner : function (partner){
       return $http.post('http://localhost:8080/users/findPartner', partner);
     },
-    addPicture : function (img){
-      console.log("submitting: ",img);
+    addPictures : function (img){
       return $http.post('http://localhost:8080/story/pic', img);
+    },
+    getRequestUpdates : function (userInfo){
+      return $http.post('http://localhost:8080/users/getRequestUpdates', userInfo);
+    },
+    addStory : function (story){
+      return $http.post('http://localhost:8080/story/addStory', story);
     }
   };
 });

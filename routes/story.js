@@ -5,37 +5,28 @@ var secrets = require('../secrets/ig-secrets.js');
 var cors = require('cors');
 var mongoose = require('mongoose');
 var fs = require('fs');
-var cloudinary = require("cloudinary");
 var User = require("../models/user.js");
 var Couple = require("../models/couple.js");
-var CLOUD_API_SECRET = require("../secrets/cloudinary-api-secret.js");
-
-var redirect_uri = 'http://localhost:3000/auth';
-var access_token, currentUser;
+var Story = require("../models/story.js");
+var KEYFILE = require("../secrets/keyFilename.json");
+var cloudinary = require('cloudinary');
+// var projectObj = require("../secrets/projectid.js");
+// var PROJECT_ID = projectObj.id;
+// var gcloud = require('gcloud');
+// var storage;
 
 cloudinary.config({
   cloud_name: 'our-story',
   api_key: '811217315275282',
-  // "timestamp":  Date.now(),
-  api_secret: CLOUD_API_SECRET
+  api_secret: '4nvdaocOW-aDmnUL15WwwpT_nNI'
 });
 
-/* GET home page. */
+cloudinary.uploader.upload("output.jpg", function(result) { console.log(result); });
+
+
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
-});
-
-router.post('/createCouple', function(req, res, next) {
-  console.log(req.body.names);
-  var members = req.body.names.split(',');
-  var couple = new Couple({names: members});
-  couple.save(function(err, newCouple){
-    if(err){
-      console.log(err);
-    }
-    console.log("saved: ", newCouple);
-  });
 });
 
 router.post('/pic', function(req, res, next) {
@@ -43,27 +34,54 @@ router.post('/pic', function(req, res, next) {
   if(req.body.img){
     var img = req.body.img;
 
-    var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
+  //   //grab uri and save to a new story obj here, respond with success message
+  //   this below is good for if you have a cloud cdn. come back to it
+  //
+  //   var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
+  //
+  //   //store at this point in mongo for backup here; on read out, will need to prepend string with jpg, jpeg, png, etc.
+  //
+  //   var buf = new Buffer(base64, 'base64');
+  //   console.log(buf);
+  //
+  //   fs.writeFile('output.jpg', buf, 'binary', function(err, data){
+  //     if (err) {
+  //      return console.log(err);
+  //    }
+  //    console.log(data);
+  //    res.status(200).send('ok');
+  //   });
+  // }
+  // else{
+  //   res.status(200).send('no images sent');
+  //   return;
+  }
+});
 
-    //store at this point in mongo for backup here; on read out, will need to prepend string with jpg, jpeg, png, etc.
-
-    var buf = new Buffer(base64, 'base64');
-    console.log(buf);
-
-    fs.writeFile('output.jpg', buf, 'binary', function(err, data){
-      if (err) {
-       return console.log(err);
-     }
-     console.log(data);
-     res.status(200).send('ok');
+router.post("/addStory", function(req, res){
+  console.log("hi");
+  // console.log(req.body);
+  var images = req.body.img;
+  var newStory = new Story({
+    title: req.body.title,
+    story: req.body.summary,
+    created_at: req.body.date,
+    // pics: req.body.img
+  });
+  newStory.save(function(err, story){
+    //pics not saving here;
+    if(err){
+      console.log(err);
+    }
+    console.log(story);
+    console.log(story._id);
+    Story.findOneAndUpdate({"_id": story._id}, {pics: images}, {upsert: true}, function(err, affecred, raw){
+      if(err){
+        console.log(err);
+      }
+      res.send('done');
     });
-  }
-  else{
-    res.status(200).send('no images sent');
-    return;
-  }
-
-
+  });
 });
 
 router.get("/secret", function(req, res){

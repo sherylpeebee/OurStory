@@ -1,6 +1,10 @@
 angular.module("OurStory")
-.controller("PrimaryCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', '$stateParams', 'UserFactory', function($scope, $http, AuthFactory, $rootScope, $stateParams, UserFactory){
+.controller("PrimaryCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', '$stateParams', 'UserFactory', '$state', function($scope, $http, AuthFactory, $rootScope, $stateParams, UserFactory, $state){
 
+    var sanitycheck = $stateParams.id; //getting idVal
+
+    $scope.state = $state.current;
+    $scope.params = $stateParams;
 
   $(document).ready(function(){
     $(".button-collapse").sideNav();
@@ -32,7 +36,6 @@ $scope.login = function(){
 
 $scope.logout = function(){
   window.open("https://instagram.com/accounts/logout/", "_blank");
-  // window.location.href = "https://instagram.com/accounts/logout/";
   $rootScope.authenticatedUser = null;
   $scope.userCheck = false;
   $("img#profile-pic").attr("src", "");
@@ -40,7 +43,19 @@ $scope.logout = function(){
 
 $scope.verifyInfo = function(currentData){
   if (currentData){
-    // console.log("data found: " , currentData);
+    console.log("data found: " , currentData);
+    currentData.relationships[0].partnerIds = {
+      one: "55c817d063c2f7a511bc6f35", imgOne: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-19/11849181_1022744367770535_1594369462_a.jpg",
+      two: "55c819c763c2f7a511bc6f3b", imgTwo: "https://igcdn-photos-b-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/11375777_441663056033809_1087871125_a.jpg"
+    };
+    currentData.relationships[1].partnerIds = {
+      one: "55c817d063c2f7a511bc6f35", imgOne: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-19/11849181_1022744367770535_1594369462_a.jpg",
+      two: "55c819c763c2f7a511bc6f3b", imgTwo: "https://igcdn-photos-b-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/11375777_441663056033809_1087871125_a.jpg"
+    };
+    currentData.relationships[2].partnerIds = {
+      one: "55c817d063c2f7a511bc6f35", imgOne: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-19/11849181_1022744367770535_1594369462_a.jpg",
+      two: "55c819c763c2f7a511bc6f3b", imgTwo: "https://igcdn-photos-b-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/11375777_441663056033809_1087871125_a.jpg"
+    };
     $rootScope.currentData = currentData;
     if(currentData.incoming_requests[0]){
       $scope.newRequests = false;
@@ -57,7 +72,6 @@ $scope.findUser = function(){
   UserFactory.findUser($rootScope.authenticatedUser)
     .success(function(currentData){
       $scope.verifyInfo(currentData);
-    // console.log("currentData: ", currentData);
   })
   .error(function(err){
     console.log(err);
@@ -102,7 +116,7 @@ $scope.updateAccount = function(person){
 };
 
 $scope.updatePartner = function(res, req){
-  // console.log("RESPONSE: ",res);
+  console.log("RESPONSE: ",res);
   var match;
   var response = res;
   // console.log("allData: ", $scope.currentData);
@@ -122,10 +136,26 @@ $scope.updatePartner = function(res, req){
   UserFactory.updatePartner($scope.currentData)
   .then(function(data){
     console.log(data);
+    UserFactory.getRequestUpdates($scope.currentData)
+    .then(function(updates){
+      console.log("updates: ", updates.config.data.incoming_requests);
+      var currentRequests = updates.config.data.incoming_requests;
+            console.log("currentRequests: ", currentRequests);
+            console.log("currentRequestslength: ", currentRequests.length);
+        for(var i = 0; i< currentRequests.length; i++){
+          console.log("currentRequests: ", currentRequests[i].reviewed);
+          if(currentRequests[i].reviewed === true){
+            currentRequests.splice(i, 1);
+            console.log($scope.currentData);
+          }
+      }
+    })
+    .catch(function(err){
+      console.log(err);
+    });
   })
   .catch(function(err){
     console.log(err);
   });
 };
-
 }]);

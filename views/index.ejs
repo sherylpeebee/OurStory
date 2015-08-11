@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- <link src="/bower_components/bootstrap/dist/css/bootstrap.css"> -->
     <link href="/bower_components/lightbox2/dist/css/lightbox.css" rel="stylesheet">
+    <link href="/bower_components/toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel='stylesheet' href="stylesheets/timeline.css"/>
     <link rel='stylesheet' href="stylesheets/style.css"/>
@@ -21,16 +23,15 @@
         <a ui-sref="home" class="brand-logo">A History Of Us</a>
         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-          <!-- <li ng-show="userCheck()" >Welcome back, {{authenticatedUser.full_name}}!</li> -->
-          <li ng-show="userCheck" >Welcome back, {{authenticatedUser.username}}!</li>
+          <li data-activates="slide-out" data-position="bottom" data-delay="50" ng-show="userCheck" class="collapse"  id="userGreet">Welcome back, <a class="tooltipped " data-tooltip="View Account" href="#" id="user" ng-click="findUser()">{{authenticatedUser.username}}!</a></li>
           <li ng-hide="userCheck" ng-click="login()"><a href="">sign in/sign up</a></li>
-          <!-- <li><a ui-sref="currentUser({id:id})" ng-show="userCheck()" >your profile</a></li> -->
           <li><a href="" ng-show="userCheck" ng-click="logout()">log out</a></li>
-          <li data-activates="slide-out" class="collapse" id="profile-pic-li"><a ng-click="findUser()"><img id="profile-pic" class="responsive-img circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="View Account" ng-src="{{authenticatedUser.profile_picture}}" alt="" /></a></li>
+          <li id="profile-pic-li"><img id="profile-pic" class="responsive-img circle" ng-src="{{authenticatedUser.profile_picture}}" alt="" /></li>
         </ul>
       </div>
     </nav>
   </div>
+
 
 <nav class="side-nav"  id="slide-out">
     <div class="row">
@@ -40,7 +41,8 @@
           <div class="col s12 accordian_wrapper">
               <ul class="collapsible" data-collapsible="accordion" style="width:100%">
                 <li>
-                  <div class="collapsible-header"><i class="material-icons">perm_identity</i>Vitals</div>
+                  <div class="collapsible-header"><i class="material-icons">face</i>The Basics</div>
+                  <!-- <i class="material-icons">perm_identity</i> -->
                   <div class="collapsible-body accordian-menu" style="color:white">
                     <br>
                     <form class="" ng-submit="updateAccount(current)">
@@ -52,13 +54,13 @@
                          <label for="partner">partner</label>
 
                          <p>
-                           <input name="partner_search" type="radio" id="username_search" value="username" ng-model="current.partner.search" />
+                           <input class="with-gap" name="partner_search" type="radio" id="username_search" value="username" ng-model="current.partner.search" />
                            <label for="username_search">Search by username</label>
                          </p>
                          <p>
-                           <input name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="current.partner.search" />
+                           <input class="with-gap" name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="current.partner.search" />
                            <label for="full_name_search">Search by full name</label>
-                           <a class="btn red lighten-1 search_partner" ng-click="findPartner(current.partner)">
+                           <a class="btn red lighten-1 search_partner waves-effect waves-light" ng-click="findPartner(current.partner)">
                              <i class="material-icons lookup">search</i>
                            </a>
                          </p>
@@ -73,11 +75,11 @@
                   </div>
                 </li>
                 <li>
-                  <div class="collapsible-header"><i class="material-icons">new_releases</i>Notifications</div>
+                  <div class="collapsible-header"><i class="material-icons">add_alert</i>Notifications</div>
                     <div class="collapsible-body side_nav" >
                       <h5 id="newRequests" ng-hide={{newRequests}} style="font-weight: 100" class="center-align">New Requests</h5>
                       <form class="">
-                        <div class="incoming-requests" ng-repeat="request in currentData.incoming_requests track by $index">
+                        <div class="incoming-requests" ng-repeat="request in newData.incoming_requests || currentData.incoming_requests track by $index">
                           <!-- <div class="" ng-hide="reviewed"> -->
                             <p class="incoming-requests" >
                              <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}yes" value="{{request.from}}" ng-model="response.accept"/>
@@ -96,8 +98,19 @@
                     </div>
                 </li>
                 <li>
-                  <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-                  <div class="collapsible-body side_nav"><p>Lorem ipsum dolor sit amet.</p></div>
+                  <div class="collapsible-header"><i class="material-icons">people</i>Your Relationships</div>
+                  <div class="collapsible-body side_nav">
+                    <ul>
+                      <li ng-repeat="relationship in currentData.relationships">
+                        <div class="relationships">
+                          <span class="avatar">
+                            <img ng-src={{relationship.partnerIds.imgTwo}} alt="" class="circle partnerPics">
+                          </span>
+                          <a ui-sref="currentUser({id: relationship._id})" ><span class="partnerLink animated pulse">{{relationship.names[0]}}</span></a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
               </ul>
           </div>
@@ -118,6 +131,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script src="/bower_components/lightbox2/dist/js/lightbox.js"></script>
+    <script src="/bower_components/toastr/toastr.js"></script>
     <!-- // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>

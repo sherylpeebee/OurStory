@@ -1,6 +1,7 @@
 angular.module("OurStory")
-.controller("currentUserCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', 'UserFactory', function($scope, $http, AuthFactory, $rootScope, UserFactory){
+.controller("currentUserCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', 'UserFactory', '$stateParams', function($scope, $http, AuthFactory, $rootScope, UserFactory, $stateParams){
 console.log("in currentUserCtrl");
+var photos = [];
 var uri, preview = document.querySelector('img#imgPreview');
   $(document).ready(function(){
     function reset_form_element (e) {
@@ -28,10 +29,11 @@ var uri, preview = document.querySelector('img#imgPreview');
 
     if (file) {
       reader.readAsDataURL(file);
-    } else {
+    } else if($scope.story.image){
+      preview.src = $scope.story.image;
+    }else{
       preview.src = "";
     }
-
     reader.onloadend = function () {
       uri = reader.result;
       preview.src = uri;
@@ -40,17 +42,39 @@ var uri, preview = document.querySelector('img#imgPreview');
     };
   };
 
-  // function downloadURI(uri, name) {
-  //   var link = document.createElement("a");
-  //   link.download = name;
-  //   link.href = uri;
-  //   var result = link.click();
-  //   return result;
-  // }
+  $scope.getParams = function(){
+    var currentCouple = [];
+    console.log("clickety");
+    console.log($stateParams);
+    var currentCoupleId = $stateParams.id;
+    var couples = $rootScope.currentData.relationships;
+    for(var i = 0; i<couples.length; i++){
+      if(currentCoupleId === couples[i]._id ){
+        currentCouple.push(couples[i]);
+      }
+    }
+    var memberOne = currentCouple[0].partnerIds.one;
+    if( memberOne === $rootScope.currentData._id){
+      $rootScope.memberOne = true;
+    }
+    console.log($rootScope.memberOne);
+  };
+
+  $scope.getUser = function(){
+    console.log("hey");
+    UserFactory.findUser($rootScope.authenticatedUser)
+      .success(function(currentData){
+        $rootScope.currentData = currentData;
+      console.log("currentData: ", currentData);
+    })
+    .error(function(err){
+      console.log(err);
+    });
+  };
 
 
   $scope.stories  = [];
-  $scope.addPage = function(story){
+  $scope.addStory = function(story){
     if(!story){
       story = {};
     }
@@ -62,30 +86,43 @@ var uri, preview = document.querySelector('img#imgPreview');
       console.log(splitDate);
       story.date = splitDate.splice(0, 4).join(" ");
     }
+
     console.log(story);
-    $scope.stories.push(story);
-    $scope.story = { };
-    console.log($scope.stories);
-    console.log('SUBMITTING A PIC');
-    // $http.post('http://localhost:3000/story/pic', {img: uri})
-    UserFactory.addPicture({img: uri})
-    .success(function(data){
-      preview.src = "";
-    })
-    .error(function(err){
-      console.log(err);
-    });
+    story.image = photos;
+
+      UserFactory.addStory(story)
+      .then(function(data){
+        $scope.story = {};
+        console.log(data);
+      })
+      .catch(function(err){
+        console.log(err);
+      });
+
+      // $scope.stories.push(story);
+      // $scope.story = { };
+      // console.log($scope.stories);
+    // console.log('SUBMITTING A PIC');
+    // // $http.post('http://localhost:3000/story/pic', {img: uri})
+    // UserFactory.addPictures({img: photos})
+    // .success(function(data){
+    //   preview.src = "";
+    // })
+    // .error(function(err){
+    //   console.log(err);
+    // });
   };
 
-  $scope.stories = [
-    {summary: "Jack and Jill went up the hill",
-    date:"Dec 31, 1969",
-    images: [{"http://placehold.it/350x150": "this was cool"}, {"http://placehold.it/350x150": "some stuff happened"}, {"http://placehold.it/350x150": "this too"}],
-    title: "The Giants Game"},
-    {summary: "Jim and Jan have a good time",
-    date:"Dec 31, 1969",
-    images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
-    title: "Anniversary"},
+  $scope.addOnePhoto = function(){
+    if(uri){
+      photos.push(uri);
+    }else if($scope.story.image){
+      photos.push($scope.story.image);
+    }
+    console.log(photos);
+  };
+
+  $scope.fakeStories = [
     {summary: "Sue and Biff are best friends",
     date:"Dec 31, 1969",
     images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
