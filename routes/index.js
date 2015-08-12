@@ -6,8 +6,8 @@ var mongoose = require('mongoose');
 var User = require("../models/user.js");
 var Couple = require("../models/couple.js");
 
-var redirect_uri = 'https://the-history-of-us.herokuapp.com/auth';
-// ig1d876469ae47431984b3e92b67014b84
+// var redirect_uri = 'https://the-history-of-us.herokuapp.com/auth';
+var redirect_uri = 'http://localhost:8000/auth';
 var access_token, currentUser;
 
 /* GET home page. */
@@ -28,7 +28,7 @@ router.get('/auth', cors(), function(req, res, next) {
       console.log('Yay! Access token is ' + access_token);
       currentUser = result.user;
       currentUser.access_token = access_token;
-      currentUser.back = "https://the-history-of-us.com";
+      // currentUser.back = "https://the-history-of-us.com";
       console.log('The authenticated user is ' , currentUser);
       res.send("angular.callbacks._0(" + JSON.stringify(currentUser) + ")");
     }
