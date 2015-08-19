@@ -22,8 +22,10 @@ $scope.login = function(){
     .then(function(authData){
       console.log("authData", authData);
       $rootScope.userCheck = true;
+      $rootScope.authData = authData;
       $rootScope.authenticatedUser = authData.twitter;
-      $rootScope.id = authData.twitter.id;
+      var provider = $rootScope.authData.provider;
+      $rootScope.id = authData[provider].id;
       $rootScope.authenticatedUser.partner = { };
       $state.go('home');
     });
@@ -61,13 +63,14 @@ $scope.verifyInfo = function(currentData){
 };
 
 $scope.findUser = function(){
-  UserFactory.findUser($rootScope.authenticatedUser)
-    .success(function(currentData){
-      $scope.verifyInfo(currentData);
-  })
-  .error(function(err){
-    console.log(err);
-  });
+  console.log(person.oauth_id);
+  // UserFactory.findUser(person.oauth_id);
+  //   .success(function(currentData){
+  //     $scope.verifyInfo(currentData);
+  // })
+  // .error(function(err){
+  //   console.log(err);
+  // });
 };
 
 $scope.findPartner = function(partner){
@@ -88,16 +91,15 @@ $scope.findPartner = function(partner){
   });
 };
 
-$scope.updateAccount = function(person){
+$scope.createOrUpdateAccount = function(person){
   // console.log('edit account');
   // console.log(person);
   person.username = $rootScope.authenticatedUser.username;
   person.profile_picture = $rootScope.authenticatedUser.profile_picture;
-  person.ig_id = $rootScope.authenticatedUser.id;
+  person.oauth_id = {};
+  person.oauth_id[$rootScope.authData.provider] = $rootScope.id;
   person.access_token = $rootScope.authenticatedUser.access_token;
-  // console.log("appended person :", person);
-  // $http.post("http://localhost:8080/updateUser", person)
-  UserFactory.updateUser(person)
+  UserFactory.createOrUpdateAccount(person)
   .success(function(res){
     // console.log("response: ", res);
     $scope.current = {};

@@ -3,7 +3,7 @@ var findOrCreate = require('mongoose-findorcreate');
 
 var userSchema = mongoose.Schema({
 
-    ig_id           : String,
+    oauth_id        : Object,
     access_token    : String,
     full_name       : String,
     username        : String,

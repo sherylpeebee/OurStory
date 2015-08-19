@@ -1,9 +1,9 @@
 angular.module("OurStory")
 .factory('UserFactory', function($http){
   return {
-    updateUser : function (userInfo){
+    createOrUpdateAccount : function (userInfo){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/updateUser', userInfo);
-      return $http.post('http://localhost:8000/users/updateUser', userInfo);
+      return $http.post('http://localhost:8000/users/createOrUpdateAccount', userInfo);
     },
     updatePartner : function (partnerInfo){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);

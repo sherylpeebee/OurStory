@@ -55,7 +55,6 @@ router.post('/pic', function(req, res, next) {
 router.post("/addStory", function(req, res){
   console.log("hi");
   console.log(req.body);
-  var counter = 0;
   var images;
   if(req.body.image){
     var importPics = function(cb){
@@ -64,7 +63,7 @@ router.post("/addStory", function(req, res){
         var base64 = images[i].replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
         var buf = new Buffer(base64, 'base64');
         // console.log(buf);
-        fs.writeFile('output' + counter + '.jpg', buf, 'binary', function(err, data){
+        fs.writeFile('output' + i + '.jpg', buf, 'binary', function(err, data){
          if (err) {
            return console.log(err);
          }
@@ -79,8 +78,8 @@ router.post("/addStory", function(req, res){
 
     function upload(){
       for(var j=0; j<images.length; j++){
-        var counter2 = 0;
-        cloudinary.uploader.upload('output' + counter2 + '.jpg', function(result) {
+        // var counter2 = 0;
+        cloudinary.uploader.upload('output' + j + '.jpg', function(result) {
           console.log(result);
           counter ++;
         });

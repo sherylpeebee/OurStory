@@ -358,6 +358,10 @@ h5#newRequests {
     text-decoration: underline;
     line-height: 2em;
 }
+h5#newMessages {
+    text-decoration: underline;
+    line-height: 2em;
+}
 
 .btn, .btn-large, .btn-flat {
     text-transform: none;
@@ -638,4 +642,16 @@ div#infoPrompt {
 
 .inactive {
   display: none;
+}
+
+div#request_updates {
+    margin-left: 80px;
+}
+div#message_updates {
+    margin-left: 80px;
+}
+
+div#no_new_relationships {
+    text-align: center;
+    margin-right: 27px;
 }

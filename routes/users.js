@@ -115,14 +115,14 @@ router.post('/findUser', cors(), function(req, res, next) {
   // });
 });
 
-router.post('/updateUser', cors(), function(req, res, next) {
+router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
   console.log("request body: ", req.body);
 
   //need to do guard in here against duplicate registration and
   //only UPDATE if user already exists (check with ig_id)
 
   var updatedUser = new User({
-    ig_id : req.body.ig_id,
+    oauth_id : req.body.oauth_id,
     access_token : req.body.access_token,
     full_name : req.body.full_name,
     username : req.body.username,
