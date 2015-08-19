@@ -1,10 +1,8 @@
 angular.module("OurStory")
 .controller("PrimaryCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', '$stateParams', 'UserFactory', '$state', function($scope, $http, AuthFactory, $rootScope, $stateParams, UserFactory, $state){
 
-    var sanitycheck = $stateParams.id; //getting idVal
-
-    $scope.state = $state.current;
-    $scope.params = $stateParams;
+  $scope.state = $state.current;
+  $scope.params = $stateParams;
 
   $(document).ready(function(){
     $(".button-collapse").sideNav();
@@ -18,21 +16,16 @@ angular.module("OurStory")
     console.log("ready!");
   });
 
-
 $scope.login = function(){
-  if(! $rootScope.authenticatedUser){
+  if(!$rootScope.authenticatedUser){
     AuthFactory.authUser()
-    .success(function(authenticatedUser){
-      // console.log("authenticatedUser", authenticatedUser);
-      $scope.userCheck = true;
-      $rootScope.authenticatedUser = authenticatedUser;
-      $rootScope.id = authenticatedUser.id;
+    .then(function(authData){
+      console.log("authData", authData);
+      $rootScope.userCheck = true;
+      $rootScope.authenticatedUser = authData.twitter;
+      $rootScope.id = authData.twitter.id;
       $rootScope.authenticatedUser.partner = { };
       $state.go('home');
-    })
-    .error(function(err){
-      console.log("darn it... it broked");
-      window.location.href = 'https://instagram.com/accounts/login/?force_classic_login=&next=/oauth/authorize%3F…6response_type%3Dcode%26scope%3Dlikes%2Bbasic%2Bcomments%2Brelationships:1';
     });
   }
   else{
@@ -42,35 +35,27 @@ $scope.login = function(){
 };
 
 $scope.logout = function(){
-  window.open("https://instagram.com/accounts/logout/", "_blank");
+  $rootScope.afAuthObj.$unauth();
   $rootScope.authenticatedUser = null;
-  $scope.userCheck = false;
-  $("img#profile-pic").attr("src", "");
+  $rootScope.userCheck = false;
+  // $("img#profile-pic").attr("src", "");
+  $state.go('home');
 };
 
 $scope.verifyInfo = function(currentData){
   if (currentData){
-    console.log("data found: " , currentData);
-    currentData.relationships[0].partnerIds = {
-      one: "55c817d063c2f7a511bc6f35", imgOne: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-19/11849181_1022744367770535_1594369462_a.jpg",
-      two: "55c819c763c2f7a511bc6f3b", imgTwo: "https://igcdn-photos-b-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/11375777_441663056033809_1087871125_a.jpg"
-    };
-    currentData.relationships[1].partnerIds = {
-      one: "55c817d063c2f7a511bc6f35", imgOne: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-19/11849181_1022744367770535_1594369462_a.jpg",
-      two: "55c819c763c2f7a511bc6f3b", imgTwo: "https://igcdn-photos-b-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/11375777_441663056033809_1087871125_a.jpg"
-    };
-    currentData.relationships[2].partnerIds = {
-      one: "55c817d063c2f7a511bc6f35", imgOne: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-19/11849181_1022744367770535_1594369462_a.jpg",
-      two: "55c819c763c2f7a511bc6f3b", imgTwo: "https://igcdn-photos-b-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/11375777_441663056033809_1087871125_a.jpg"
-    };
-    $rootScope.currentData = currentData;
+    // console.log("data found: " , currentData.data);
+    $rootScope.currentData = currentData.data;
+    console.log($rootScope.currentData);
+    if($rootScope.currentData === undefined){
+      console.log("YAY it makes sense!!");
+    }
     if(currentData.incoming_requests[0]){
       $scope.newRequests = false;
     }
     return false;
   }
   else {
-    // console.log("no data");
     return true;
   }
 };

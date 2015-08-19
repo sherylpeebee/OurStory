@@ -21,10 +21,12 @@
     "gulp-concat": "^2.6.0",
     "instagram-node": "^0.5.7",
     "mongoose": "^4.1.0",
+    "mongoose-findorcreate": "^0.1.2",
     "morgan": "~1.5.3",
+    "passport": "^0.2.2",
+    "passport-instagram": "^0.1.2",
     "serve-favicon": "~2.2.1"
   },
-  "main": "app.js",
   "devDependencies": {},
   "repository": {
     "type": "git",

@@ -42,7 +42,7 @@ nav .brand-logo {
     white-space: nowrap;
     letter-spacing: 9px;
     position: relative;
-    left: 34%;
+    /*left: 34%;*/
     text-transform: lowercase;
     font-family: 'Quicksand-Light';
     /*font-family: 'Raleway', sans-serif;*/
@@ -146,7 +146,7 @@ h6.update {
 .btn.account_info {
     text-transform: none;
     position: absolute;
-    right: 38%;
+    right: 39%;
 }
 
 .hidden {
@@ -620,5 +620,22 @@ p#callToAction {
 }
 
 img.thumbnail {
-    max-height: 20vh;
+    max-height: 13vh;
+}
+
+div#accountPrompt {
+    color: rgb(238, 110, 115);
+    margin-top: -34px;
+}
+
+div#infoPrompt {
+    color: black;
+    margin: -64px 21px 67px 16px;
+    line-height: 32px;
+    /* font-size: initial; */
+    font-weight: 100;
+}
+
+.inactive {
+  display: none;
 }

@@ -75,7 +75,7 @@
 
     <ul class="timeline">
         <li>
-          <div class="timeline-badge "><i class="glyphicon glyphicon-check"></i></div>
+          <div class="timeline-badge"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">Mussum ipsum cacilds</h4>
@@ -87,21 +87,24 @@
               <div class="row">
                 <a href="http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg" data-lightbox="roadtrip" data-title="this is some stuff">
                   <img src="http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg" alt="" class="thumbnail"/>
-                   Image #1
                 </a>
                 <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">
-                  <img src="http://lorempixel.com/output/food-q-c-640-480-6.jpg" class="thumbnail" alt="" />Image #3
+                  <img src="http://lorempixel.com/output/food-q-c-640-480-6.jpg" class="thumbnail" alt="" />
+                </a>
+                <a href="http://lorempixel.com/output/animals-q-c-640-480-5.jpg" data-lightbox="roadtrip" data-title="don't even ask">
+                  <img src="http://lorempixel.com/output/animals-q-c-640-480-5.jpg" alt="" class="thumbnail"/>
+                </a>
+                <a href="http://lorempixel.com/output/sports-q-c-640-480-1.jpg" data-lightbox="roadtrip" data-title="don't even ask">
+                  <img src="http://lorempixel.com/output/sports-q-c-640-480-1.jpg" alt="" class="thumbnail"/>
                 </a>
               </div>
-
-              <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #4</a>
             </div>
           </div>
         </li>
 
 
         <li class="timelineInverted">
-          <div class="timeline-badge warning"><i class="glyphicon glyphicon-credit-card"></i></div>
+          <div class="timeline-badge warning"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">Mussum ipsum cacilds</h4>
@@ -112,13 +115,13 @@
               <p>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Ut scelerisque neque et turpis posuere pulvinar pellentesque nibh ullamcorper. Pharetra in mattis molestie, volutpat elementum justo. Aenean ut ante turpis. Pellentesque laoreet mé vel lectus scelerisque interdum cursus velit auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac mauris lectus, non scelerisque augue. Aenean justo massa.</p>
               <hr>
               <a href="http://lorempixel.com/output/nightlife-q-c-640-480-10.jpg" data-lightbox="roadtrip" data-title="this is some stuff"> Image #1</a>
-              <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">Image #3</a>
-              <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #4</a>
+              <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">Image #2</a>
+              <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #3</a>
             </div>
           </div>
         </li>
-        <li ng-repeat="junk in fakeStories">
-          <!-- need to assign badges by logged in member of couple b/w two colors -->
+
+        <!-- <li ng-repeat="junk in fakeStories">
           <div class="timeline-badge"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
@@ -131,12 +134,9 @@
               <a ng-repeat="image in junk.images track by $index" href="{{image}}" data-lightbox="{{junk.title}}" data-title="{{junk.image.caption}}">
                  Image {{$index}}
               </a>
-              <!-- <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">Image #3</a>
-              <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #4</a> -->
-              <!-- bootstrap stuff ... doesn't work -->
             </div>
           </div>
-        </li>
+        </li> -->
 
         <li ng-repeat="story in stories" ng-class="{timelineInverted: memberOne}">
           <!-- need to assign badges by logged in member of couple b/w two colors -->
@@ -144,12 +144,15 @@
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">{{story.title}}</h4>
-              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{ story.date }}</small></p>
+              <p><small class="text-muted">{{ story.date }}</small></p>
             </div>
             <div class="timeline-body">
               <p>{{story.summary}}</p>
               <hr>
-              <a ng-repeat="image in story.images track by $index" href="{{image}}" data-lightbox="{{story.title}}" data-title="{{image.caption}}"> Image {{$index}}</a>
+              <a ng-repeat="image in story.images track by $index" href="{{image}}" data-lightbox="{{story.title}}" data-title="{{image.caption}}">
+                 Image {{$index}}
+                 <img ng-src="" alt="" />
+              </a>
               <!-- <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">Image #3</a>
               <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #4</a> -->
               <!-- bootstrap stuff ... doesn't work -->

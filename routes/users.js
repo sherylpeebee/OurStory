@@ -90,7 +90,7 @@ router.post('/findUser', cors(), function(req, res, next) {
       }
       if(!doc){
         console.log("nothing here!");
-        res.status(200).send("nothing here!");
+        res.status(200).send({doc: undefined});
       }
       else{
 

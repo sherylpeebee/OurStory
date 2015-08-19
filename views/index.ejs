@@ -26,7 +26,7 @@
           <li data-activates="slide-out" data-position="bottom" data-delay="50" ng-show="userCheck" class="collapse"  id="userGreet">Welcome back, <a class="tooltipped " data-tooltip="View Account" href="#" id="user" ng-click="findUser()">{{authenticatedUser.username}}!</a></li>
           <li ng-hide="userCheck" ng-click="login()"><a href="">sign in/sign up</a></li>
           <li><a href="" ng-show="userCheck" ng-click="logout()">log out</a></li>
-          <li id="profile-pic-li"><img id="profile-pic" class="responsive-img circle" ng-src="{{authenticatedUser.profile_picture}}" alt="" /></li>
+          <li ng-if="userCheck" id="profile-pic-li"><img id="profile-pic" class="responsive-img circle" ng-src="{{authenticatedUser.profileImageURL}}" alt="" /></li>
         </ul>
       </div>
     </nav>
@@ -41,17 +41,25 @@
           <div class="col s12 accordian_wrapper">
               <ul class="collapsible" data-collapsible="accordion" style="width:100%">
                 <li>
-                  <div class="collapsible-header"><i class="material-icons">face</i>The Basics</div>
+                  <div class="collapsible-header"><i class="material-icons">face</i>
+                    The Basics
+                    <div id="accountPrompt" ng-if="!currentData">
+                    You haven't created an account yet!
+                    </div>
+                </div>
                   <!-- <i class="material-icons">perm_identity</i> -->
                   <div class="collapsible-body accordian-menu" style="color:white">
                     <br>
+                    <div id="infoPrompt" ng-if="!currentData">
+                      Provide some basic information below to get started:
+                    </div>
                     <form class="" ng-submit="updateAccount(current)">
 
-                         <input id="full_name" type="text" ng-model="current.full_name">
-                         <label for="full_name">full name</label>
+                         <input id="full_name" type="text" ng-model="current.full_name" >
+                         <label for="full_name">full name (to help people find you)</label>
 
                          <input id="partner" type="text" ng-model="current.partner.name">
-                         <label for="partner">partner</label>
+                         <label for="partner">partner (to begin writing history!)</label>
 
                          <p>
                            <input class="with-gap" name="partner_search" type="radio" id="username_search" value="username" ng-model="current.partner.search" />
@@ -66,8 +74,9 @@
                          </p>
                          <!-- <input id="profile_pic" type="text" ng-model="current.profile_picture">
                          <label for="profile_pic">profile picture url</label> -->
-                         <button class="btn account_info" ng-show="verifyInfo" ng-class="{ 'hidden': verifyInfo }" type="submit" name="button">Create Account</button>
-                         <button class="btn account_info" ng-show="verifyInfo" type="submit" name="button">Update Account</button>
+                         <button class="btn account_info" ng-show="!currentData"type="submit" name="button">Create Account</button>
+                         <button class="btn account_info" ng-hide="!currentData" type="submit" name="button">Update Account</button>
+                          <!-- ng-class="{ 'inactive': verifyInfo }"  -->
                          <br>
                          <br>
 
@@ -77,7 +86,9 @@
                 <li>
                   <div class="collapsible-header"><i class="material-icons">add_alert</i>Notifications</div>
                     <div class="collapsible-body side_nav" >
-                      <h5 id="newRequests" ng-hide={{newRequests}} style="font-weight: 100" class="center-align">New Requests</h5>
+                      <h5 id="newRequests" style="font-weight: 100" class="center-align">New Requests</h5>
+                      <div class="center-align" ng-if="!newData.incoming_requests" id="request_updates">none right now</div>
+
                       <form class="">
                         <div class="incoming-requests" ng-repeat="request in newData.incoming_requests || currentData.incoming_requests track by $index">
                           <!-- <div class="" ng-hide="reviewed"> -->
@@ -101,7 +112,8 @@
                   <div class="collapsible-header"><i class="material-icons">people</i>Your Relationships</div>
                   <div class="collapsible-body side_nav">
                     <ul>
-                      <li ng-repeat="relationship in currentData.relationships">
+                      <li ng-hide="currentData">Nothing New Here</li>
+                      <li ng-show="currentData" ng-repeat="relationship in currentData.relationships">
                         <div class="relationships">
                           <span class="avatar">
                             <img ng-src={{relationship.partnerIds.imgTwo}} alt="" class="circle partnerPics">
@@ -137,6 +149,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
     <script src="config/app.js" type="text/javascript"></script>
     <script src="config/routes.js" type="text/javascript"></script>
+    <script src="config/run.js" type="text/javascript"></script>
     <script src="controllers/primaryCtrl.js" type="text/javascript"></script>
     <script src="controllers/currentUserCtrl.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
@@ -144,6 +157,8 @@
     <script src="/javascripts/cloudinary/jquery-ui-widget.js" type="text/javascript"></script>
     <script src="/javascripts/cloudinary/fileupload.js" type="text/javascript"></script>
     <script src="/javascripts/cloudinary/jquery.cloudinary.js" type="text/javascript"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
     <script language="javascript" src="javascripts/lz-string.js"></script>
     <script src="factories/authFactory.js" type="text/javascript"></script>
     <script src="factories/userFactory.js" type="text/javascript"></script>

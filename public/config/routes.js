@@ -1,6 +1,6 @@
 angular.module("OurStory")
 .config(function($stateProvider, $urlRouterProvider){
-   $urlRouterProvider.otherwise("/home");
+   $urlRouterProvider.otherwise("/");
   $stateProvider
     .state('splash', { url: "/", templateUrl: "./templates/splash.html", controller: "PrimaryCtrl"})
     .state('home', { url: "/home", templateUrl: "./templates/home.html", controller: "PrimaryCtrl"})
