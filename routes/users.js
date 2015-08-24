@@ -3,7 +3,7 @@ var router = express.Router();
 var cors = require('cors');
 var mongoose = require('mongoose');
 var User = require("../models/user.js");
-var Couple = require("../models/couple.js");
+var Timeline = require("../models/timeline.js");
 
 
 var access_token, currentUser;
@@ -20,9 +20,14 @@ router.post('/getRequestUpdates', function(req, res, next) {
     if(err){
       console.log(err);
     }
-    console.log("THE DOCUMENT YOU WERE LOKING FOR: ", doc);
+    console.log("THE DOCUMENT YOU WERE LOOKING FOR: ", doc);
     res.send('super done');
   });
+});
+
+router.post("/createTimeline", function(req, res, next){
+  console.log(req.body);
+  res.send();
 });
 
 router.post('/updatePartner', function(req, res, next) {
@@ -83,8 +88,8 @@ router.post('/updatePartner', function(req, res, next) {
 
 
 router.post('/findUser', cors(), function(req, res, next) {
-  console.log("find User request body: ", req.body.id);
-  User.findOne({ 'ig_id': req.body.id }).populate('relationships').exec(function(err, doc){
+  console.log("find User request body: ", req.body);
+  User.findOne({ 'oauth_id': req.body }).populate('relationships').exec(function(err, doc){
       if(err){
         console.log(err);
       }
@@ -93,26 +98,10 @@ router.post('/findUser', cors(), function(req, res, next) {
         res.status(200).send({doc: undefined});
       }
       else{
-
       console.log("doc: ", doc);
       res.status(200).send(doc);
       }
   });
-
-  // User.findOne({ 'ig_id': req.body.id }, function (err, doc) {
-  //   if(err){
-  //     console.log(err);
-  //   }
-  //   if(!doc){
-  //     console.log("nothing here!");
-  //     res.status(200).send("nothing here!");
-  //   }
-  //   else{
-  //
-  //   console.log("doc: ", doc);
-  //   res.status(200).send(doc);
-  //   }
-  // });
 });
 
 router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
@@ -127,17 +116,17 @@ router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
     full_name : req.body.full_name,
     username : req.body.username,
     profile_picture : req.body.profile_picture,
-    outgoing_request : {
-      to : req.body.partner.name,
-      approved: false
-    }
+    // outgoing_request : {
+    //   to : req.body.partner.name,
+    //   approved: false
+    // }
   });
   updatedUser.save(function(err, user){
     if(err){
       console.log(err);
     }
     console.log('success!');
-    res.send('you added' + user);
+    res.send(user);
   });
 });
 

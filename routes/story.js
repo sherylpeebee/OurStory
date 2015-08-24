@@ -6,7 +6,7 @@ var cors = require('cors');
 var mongoose = require('mongoose');
 var fs = require('fs');
 var User = require("../models/user.js");
-var Couple = require("../models/couple.js");
+var Timeline = require("../models/timeline.js");
 var Story = require("../models/story.js");
 var cloudinary = require('cloudinary');
 // var projectObj = require("../secrets/projectid.js");
@@ -55,13 +55,20 @@ router.post('/pic', function(req, res, next) {
 router.post("/addStory", function(req, res){
   console.log("hi");
   console.log(req.body);
-  var images;
+  var imgObjArray;
   if(req.body.image){
     var importPics = function(cb){
-      images = req.body.image;
-      for(var i=0; i<images.length; i++){
-        var base64 = images[i].replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
-        var buf = new Buffer(base64, 'base64');
+      imgObjArray = req.body.image;
+      // for(var i=0; i<imgObjArray.length; i++){
+      var base64ImgArray = imgObjArray.map(function(imgObj){//<-- these are to be objects with 'url' and 'caption' attributes
+        imgObj.url.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+        return imgObj;
+      });
+      var bufferedImgs = base64ImgArray.map(function(base64Obj){
+        var buf = new Buffer(base64Obj.url, 'base64');
+      });
+        // var base64 = imgObjArray[i].replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
+        // var buf = new Buffer(base64, 'base64');
         // console.log(buf);
         fs.writeFile('output' + i + '.jpg', buf, 'binary', function(err, data){
          if (err) {
@@ -71,13 +78,13 @@ router.post("/addStory", function(req, res){
          cb();
         //  res.status(200).send('ok');
         });
-      }
+      // }
     };
 
     importPics(upload);
 
     function upload(){
-      for(var j=0; j<images.length; j++){
+      for(var j=0; j<imgObjArray.length; j++){
         // var counter2 = 0;
         cloudinary.uploader.upload('output' + j + '.jpg', function(result) {
           console.log(result);

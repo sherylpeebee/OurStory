@@ -1,6 +1,6 @@
 angular.module("OurStory")
 .controller("PrimaryCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', '$stateParams', 'UserFactory', '$state', function($scope, $http, AuthFactory, $rootScope, $stateParams, UserFactory, $state){
-
+  var id;
   $scope.state = $state.current;
   $scope.params = $stateParams;
 
@@ -25,7 +25,9 @@ $scope.login = function(){
       $rootScope.authData = authData;
       $rootScope.authenticatedUser = authData.twitter;
       var provider = $rootScope.authData.provider;
-      $rootScope.id = authData[provider].id;
+      id = authData[provider].id;
+      $rootScope.authenticatedUser.oauth_id = {};
+      $rootScope.authenticatedUser.oauth_id[provider] = id;
       $rootScope.authenticatedUser.partner = { };
       $state.go('home');
     });
@@ -63,14 +65,15 @@ $scope.verifyInfo = function(currentData){
 };
 
 $scope.findUser = function(){
-  console.log(person.oauth_id);
-  // UserFactory.findUser(person.oauth_id);
-  //   .success(function(currentData){
-  //     $scope.verifyInfo(currentData);
-  // })
-  // .error(function(err){
-  //   console.log(err);
-  // });
+  console.log($rootScope.authenticatedUser.oauth_id);
+  UserFactory.findUser($rootScope.authenticatedUser.oauth_id)
+    .success(function(currentData){
+      $scope.verifyInfo(currentData);
+      console.log(currentData);
+  })
+    .error(function(err){
+      console.log(err);
+  });
 };
 
 $scope.findPartner = function(partner){
@@ -92,20 +95,42 @@ $scope.findPartner = function(partner){
 };
 
 $scope.createOrUpdateAccount = function(person){
-  // console.log('edit account');
-  // console.log(person);
   person.username = $rootScope.authenticatedUser.username;
-  person.profile_picture = $rootScope.authenticatedUser.profile_picture;
-  person.oauth_id = {};
-  person.oauth_id[$rootScope.authData.provider] = $rootScope.id;
-  person.access_token = $rootScope.authenticatedUser.access_token;
+  person.profile_picture = $rootScope.authenticatedUser.profileImageURL;
+  person.oauth_id = $rootScope.authenticatedUser.oauth_id;
+  person.access_token = $rootScope.authenticatedUser.accessToken;
+  console.log(person);
   UserFactory.createOrUpdateAccount(person)
   .success(function(res){
+    $rootScope.currentData = res;
+    $("#step1").css("display", "none");
+    $("#createOrUpdateAccount").css("display", "none");
+    $("#steps_wrapper1").fadeIn(600);
+    $("#newTimeline").css("display", "inline");
     // console.log("response: ", res);
+    // $rootScope.currentData =
     $scope.current = {};
+
   })
   .error(function(res){
     console.log("error: ", res);
+  });
+};
+
+$scope.createTimeline = function(timeline){
+  UserFactory.createTimeline(timeline)
+  .then(function(data){
+    console.log(data);
+    // $rootScope.currentData = res;
+    $("#step2").css("display", "none");
+    $("#newTimeline").css("display", "none");
+    $("#steps_wrapper2").fadeIn(600);
+    // console.log("response: ", res);
+    // $rootScope.currentData =
+    $scope.timeline = "";
+  })
+  .catch(function(err){
+    console.log(err);
   });
 };
 

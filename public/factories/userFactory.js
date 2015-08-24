@@ -9,9 +9,9 @@ angular.module("OurStory")
       // return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);
       return $http.post('http://localhost:8000/users/updatePartner', partnerInfo);
     },
-    findUser : function (user){
+    findUser : function (userAuthObj){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/findUser', user);
-      return $http.post('http://localhost:8000/users/findUser', user);
+      return $http.post('http://localhost:8000/users/findUser', userAuthObj);
     },
     findPartner : function (partner){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/findPartner', partner);
@@ -28,6 +28,10 @@ angular.module("OurStory")
     addStory : function (story){
       // return $http.post('https://the-history-of-us.herokuapp.com/story/addStory', story);
       return $http.post('http://localhost:8000/story/addStory', story);
+    },
+    createTimeline : function (timeline){
+      // return $http.post('https://the-history-of-us.herokuapp.com/users/createTimeline', timeline);
+      return $http.post('http://localhost:8000/users/createTimeline', timeline);
     }
   };
 });

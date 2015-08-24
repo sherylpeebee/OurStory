@@ -51,36 +51,77 @@
                   <div class="collapsible-body accordian-menu" style="color:white">
                     <br>
                     <div id="infoPrompt" ng-if="!currentData">
-                      Provide some basic information below to get started:
+                      Get started below in three simple steps:
                     </div>
-                    <form class="" ng-submit="createOrUpdateAccount(current)">
+                    <div id="progress_steps">
+                      <p id="step1" class="progress_steps ">
+                        1) Create an account.
+                      </p>
+                      <form id="createOrUpdateAccount" ng-submit="createOrUpdateAccount(current)">
 
-                         <input id="full_name" type="text" ng-model="current.full_name" >
-                         <label for="full_name">full name (to help people find you)</label>
+                           <input id="full_name" type="text" ng-model="current.full_name" >
+                           <label for="full_name" >full name (to help people find you)</label>
+                           <button class="btn account_info col s9 " ng-show="!currentData"type="submit" name="button">Create Account</button>
+                           <button class="btn account_info col s9" ng-hide="!currentData" type="submit" name="button">Update Account</button>
+                            <!-- ng-class="{ 'inactive': verifyInfo }"  -->
+                           <br>
+                           <br>
 
-                         <input id="partner" type="text" ng-model="current.partner.name">
-                         <label for="partner">partner (to begin writing history!)</label>
+                      </form>
+                      <div class="steps_wrapper" id="steps_wrapper1">
+                        <i class="material-icons progress_checks">done</i>
+                        <p id="step1_done" class="progress_steps_done">
+                         1) Great! Step one is complete! Now onto the timeline.
+                        </p>
+                      </div>
 
-                         <p>
-                           <input class="with-gap" name="partner_search" type="radio" id="username_search" value="username" ng-model="current.partner.search" />
-                           <label for="username_search">Search by username</label>
-                         </p>
-                         <p>
-                           <input class="with-gap" name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="current.partner.search" />
-                           <label for="full_name_search">Search by full name</label>
-                           <a class="btn red lighten-1 search_partner waves-effect waves-light" ng-click="findPartner(current.partner)">
-                             <i class="material-icons lookup">search</i>
-                           </a>
-                         </p>
-                         <!-- <input id="profile_pic" type="text" ng-model="current.profile_picture">
-                         <label for="profile_pic">profile picture url</label> -->
-                         <button class="btn account_info" ng-show="!currentData"type="submit" name="button">Create Account</button>
-                         <button class="btn account_info" ng-hide="!currentData" type="submit" name="button">Update Account</button>
-                          <!-- ng-class="{ 'inactive': verifyInfo }"  -->
-                         <br>
-                         <br>
+                      <p id="step2" class="progress_steps" ng-if="!currentData.timeline">
+                        2) Create your first timeline.
+                      </p>
+                      <form id="newTimeline" ng-submit="createTimeline(timeline)">
+                            <!-- <div class="row"> -->
+                              <div class="col s12" id="titleColumn">
+                                <input id="timeline_title" type="text" class="validate" placeholder="ex: The Adventures of Ally and Joe" ng-model="timeline.title">
+                                <label for="icon_prefix">Timeline Title</label>
+                              </div>
+                            <!-- </div> -->
+                            <button type="submit" name="button" class="btn col s9 offset-s1" id="createTimeline">Make it so.</button>
+                      </form>
+                      <div class="steps_wrapper" id="steps_wrapper2">
+                        <i class="material-icons progress_checks">done</i>
+                        <p id="step2_done" class="progress_steps_done">
+                         2) Awesome! Two down, one to go...
+                        </p>
+                      </div>
+                      <p id="step3" class="progress_steps">
+                        3) Invite friends and family to help you write history!
+                      </p>
+                      <form id="inviteFriends">
+                        <input id="partner" type="text" ng-model="current.partner.name">
+                        <label for="partner">Enter a name</label>
+                        <p>
+                          <input class="with-gap" name="partner_search" type="radio" id="username_search" value="username" ng-model="current.partner.search" />
+                          <label for="username_search">Search by username</label>
+                        </p>
+                        <p>
+                          <input class="with-gap" name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="current.partner.search" />
+                          <label for="full_name_search">Search by full name</label>
+                          <a class="btn red lighten-1 search_partner waves-effect waves-light" ng-click="findPartner(current.partner)">
+                            <i class="material-icons lookup">search</i>
+                          </a>
+                        </p>
+                      </form>
+                      <!-- <input id="profile_pic" type="text" ng-model="current.profile_picture">
+                      <label for="profile_pic">profile picture url</label> -->
+                      <div class="steps_wrapper" id="steps_wrapper3">
+                        <i class="material-icons progress_checks">done</i>
+                        <p id="step3_done" class="progress_steps_done">
+                         3) You're all set!
+                        </p>
+                      </div>
+                    </div>
 
-                    </form>
+
                   </div>
                 </li>
                 <li>
@@ -88,7 +129,7 @@
                     <div class="collapsible-body side_nav" >
                       <h5 id="newRequests" style="font-weight: 100" class="center-align">New Invitations</h5>
                       <div ng-if="!newData.incoming_requests" id="request_updates">(None right now)</div>
-                      <form class="">
+                      <form id="requestCheck">
                         <div class="incoming-requests" ng-repeat="request in newData.incoming_requests || currentData.incoming_requests track by $index">
                           <!-- <div class="" ng-hide="reviewed"> -->
                             <p class="incoming-requests" >
