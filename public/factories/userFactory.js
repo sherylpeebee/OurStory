@@ -5,10 +5,6 @@ angular.module("OurStory")
       // return $http.post('https://the-history-of-us.herokuapp.com/users/updateUser', userInfo);
       return $http.post('http://localhost:8000/users/createOrUpdateAccount', userInfo);
     },
-    updatePartner : function (partnerInfo){
-      // return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);
-      return $http.post('http://localhost:8000/users/updatePartner', partnerInfo);
-    },
     findUser : function (userAuthObj){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/findUser', user);
       return $http.post('http://localhost:8000/users/findUser', userAuthObj);
@@ -17,21 +13,25 @@ angular.module("OurStory")
       // return $http.post('https://the-history-of-us.herokuapp.com/users/findPartner', partner);
       return $http.post('http://localhost:8000/users/findPartner', partner);
     },
-    addPictures : function (img){
-      // return $http.post('https://the-history-of-us.herokuapp.com/story/pic', img);
-      return $http.post('http://localhost:8000/story/pic', img);
+    updatePartner : function (partnerInfo){
+      // return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);
+      return $http.post('http://localhost:8000/users/updatePartner', partnerInfo);
     },
     getRequestUpdates : function (userInfo){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/getRequestUpdates', userInfo);
       return $http.post('http://localhost:8000/users/getRequestUpdates', userInfo);
     },
-    addStory : function (story){
-      // return $http.post('https://the-history-of-us.herokuapp.com/story/addStory', story);
-      return $http.post('http://localhost:8000/story/addStory', story);
-    },
     createTimeline : function (timeline){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/createTimeline', timeline);
       return $http.post('http://localhost:8000/users/createTimeline', timeline);
+    },
+    addPictures : function (img){
+      // return $http.post('https://the-history-of-us.herokuapp.com/story/pic', img);
+      return $http.post('http://localhost:8000/stories/pic', img);
+    },
+    addStory : function (story){
+      // return $http.post('https://the-history-of-us.herokuapp.com/story/addStory', story);
+      return $http.post('http://localhost:8000/stories/addStory', story);
     }
   };
 });

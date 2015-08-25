@@ -11,6 +11,7 @@
     <!-- <link src="/bower_components/bootstrap/dist/css/bootstrap.css"> -->
     <link href="/bower_components/lightbox2/dist/css/lightbox.css" rel="stylesheet">
     <link href="/bower_components/toastr/toastr.css" rel="stylesheet">
+    <link href="/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel='stylesheet' href="stylesheets/timeline.css"/>
     <link rel='stylesheet' href="stylesheets/style.css"/>
@@ -54,15 +55,17 @@
                       Get started below in three simple steps:
                     </div>
                     <div id="progress_steps">
-                      <p id="step1" class="progress_steps ">
+                      <p id="step1" class="progress_steps" ng-class="{ 'hidden': verifyInfo }">
                         1) Create an account.
                       </p>
                       <form id="createOrUpdateAccount" ng-submit="createOrUpdateAccount(current)">
 
-                           <input id="full_name" type="text" ng-model="current.full_name" >
-                           <label for="full_name" >full name (to help people find you)</label>
-                           <button class="btn account_info col s9 " ng-show="!currentData"type="submit" name="button">Create Account</button>
-                           <button class="btn account_info col s9" ng-hide="!currentData" type="submit" name="button">Update Account</button>
+                           <input id="full_name" type="text" ng-model="current.full_name" ng-show="!currentData">
+                           <input id="full_name" type="text" ng-model="current.full_name" ng-hide="!currentData" placeholder="A Super Cool New Name">
+                           <label for="full_name" ng-show="!currentData">full name (to help people find you)</label>
+                           <label for="full_name" ng-hide="!currentData">Change your name</label>
+                           <button class="btn account_info col s9 " ng-show="!currentData" type="submit" name="create">Create Account</button>
+                           <button class="btn account_info col s9" ng-hide="!currentData" type="submit" name="update">Update Account</button>
                             <!-- ng-class="{ 'inactive': verifyInfo }"  -->
                            <br>
                            <br>
@@ -97,6 +100,9 @@
                         3) Invite friends and family to help you write history!
                       </p>
                       <form id="inviteFriends">
+                        <p id="timelineHint">
+                          (Hint: To get started on your timeline right now, click <a id="startLine" href="#">here</a> and come back anytime to complete this last step.)
+                        </p>
                         <input id="partner" type="text" ng-model="current.partner.name">
                         <label for="partner">Enter a name</label>
                         <p>
@@ -154,8 +160,8 @@
                   <div class="collapsible-header"><i class="material-icons">people</i>Your Shared Stories</div>
                   <div class="collapsible-body side_nav">
                     <ul>
-                      <li ng-hide="currentData">
-                        <div id="no_new_relationships">
+                      <li>
+                        <div id="no_new_relationships" ng-hide="currentData.timelines[0]">
                           (Nothing here yet)
                         </div>
                       </li>
@@ -189,6 +195,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script src="/bower_components/lightbox2/dist/js/lightbox.js"></script>
+    <script src="/bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <!-- // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>

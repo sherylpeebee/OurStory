@@ -11,7 +11,7 @@ var cors = require('cors');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var story = require('./routes/story');
+var stories = require('./routes/stories');
 
 // var secrets = require('./secrets/ig-secrets.js');
 mongoose.connect(process.env.MONGOLAB_URI);
@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/story', story);
+app.use('/stories', stories);
 
 
 // catch 404 and forward to error handler

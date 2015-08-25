@@ -106,28 +106,108 @@ router.post('/findUser', cors(), function(req, res, next) {
 
 router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
   console.log("request body: ", req.body);
+  console.log("request body: ", req.body.oauth_id);
+  var loginMethod = Object.keys(req.body.oauth_id)[0];
+  // var query = {};
+  // query[loginMethod] =  req.body.oauth_id[loginMethod];
+  // console.log("query: ", query);
+  var id = req.body.oauth_id[loginMethod];
+  switch (loginMethod) {
+    case "twitter":
+    User.findOne({'oauth_id.twitter': id}, function(err, doc){
+      if(err){
+        console.log(err);
+      }
+      else if(doc) {
+        console.log(doc);
+        doc.full_name = req.body.full_name;
+        doc.save(function(err, updatedUser){
+          if(err){
+            console.log(err);
+          }
+          console.log('you just changed the user full_name.');
+          res.send(updatedUser);
+        });
+        // res.send(doc);
+      }
+      else if (!doc){
+          var newUser = new User({
+            oauth_id : req.body.oauth_id,
+            access_token : req.body.access_token,
+            full_name : req.body.full_name,
+            username : req.body.username,
+            profile_picture : req.body.profile_picture,
+            // outgoing_request : {
+            //   to : req.body.partner.name,
+            //   approved: false
+            // }
+          });
+          newUser.save(function(err, user){
+            if(err){
+              console.log(err);
+            }
+            console.log('success!');
+            res.send(user);
+          });
+      }
+    });
+      break;
+    case "google":
+    User.findOne({'oauth_id.google': id}, function(err, doc){
+      if(err){
+        console.log(err);
+      }
+      else if(doc) {
+        console.log(doc);
+        res.send(doc);
+      }
+      else if (!doc){
+          var newUser = new User({
+            oauth_id : req.body.oauth_id,
+            access_token : req.body.access_token,
+            full_name : req.body.full_name,
+            username : req.body.username,
+            profile_picture : req.body.profile_picture,
+            // outgoing_request : {
+            //   to : req.body.partner.name,
+            //   approved: false
+            // }
+          });
+          newUser.save(function(err, user){
+            if(err){
+              console.log(err);
+            }
+            console.log('success!');
+            res.send(user);
+          });
+      }
+    });
+      break;
+    default:
+
+  }
 
   //need to do guard in here against duplicate registration and
-  //only UPDATE if user already exists (check with ig_id)
+  //only UPDATE if user already exists (check with oauth_id)
 
-  var updatedUser = new User({
-    oauth_id : req.body.oauth_id,
-    access_token : req.body.access_token,
-    full_name : req.body.full_name,
-    username : req.body.username,
-    profile_picture : req.body.profile_picture,
-    // outgoing_request : {
-    //   to : req.body.partner.name,
-    //   approved: false
-    // }
-  });
-  updatedUser.save(function(err, user){
-    if(err){
-      console.log(err);
-    }
-    console.log('success!');
-    res.send(user);
-  });
+  // var newUser = new User({
+  //   oauth_id : req.body.oauth_id,
+  //   access_token : req.body.access_token,
+  //   full_name : req.body.full_name,
+  //   username : req.body.username,
+  //   profile_picture : req.body.profile_picture,
+  //   // outgoing_request : {
+  //   //   to : req.body.partner.name,
+  //   //   approved: false
+  //   // }
+  // });
+  // newUser.save(function(err, user){
+  //   if(err){
+  //     console.log(err);
+  //   }
+  //   console.log('success!');
+  //   res.send(user);
+  // });
 });
 
 router.post("/findPartner", function(req, res){
@@ -155,7 +235,7 @@ router.post("/findPartner", function(req, res){
         });
       }
       else{
-        res.send("invite your partner to join");
+        res.send("Invite your partner to join!");
       }
     });
         break;
@@ -179,7 +259,7 @@ router.post("/findPartner", function(req, res){
         });
       }
       else{
-        res.send("invite your partner to join");
+        res.send("Invite your partner to join!");
       }
     });
         break;

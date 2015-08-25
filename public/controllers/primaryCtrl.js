@@ -49,7 +49,7 @@ $scope.logout = function(){
 $scope.verifyInfo = function(currentData){
   if (currentData){
     // console.log("data found: " , currentData.data);
-    $rootScope.currentData = currentData.data;
+    $rootScope.currentData = currentData;
     console.log($rootScope.currentData);
     if($rootScope.currentData === undefined){
       console.log("YAY it makes sense!!");
@@ -83,10 +83,32 @@ $scope.findPartner = function(partner){
     .success(function(response){
       // $scope.verifyInfo(currentData);
       if(typeof response !== "object"){
-        alert(response);
+        // alert(response);
+        swal({
+        title: response,
+        text: "Provide an email:",
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: "slide-from-top",
+        inputPlaceholder: "jane@doe.com"
+        }, function(inputValue){
+          if (inputValue === false)
+          return false;
+          if (inputValue === "") {
+            swal.showInputError("Did you mean to cancel?");
+            return false;
+          }
+          var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          if (!filter.test(inputValue)){
+            swal.showInputError("Please enter a valid email address.");
+          }else{
+            swal("Fantastic!", "We'll email an invite out to: " + inputValue, "success");
+          }
+        });
       }
       else{
-        alert("Success! We'll send them a request for you.");
+        swal("Success! We'll send them a request for you.");
       }
   })
   .error(function(err){
@@ -100,21 +122,53 @@ $scope.createOrUpdateAccount = function(person){
   person.oauth_id = $rootScope.authenticatedUser.oauth_id;
   person.access_token = $rootScope.authenticatedUser.accessToken;
   console.log(person);
-  UserFactory.createOrUpdateAccount(person)
-  .success(function(res){
-    $rootScope.currentData = res;
-    $("#step1").css("display", "none");
-    $("#createOrUpdateAccount").css("display", "none");
-    $("#steps_wrapper1").fadeIn(600);
-    $("#newTimeline").css("display", "inline");
-    // console.log("response: ", res);
-    // $rootScope.currentData =
-    $scope.current = {};
-
-  })
-  .error(function(res){
-    console.log("error: ", res);
-  });
+  if($rootScope.currentData){
+    sweetAlert({
+      title: "Are you sure you want to change your identity?!",
+      text: "This might make it harder for your friends to find you...",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes. I write my own destiny.",
+      closeOnConfirm: false
+      },
+      function(){
+      sweetAlert({
+        title: "We just do as we're told.",
+        text: "Spread the word. You're about to become a new person.",
+        imageUrl: "/images/A-Okay.png"
+      }, function(){
+        UserFactory.createOrUpdateAccount(person)
+        .success(function(res){
+          $rootScope.currentData = res;
+          $("#step1").css("display", "none");
+          $("#createOrUpdateAccount").css("display", "none");
+          $("#steps_wrapper1").fadeIn(600);
+          $("#newTimeline").css("display", "inline");
+          console.log("response: ", res);
+          $scope.current = {};
+        })
+        .error(function(res){
+          console.log("error: ", res);
+        });
+      });
+    });
+  }
+  else if(!$rootScope.currentData){
+    UserFactory.createOrUpdateAccount(person)
+    .success(function(res){
+      $rootScope.currentData = res;
+      $("#step1").css("display", "none");
+      $("#createOrUpdateAccount").css("display", "none");
+      $("#steps_wrapper1").fadeIn(600);
+      $("#newTimeline").css("display", "inline");
+      console.log("response: ", res);
+      $scope.current = {};
+    })
+    .error(function(res){
+      console.log("error: ", res);
+    });
+  }
 };
 
 $scope.createTimeline = function(timeline){
@@ -125,6 +179,7 @@ $scope.createTimeline = function(timeline){
     $("#step2").css("display", "none");
     $("#newTimeline").css("display", "none");
     $("#steps_wrapper2").fadeIn(600);
+    $("#inviteFriends").css("display", "inline");
     // console.log("response: ", res);
     // $rootScope.currentData =
     $scope.timeline = "";

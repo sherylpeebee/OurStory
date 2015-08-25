@@ -284,6 +284,7 @@ form#inviteFriends {
     position: relative;
     top: 2em;
     margin-bottom: -85px;
+    display: none;
 }
 
 form#createOrUpdateAccount {
@@ -732,4 +733,25 @@ form#requestCheck {
 
 form p:last-child {
     margin-bottom: 85px;
+}
+
+p#timelineHint {
+    display: inline-block;
+    line-height: 0px;
+    margin-top: -36px;
+    margin-bottom: 36px;
+    font-style: italic;
+    color: black;
+}
+
+a#startLine {
+    display: inline-block;
+    text-decoration: underline;
+    /* margin-top: -1px; */
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+form p:last-child {
+    margin-bottom: 0px;
 }
