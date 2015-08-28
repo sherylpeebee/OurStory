@@ -14,24 +14,24 @@ angular.module("OurStory")
       return $http.post('http://localhost:8000/users/findPartner', partner);
     },
     updatePartner : function (partnerInfo){
-      // return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);
-      return $http.post('http://localhost:8000/users/updatePartner', partnerInfo);
+      return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);
+      // return $http.post('http://localhost:8000/users/updatePartner', partnerInfo);
     },
     getRequestUpdates : function (userInfo){
-      // return $http.post('https://the-history-of-us.herokuapp.com/users/getRequestUpdates', userInfo);
-      return $http.post('http://localhost:8000/users/getRequestUpdates', userInfo);
+      return $http.post('https://the-history-of-us.herokuapp.com/users/getRequestUpdates', userInfo);
+      // return $http.post('http://localhost:8000/users/getRequestUpdates', userInfo);
     },
     createTimeline : function (appendedUserObj){
-      // return $http.post('https://the-history-of-us.herokuapp.com/users/createTimeline', timeline);
-      return $http.post('http://localhost:8000/users/createTimeline', appendedUserObj);
+      return $http.post('https://the-history-of-us.herokuapp.com/users/createTimeline', timeline);
+      // return $http.post('http://localhost:8000/users/createTimeline', appendedUserObj);
     },
     addPictures : function (img){
-      // return $http.post('https://the-history-of-us.herokuapp.com/story/pic', img);
-      return $http.post('http://localhost:8000/stories/pic', img);
+      return $http.post('https://the-history-of-us.herokuapp.com/story/pic', img);
+      // return $http.post('http://localhost:8000/stories/pic', img);
     },
     addStory : function (story){
-      // return $http.post('https://the-history-of-us.herokuapp.com/story/addStory', story);
-      return $http.post('http://localhost:8000/stories/addStory', story);
+      return $http.post('https://the-history-of-us.herokuapp.com/story/addStory', story);
+      // return $http.post('http://localhost:8000/stories/addStory', story);
     }
   };
 });
