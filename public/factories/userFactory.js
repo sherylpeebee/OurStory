@@ -2,16 +2,16 @@ angular.module("OurStory")
 .factory('UserFactory', function($http){
   return {
     createOrUpdateAccount : function (userInfo){
-      // return $http.post('https://the-history-of-us.herokuapp.com/users/updateUser', userInfo);
-      return $http.post('http://localhost:8000/users/createOrUpdateAccount', userInfo);
+      return $http.post('https://the-history-of-us.herokuapp.com/users/createOrUpdateAccount', userInfo);
+      // return $http.post('http://localhost:8000/users/createOrUpdateAccount', userInfo);
     },
     findUser : function (userAuthObj){
-      // return $http.post('https://the-history-of-us.herokuapp.com/users/findUser', user);
-      return $http.post('http://localhost:8000/users/findUser', userAuthObj);
+      return $http.post('https://the-history-of-us.herokuapp.com/users/findUser', userAuthObj);
+      // return $http.post('http://localhost:8000/users/findUser', userAuthObj);
     },
     findPartner : function (partner){
-      // return $http.post('https://the-history-of-us.herokuapp.com/users/findPartner', partner);
-      return $http.post('http://localhost:8000/users/findPartner', partner);
+      return $http.post('https://the-history-of-us.herokuapp.com/users/findPartner', partner);
+      // return $http.post('http://localhost:8000/users/findPartner', partner);
     },
     updatePartner : function (partnerInfo){
       return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);
@@ -22,11 +22,11 @@ angular.module("OurStory")
       // return $http.post('http://localhost:8000/users/getRequestUpdates', userInfo);
     },
     createTimeline : function (appendedUserObj){
-      return $http.post('https://the-history-of-us.herokuapp.com/users/createTimeline', timeline);
+      return $http.post('https://the-history-of-us.herokuapp.com/users/createTimeline', appendedUserObj);
       // return $http.post('http://localhost:8000/users/createTimeline', appendedUserObj);
     },
     addPictures : function (img){
-      return $http.post('https://the-history-of-us.herokuapp.com/story/pic', img);
+      return $http.post('https://the-history-of-us.herokuapp.com/stories/pic', img);
       // return $http.post('http://localhost:8000/stories/pic', img);
     },
     addStory : function (story){
