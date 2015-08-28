@@ -21,9 +21,9 @@ angular.module("OurStory")
       // return $http.post('https://the-history-of-us.herokuapp.com/users/getRequestUpdates', userInfo);
       return $http.post('http://localhost:8000/users/getRequestUpdates', userInfo);
     },
-    createTimeline : function (timeline){
+    createTimeline : function (appendedUserObj){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/createTimeline', timeline);
-      return $http.post('http://localhost:8000/users/createTimeline', timeline);
+      return $http.post('http://localhost:8000/users/createTimeline', appendedUserObj);
     },
     addPictures : function (img){
       // return $http.post('https://the-history-of-us.herokuapp.com/story/pic', img);

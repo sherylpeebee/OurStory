@@ -54,6 +54,9 @@ $scope.verifyInfo = function(currentData){
     if($rootScope.currentData === undefined){
       console.log("YAY it makes sense!!");
     }
+    if($rootScope.currentData && !$rootScope.currentData.timelines[0]){
+      $("#newTimeline").css("display", "inline");
+    }
     if(currentData.incoming_requests[0]){
       $scope.newRequests = false;
     }
@@ -141,10 +144,12 @@ $scope.createOrUpdateAccount = function(person){
         UserFactory.createOrUpdateAccount(person)
         .success(function(res){
           $rootScope.currentData = res;
-          $("#step1").css("display", "none");
-          $("#createOrUpdateAccount").css("display", "none");
-          $("#steps_wrapper1").fadeIn(600);
-          $("#newTimeline").css("display", "inline");
+          // $("#step1").css("display", "none");
+          // $("#createOrUpdateAccount").css("display", "none");
+          // $("#steps_wrapper1").fadeIn(600);
+          // if(!$rootScope.currentData.timeline[0]){
+          //   $("#newTimeline").css("display", "inline");
+          // }
           console.log("response: ", res);
           $scope.current = {};
         })
@@ -172,17 +177,23 @@ $scope.createOrUpdateAccount = function(person){
 };
 
 $scope.createTimeline = function(timeline){
-  UserFactory.createTimeline(timeline)
+  var appendedUserObj = $rootScope.currentData;
+  appendedUserObj.newTimeline = timeline;
+
+  UserFactory.createTimeline(appendedUserObj)
   .then(function(data){
-    console.log(data);
-    // $rootScope.currentData = res;
-    $("#step2").css("display", "none");
-    $("#newTimeline").css("display", "none");
-    $("#steps_wrapper2").fadeIn(600);
-    $("#inviteFriends").css("display", "inline");
-    // console.log("response: ", res);
-    // $rootScope.currentData =
-    $scope.timeline = "";
+    if(!$rootScope.currentData.timelines[0]){
+      console.log(data);
+      $("#step2").css("display", "none");
+      $("#newTimeline").css("display", "none");
+      $("#steps_wrapper2").fadeIn(600);
+      $("#inviteFriends").css("display", "inline");
+      $scope.timeline = "";
+    }
+    else{
+      console.log(data);
+      $scope.timeline = "";
+    }
   })
   .catch(function(err){
     console.log(err);

@@ -63,7 +63,7 @@
                            <input id="full_name" type="text" ng-model="current.full_name" ng-show="!currentData">
                            <input id="full_name" type="text" ng-model="current.full_name" ng-hide="!currentData" placeholder="A Super Cool New Name">
                            <label for="full_name" ng-show="!currentData">full name (to help people find you)</label>
-                           <label for="full_name" ng-hide="!currentData">Change your name</label>
+                           <label for="full_name" ng-hide="!currentData">Change your full name (affects how people find you)</label>
                            <button class="btn account_info col s9 " ng-show="!currentData" type="submit" name="create">Create Account</button>
                            <button class="btn account_info col s9" ng-hide="!currentData" type="submit" name="update">Update Account</button>
                             <!-- ng-class="{ 'inactive': verifyInfo }"  -->
@@ -78,14 +78,18 @@
                         </p>
                       </div>
 
-                      <p id="step2" class="progress_steps" ng-if="!currentData.timeline">
+                      <p id="step2" class="progress_steps" ng-class="{ 'hidden': currentData.timelines[0] }">
                         2) Create your first timeline.
                       </p>
-                      <form id="newTimeline" ng-submit="createTimeline(timeline)">
+                      <!-- <p id="step2" class="progress_steps" ng-hide="!currentData.timelines[0]">
+                         Create a new timeline.
+                      </p> -->
+                      <form id="newTimeline" ng-submit="createTimeline(timeline)" ng-class="{ 'hidden': !currentData.timelines[0] }">
                             <!-- <div class="row"> -->
                               <div class="col s12" id="titleColumn">
                                 <input id="timeline_title" type="text" class="validate" placeholder="ex: The Adventures of Ally and Joe" ng-model="timeline.title">
-                                <label for="icon_prefix">Timeline Title</label>
+                                <label for="icon_prefix" ng-hide="currentData.timelines[0]">Timeline Title</label>
+                                <label for="icon_prefix" ng-show="currentData.timelines[0]">Create a new Timeline</label>
                               </div>
                             <!-- </div> -->
                             <button type="submit" name="button" class="btn col s9 offset-s1" id="createTimeline">Make it so.</button>
@@ -99,7 +103,7 @@
                       <p id="step3" class="progress_steps">
                         3) Invite friends and family to help you write history!
                       </p>
-                      <form id="inviteFriends">
+                      <form id="inviteFriends" ng-class="{ 'hidden': !currentData.timelines[0] }">
                         <p id="timelineHint">
                           (Hint: To get started on your timeline right now, click <a id="startLine" href="#">here</a> and come back anytime to complete this last step.)
                         </p>
@@ -165,12 +169,12 @@
                           (Nothing here yet)
                         </div>
                       </li>
-                      <li ng-show="currentData" ng-repeat="relationship in currentData.relationships">
+                      <li ng-show="currentData.timelines[0]" ng-repeat="timeline in currentData.timelines track by $index">
                         <div class="relationships">
                           <span class="avatar">
                             <img ng-src={{relationship.partnerIds.imgTwo}} alt="" class="circle partnerPics">
                           </span>
-                          <a ui-sref="currentUser({id: relationship._id})" ><span class="partnerLink animated pulse">{{relationship.names[0]}}</span></a>
+                          <a ui-sref="currentUser({id: timeline._id})" ><span class="partnerLink animated pulse">{{timeline.title}}</span></a>
                         </div>
                       </li>
                     </ul>

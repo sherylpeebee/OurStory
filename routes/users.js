@@ -27,7 +27,27 @@ router.post('/getRequestUpdates', function(req, res, next) {
 
 router.post("/createTimeline", function(req, res, next){
   console.log(req.body);
-  res.send();
+  var newTimeline = new Timeline(req.body.timeline);
+  newTimeline.save(function(err, timeline){
+    if(err){
+      console.log(err);
+    }
+    else if(timeline){
+      console.log(timeline);
+      User.findByIdAndUpdate(req.body._id,
+      {$push: {timelines: timeline._id}},
+      {safe: true, upsert: true}, function(err, user) {
+          if(err){
+            console.log(err);
+            return res.send(err);
+          }
+          User.findById(user._id, function(err, updatedUser){
+            console.log(updatedUser);
+            res.send(updatedUser);
+          });
+      });
+    }
+  });
 });
 
 router.post('/updatePartner', function(req, res, next) {
@@ -186,28 +206,6 @@ router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
     default:
 
   }
-
-  //need to do guard in here against duplicate registration and
-  //only UPDATE if user already exists (check with oauth_id)
-
-  // var newUser = new User({
-  //   oauth_id : req.body.oauth_id,
-  //   access_token : req.body.access_token,
-  //   full_name : req.body.full_name,
-  //   username : req.body.username,
-  //   profile_picture : req.body.profile_picture,
-  //   // outgoing_request : {
-  //   //   to : req.body.partner.name,
-  //   //   approved: false
-  //   // }
-  // });
-  // newUser.save(function(err, user){
-  //   if(err){
-  //     console.log(err);
-  //   }
-  //   console.log('success!');
-  //   res.send(user);
-  // });
 });
 
 router.post("/findPartner", function(req, res){
