@@ -44,7 +44,7 @@
                 <li>
                   <div class="collapsible-header"><i class="material-icons">face</i>
                     The Basics
-                    <div id="accountPrompt" ng-if="!currentData">
+                    <div id="accountPrompt" ng-show="!currentData">
                     You haven't created an account yet!
                     </div>
                 </div>
@@ -100,12 +100,13 @@
                          2) Awesome! Two down, one to go...
                         </p>
                       </div>
-                      <p id="step3" class="progress_steps">
+                      <p id="step3" ng-class="{ 'invisible': hideInviteForm, 'progress_steps': true }">
                         3) Invite friends and family to help you write history!
                       </p>
-                      <form id="inviteFriends" ng-class="{ 'hidden': !currentData.timelines[0] }">
+                      <form id="inviteFriends" ng-class="{ 'hidden': hideInviteForm }">
                         <p id="timelineHint">
-                          (Hint: To get started on your timeline right now, click <a id="startLine" href="#">here</a> and come back anytime to complete this last step.)
+                          (Hint: To get started on your timeline right now, click <a id="startLine" ui-sref="currentUser({id: newTimelineId})" ng-click="getTimeline(newTimelineId)">here</a> and complete this last step later in "Your Timelines".)
+
                         </p>
                         <input id="partner" type="text" ng-model="current.partner.name">
                         <label for="partner">Enter a name</label>
@@ -161,7 +162,7 @@
                     </div>
                 </li>
                 <li>
-                  <div class="collapsible-header"><i class="material-icons">people</i>Your Shared Stories</div>
+                  <div class="collapsible-header" ng-click="fetchUpdatedTimelines()"><i class="material-icons">people</i>Your Timelines</div>
                   <div class="collapsible-body side_nav">
                     <ul>
                       <li>
@@ -170,11 +171,8 @@
                         </div>
                       </li>
                       <li ng-show="currentData.timelines[0]" ng-repeat="timeline in currentData.timelines track by $index">
-                        <div class="relationships">
-                          <span class="avatar">
-                            <img ng-src={{relationship.partnerIds.imgTwo}} alt="" class="circle partnerPics">
-                          </span>
-                          <a ui-sref="currentUser({id: timeline._id})" ><span class="partnerLink animated pulse">{{timeline.title}}</span></a>
+                        <div class="timelines">
+                          <a ui-sref="currentUser({id: timeline._id})" class="partnerLink animated pulse">{{timeline.title}}</a>
                         </div>
                       </li>
                     </ul>

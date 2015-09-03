@@ -157,6 +157,10 @@ button.btn.account_info:hover {
   display: none;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .btn.red.lighten-1 {
     background-color: #EE6E73 !important;
     width: 29%;
@@ -378,7 +382,7 @@ h5#newMessages {
     text-transform: none;
 }
 
-.relationships {
+.timelines {
     display: inline-flex;
 }
 
@@ -395,15 +399,19 @@ label {
 
 .partnerLink {
     margin-left: -19px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-decoration: none;
-    font-size: small;
+    font-size: 1.4em;
+    transition: font-size .8s ease;
+    text-decoration: underline;
+    color: rgb(41, 63, 179) !important;
 }
+
 .partnerLink:hover {
     margin-left: -19px;
-    text-transform: uppercase;
-    text-decoration: underline;
+    /*text-transform: uppercase;*/
     font-weight: bold;
+    font-size: large;
 }
 
 .timeline-badge#test {

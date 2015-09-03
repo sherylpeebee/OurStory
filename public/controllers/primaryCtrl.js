@@ -42,18 +42,19 @@ $scope.logout = function(){
   $rootScope.afAuthObj.$unauth();
   $rootScope.authenticatedUser = null;
   $rootScope.userCheck = false;
-  // $("img#profile-pic").attr("src", "");
   $state.go('home');
 };
 
 $scope.verifyInfo = function(currentData){
-  if (currentData){
-    // console.log("data found: " , currentData.data);
+  console.log(currentData);
+  console.log(Object.keys(currentData)[0]);
+  // debugger;
+  if (Object.keys(currentData)[0] !== undefined){
     $rootScope.currentData = currentData;
+    $scope.hideInviteForm = $rootScope.currentData.timelines[0];
+    $scope.hideStep3 = $rootScope.currentData.timelines[0];
     console.log($rootScope.currentData);
-    if($rootScope.currentData === undefined){
-      console.log("YAY it makes sense!!");
-    }
+    console.log($rootScope.currentData.timelines);
     if($rootScope.currentData && !$rootScope.currentData.timelines[0]){
       $("#newTimeline").css("display", "inline");
     }
@@ -71,8 +72,8 @@ $scope.findUser = function(){
   console.log($rootScope.authenticatedUser.oauth_id);
   UserFactory.findUser($rootScope.authenticatedUser.oauth_id)
     .success(function(currentData){
-      $scope.verifyInfo(currentData);
       console.log(currentData);
+      $scope.verifyInfo(currentData);
   })
     .error(function(err){
       console.log(err);
@@ -177,6 +178,8 @@ $scope.createOrUpdateAccount = function(person){
 };
 
 $scope.createTimeline = function(timeline){
+  var newestTimeline;
+  console.log(timeline);
   var appendedUserObj = $rootScope.currentData;
   appendedUserObj.newTimeline = timeline;
 
@@ -188,12 +191,41 @@ $scope.createTimeline = function(timeline){
       $("#newTimeline").css("display", "none");
       $("#steps_wrapper2").fadeIn(600);
       $("#inviteFriends").css("display", "inline");
+      newestTimelineIndex = data.data.timelines.length - 1;
+      newestTimeline = data.data.timelines[newestTimelineIndex];
+      $scope.newTimelineId = newestTimeline;
+      console.log("new data: ", data);
       $scope.timeline = "";
     }
     else{
-      console.log(data);
+      newestTimelineIndex = data.data.timelines.length - 1;
+      newestTimeline = data.data.timelines[newestTimelineIndex];
+      $scope.newTimelineId = newestTimeline;
+      console.log("old and new data: ", data);
       $scope.timeline = "";
     }
+  })
+  .catch(function(err){
+    console.log(err);
+  });
+};
+
+$scope.getTimeline = function(id){
+  UserFactory.getTimeline({id : id})
+  .then(function(data){
+    console.log('DOING STUFF');
+    console.log(data);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
+};
+
+$scope.fetchUpdatedTimelines = function(){
+  UserFactory.fetchUpdatedTimelines($rootScope.currentData)
+  .then(function(data){
+    console.log(data);
+    $rootScope.currentData.timelines = data.data.timelines;
   })
   .catch(function(err){
     console.log(err);

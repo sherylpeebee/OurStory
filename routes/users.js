@@ -26,8 +26,9 @@ router.post('/getRequestUpdates', function(req, res, next) {
 });
 
 router.post("/createTimeline", function(req, res, next){
-  console.log(req.body);
-  var newTimeline = new Timeline(req.body.timeline);
+  console.log("working!!!1ndsjfnsdofndasojfna!!@))R($&^#*&%^&(*@^(*)))");
+  console.log(req.body.newTimeline);
+  var newTimeline = new Timeline(req.body.newTimeline);
   newTimeline.save(function(err, timeline){
     if(err){
       console.log(err);
@@ -47,6 +48,17 @@ router.post("/createTimeline", function(req, res, next){
           });
       });
     }
+  });
+});
+
+router.post("/getTimeline", function(req, res, next){
+  var id = req.body.id;
+  Timeline.findById(id, function(err, doc){
+    if(err){
+      console.log(err);
+      return;
+    }
+  res.send(doc);
   });
 });
 
@@ -121,6 +133,17 @@ router.post('/findUser', cors(), function(req, res, next) {
       console.log("doc: ", doc);
       res.status(200).send(doc);
       }
+  });
+});
+
+router.post('/fetchUpdatedTimelines', cors(), function(req, res, next) {
+  console.log("get updated timelines request body: ", req.body);
+  User.findOne({ 'oauth_id': req.body.oauth_id }).populate("timelines").exec(function(err, doc){
+      if(err){
+        console.log(err);
+      }
+      console.log("doc: ", doc);
+      res.status(200).send(doc);
   });
 });
 
@@ -263,17 +286,5 @@ router.post("/findPartner", function(req, res){
         break;
   }
 });
-
-
-//add "/update_userProfile" route which should include handling of adding partner, adding friends (in format of array),
-//add "/new_story" which should enable adding of pics to instagram with blurbs
-//is there a way to group stories in db. i.e., assign ids to each pic added and then add them to new-story id?
-//each story has id and title, with multiple pics per story and one blurb per pic - - main Q is how to id//track pics to maintain story association, i guess
-//add "/make_date" route that handles (and save to currentUser object in db) req.body.plan, req.body.address, req.body.date, req.body.time, req.body.partner
-//will need to "inbox" partner (include email api? would that be easier? maybe not)
-//add "/pending" route to see user's submitted dates and received date requests that await response
-
-
-
 
 module.exports = router;

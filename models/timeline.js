@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var timelineSchema = mongoose.Schema({
 
-    title        : String,
+    title        : Object,
     // names        : [String],
     created_at   : { type: Date, default: Date.now },
     // partnerIds   : [Object],
