@@ -15,9 +15,10 @@ angular.module("OurStory")
         reset_form_element( $('#myfile') );
         e.preventDefault();
     });
+
     $('.modal-trigger').leanModal();
 
-    $( "#datepicker" ).datepicker();
+    // $( "#datepicker" ).datepicker();
     $( "#datepicker" ).datepicker( "option", "dateFormat", "DD, MM d, yy");
 
   });
@@ -43,8 +44,8 @@ angular.module("OurStory")
 
     if (file) {
       reader.readAsDataURL(file);
-    } else if($scope.story.image){
-      preview.src = $scope.story.image;
+    } else if($scope.img.url){
+      preview.src = $scope.img.url;
     }else{
       preview.src = "";
     }

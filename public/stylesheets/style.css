@@ -451,7 +451,7 @@ img#imgPreview {
     margin-top: -4%;
 }
 div#buttonsGroup {
-    margin-left: 31%;
+    margin-left: 30%;
     margin-bottom: 39;
     margin-top: -3%;
 }
@@ -493,11 +493,13 @@ input#title {
 }
 
 button#addStory {
-    background-color: #5BC0DE;
+    background-color: #0079D2;
     color: floralwhite;
-    width: 94%;
-
+    width: 35%;
+    font-size: x-large;
+    margin-left: 30%;
 }
+
 input#imgUrl {
     width: 90%;
 }
