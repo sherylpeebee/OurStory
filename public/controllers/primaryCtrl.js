@@ -194,14 +194,16 @@ $scope.createTimeline = function(timeline){
       newestTimelineIndex = data.data.timelines.length - 1;
       newestTimeline = data.data.timelines[newestTimelineIndex];
       $scope.newTimelineId = newestTimeline;
-      console.log("new data: ", data);
+      console.log($scope.newTimelineId);
+      // console.log("new data: ", data);
       $scope.timeline = "";
     }
     else{
       newestTimelineIndex = data.data.timelines.length - 1;
       newestTimeline = data.data.timelines[newestTimelineIndex];
       $scope.newTimelineId = newestTimeline;
-      console.log("old and new data: ", data);
+      console.log($scope.newTimelineId);
+      // console.log("old and new data: ", data);
       $scope.timeline = "";
     }
   })
@@ -211,6 +213,7 @@ $scope.createTimeline = function(timeline){
 };
 
 $scope.getTimeline = function(id){
+  console.log(id);
   UserFactory.getTimeline({id : id})
   .then(function(data){
     console.log('DOING STUFF');

@@ -172,7 +172,7 @@
                       </li>
                       <li ng-show="currentData.timelines[0]" ng-repeat="timeline in currentData.timelines track by $index">
                         <div class="timelines">
-                          <a ui-sref="currentUser({id: timeline._id})" class="partnerLink animated pulse">{{timeline.title}}</a>
+                          <a ui-sref="currentUser({id: timeline._id})" class="partnerLink animated pulse" ng-click="getTimeline(timeline._id)">{{timeline.title}}</a>
                         </div>
                       </li>
                     </ul>
