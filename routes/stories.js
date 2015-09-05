@@ -59,7 +59,6 @@ router.post("/addStory", function(req, res){
   if(req.body.image){
     var importPics = function(cb){
       imgObjArray = req.body.image;
-      // for(var i=0; i<imgObjArray.length; i++){
       var base64ImgArray = imgObjArray.map(function(imgObj){//<-- these are to be objects with 'url' and 'caption' attributes
         imgObj.url.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
         return imgObj;
@@ -67,17 +66,15 @@ router.post("/addStory", function(req, res){
       var bufferedImgs = base64ImgArray.map(function(base64Obj){
         var buf = new Buffer(base64Obj.url, 'base64');
       });
-        // var base64 = imgObjArray[i].replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
-        // var buf = new Buffer(base64, 'base64');
-        // console.log(buf);
-        fs.writeFile('output' + i + '.jpg', buf, 'binary', function(err, data){
-         if (err) {
-           return console.log(err);
-         }
-         console.log(data);
-         cb();
-        //  res.status(200).send('ok');
-        });
+
+      fs.writeFile('output' + i + '.jpg', buf, 'binary', function(err, data){
+       if (err) {
+         return console.log(err);
+       }
+       console.log(data);
+       cb();
+      //  res.status(200).send('ok');
+      });
       // }
     };
 

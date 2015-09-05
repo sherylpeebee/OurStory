@@ -276,7 +276,7 @@ label#datelabel {
 
 div#datediv {
     position: relative;
-    bottom: -1.1px;
+    bottom: -15.1px;
 }
 
 ul.collapsible {
@@ -443,7 +443,7 @@ label {
     margin-left: 0;
 }
 div#imgUrlwrap {
-    margin-top: -6%;
+    margin-top: -7%;
     margin-left: -17px;
 }
 img#imgPreview {
@@ -492,7 +492,7 @@ input#title {
     will-change: top, opacity;
 }
 
-button#addToStory {
+button#addStory {
     background-color: #5BC0DE;
     color: floralwhite;
     width: 94%;
@@ -782,3 +782,17 @@ form#newTimeline {
      margin-left: -11px;
     top: 3px;
 }*/
+
+div#img_title_wrap {
+    margin-left: 29.2%;
+    margin-bottom: 15px;
+}
+
+input#myfile {
+    margin-bottom: 4%;
+    margin-top: 1%;
+}
+
+input#img_title {
+    color: white;
+}

@@ -17,7 +17,7 @@
       <div class="modal-content">
           <h4 class="center-align modal-header valign">A New Page</h4>
         <div class="row">
-            <form class="col s12" ng-submit="addPage(story)">
+            <form class="col s12">
               <div class="row">
                 <div class="input-field col s12">
                   <input placeholder="The Giants Game" id="title" type="text" class="validate modal-input" ng-model="story.title" required="true">
@@ -33,29 +33,30 @@
                   <label for="date" id="datelabel">If no date is selected, default is today</label>
                 </div>
 
+                <div class="row">
                   <div class="row">
-                    <div class="row">
-                      <input class="col s4" type="file" ng-model='file' id="myfile"  ng-click="getParams()" ><br>
-                    </div>
-                    <img id="imgPreview" src="" class="col s4" height="200" alt="Image preview...">
-                    <div class="input-field col s4" id="imgUrlwrap">
-                      <input placeholder="http://place.com/cool_pic.jpg" id="imgUrl" type="url" class="validate modal-input" ng-model="story.image">
-                      <label for="imgUrl">Pictures</label>
-                    </div>
+                    <input class="col s4" type="file" ng-model='file' id="myfile"  ng-click="getParams()" ><br>
                   </div>
+                  <img id="imgPreview" src="" class="col s4" height="200" alt="Image preview...">
+
+                  <div class="input-field col s4" id="imgUrlwrap">
+                    <input placeholder="http://place.com/cool_pic.jpg" id="imgUrl" type="url" class="validate modal-input" ng-model="img.url">
+                    <label for="imgUrl">Image Url</label>
+                  </div>
+                </div>
+                <div class="input-field col s5 offset-s4" id="img_title_wrap" ng-show="showImgTitleField">
+                  <input id="img_title" type="text" class="validate" ng-model="img.title">
+                  <label for="img_title" required="true">Image Title</label>
+                </div>
               </div>
               <div class="row" id="buttonsGroup">
               <a class="col s12" href="" id="resetLink">Reset file input</a>
               <button class="btn yellow darken-3 col s3"  type="button" name="button" ng-click='previewFile()' id="previewPic">Preview Picture</button>
-                <button class="btn col s3" type="button" name="button" ng-click="addOnePhoto()">Add to your story</button>
+                <button class="btn col s3" type="button" name="button" ng-click="addOnePhoto(img)">Add This Image</button>
               </div>
               </div>
-              <!-- <div class="row"> -->
-
-              <!-- </div> -->
-
                 <div class="row">
-                  <button class="btn col s12" type="submit" name="button" id="addToStory" ng-click="addStory(story)">All Done!</button>
+                  <button class="btn col s12" type="submit" name="button" id="addStory" ng-click="addStory(story)">All Done!</button>
                 </div>
             </form>
           </div>
@@ -127,25 +128,25 @@
           </div>
         </li>
 
-        <!-- <li ng-repeat="junk in fakeStories">
-          <div class="timeline-badge"></div>
+        <li ng-repeat="story in fakeStories" ng-class="{timelineInverted: oddMember}">
+        <!-- <li ng-repeat="story in stories"> -->
+          <div class="timeline-badge" ng-class="{warning: oddMember}"></div></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
-              <h4 class="timeline-title">{{junk.title}}</h4>
-              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{ junk.date }}</small></p>
+              <h4 class="timeline-title">{{story.title}}</h4>
+              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{ story.date }}</small></p>
             </div>
             <div class="timeline-body">
-              <p>{{junk.summary}}</p>
+              <p>{{story.summary}}</p>
               <hr>
-              <a ng-repeat="image in junk.images track by $index" href="{{image}}" data-lightbox="{{junk.title}}" data-title="{{junk.image.caption}}">
-                 Image {{$index}}
+              <a ng-repeat="image in story.images track by $index" href="{{image.url}}" data-lightbox="{{story.title}}" data-title="{{image.title}}">
+                <img src="{{image.url}}" alt="" class="thumbnail"/>
               </a>
             </div>
           </div>
-        </li> -->
+        </li>
 
-        <li ng-repeat="story in stories" ng-class="{timelineInverted: memberOne}">
-          <!-- need to assign badges by logged in member of couple b/w two colors -->
+        <!-- <li ng-repeat="story in stories" ng-class="{timelineInverted: memberOne}">
           <div class="timeline-badge" ng-class="{warning: memberOne}"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
@@ -159,12 +160,9 @@
                  Image {{$index}}
                  <img ng-src="" alt="" />
               </a>
-              <!-- <a href="http://lorempixel.com/output/food-q-c-640-480-6.jpg" data-lightbox="roadtrip" data-title="some other stuff">Image #3</a>
-              <a href="http://lorempixel.com/output/sports-q-g-640-480-3.jpg" data-lightbox="roadtrip" data-title="don't even ask">Image #4</a> -->
-              <!-- bootstrap stuff ... doesn't work -->
             </div>
           </div>
-        </li>
+        </li> -->
 
 
         <!-- <li>

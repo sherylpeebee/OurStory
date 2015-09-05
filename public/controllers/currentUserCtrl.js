@@ -1,8 +1,8 @@
 angular.module("OurStory")
 .controller("currentUserCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', 'UserFactory', '$stateParams', function($scope, $http, AuthFactory, $rootScope, UserFactory, $stateParams){
-console.log("in currentUserCtrl");
-var photos = [];
-var uri, preview = document.querySelector('img#imgPreview');
+  console.log("in currentUserCtrl");
+
+  var uri, preview = document.querySelector('img#imgPreview');
   $(document).ready(function(){
     function reset_form_element (e) {
       preview.src = "";
@@ -22,8 +22,22 @@ var uri, preview = document.querySelector('img#imgPreview');
 
   });
 
+  $scope.getUser = function(){
+    console.log("hey");
+    UserFactory.findUser($rootScope.authenticatedUser)
+      .success(function(currentData){
+        $rootScope.currentData = currentData;
+      console.log("currentData: ", currentData);
+    })
+    .error(function(err){
+      console.log(err);
+    });
+  };
+
+
+
   $scope.previewFile = function() {
-    console.log("preview now");
+    console.log("attempting to preview");
     var file  = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
 
@@ -40,43 +54,35 @@ var uri, preview = document.querySelector('img#imgPreview');
       // debugger;
       console.log(uri);
     };
+    $scope.showImgTitleField = preview.src !== "" ? true : false;
   };
 
-  $scope.getParams = function(){
-    var currentCouple = [];
-    console.log("clickety");
-    console.log($stateParams);
-    var currentCoupleId = $stateParams.id;
-    var couples = $rootScope.currentData.relationships;
-    for(var i = 0; i<couples.length; i++){
-      if(currentCoupleId === couples[i]._id ){
-        currentCouple.push(couples[i]);
-      }
+  var photos = [];
+  $scope.addOnePhoto = function(img){
+    if(uri && !img.url){
+      img.url = uri;
+      photos.push(img);
+      $scope.img = {};
+      preview.src = "";
+      $scope.showImgTitleField = false;
+      // $scope.showImgTitleField = preview.src !== "" ? true : false;
+    } else if (img.url) {
+      photos.push(img);
+      $scope.img = {};
+      preview.src = "";
+      $scope.showImgTitleField = false;
+      // $scope.showImgTitleField = preview.src !== "" ? true : false;
     }
-    var memberOne = currentCouple[0].partnerIds.one;
-    if( memberOne === $rootScope.currentData._id){
-      $rootScope.memberOne = true;
-    }
-    console.log($rootScope.memberOne);
+    console.log(photos);
   };
 
-  $scope.getUser = function(){
-    console.log("hey");
-    UserFactory.findUser($rootScope.authenticatedUser)
-      .success(function(currentData){
-        $rootScope.currentData = currentData;
-      console.log("currentData: ", currentData);
-    })
-    .error(function(err){
-      console.log(err);
-    });
-  };
 
 
   $scope.stories  = [];
   $scope.addStory = function(story){
     if(!story){
-      story = {};
+      story = {};//this is just to prevent errors; better to do a toast notification to the user
+      //so they know no data was sent and they can try again
     }
     if(!story.date){
       var dateObj = new Date();
@@ -85,47 +91,28 @@ var uri, preview = document.querySelector('img#imgPreview');
       var splitDate = date.split(" ");
       console.log(splitDate);
       story.date = splitDate.splice(0, 4).join(" ");
+      story.author = '';
     }
 
     console.log(story);
     story.image = photos;
 
-      UserFactory.addStory(story)
-      .then(function(data){
-        $scope.story = {};
-        console.log(data);
-      })
-      .catch(function(err){
-        console.log(err);
-      });
+    $scope.fakeStories.push(story);
 
-      // $scope.stories.push(story);
-      // $scope.story = { };
-      // console.log($scope.stories);
-    // console.log('SUBMITTING A PIC');
-    // // $http.post('http://localhost:3000/story/pic', {img: uri})
-    // UserFactory.addPictures({img: photos})
-    // .success(function(data){
-    //   preview.src = "";
-    // })
-    // .error(function(err){
-    //   console.log(err);
-    // });
-  };
-
-  $scope.addOnePhoto = function(){
-    if(uri){
-      photos.push(uri);
-    }else if($scope.story.image){
-      photos.push($scope.story.image);
-    }
-    console.log(photos);
+    UserFactory.addStory(story)
+    .then(function(data){
+      $scope.story = {};
+      console.log(data);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
   };
 
   $scope.fakeStories = [
     {summary: "Sue and Biff are best friends",
     date:"Dec 31, 1969",
-    images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
+    images: [{url: "http://lorempixel.com/output/technics-q-c-640-480-10.jpg", title: "something happened"}, {url: "http://lorempixel.com/output/technics-q-c-640-480-2.jpg", title: "our picnic"}, {url: "http://lorempixel.com/output/nature-q-c-640-480-3.jpg", title: "camping"}],
     title: "Coffee Date"},
     {summary: "Carl and Andie hate each other but stay together",
     date:"Dec 31, 1969",
@@ -136,5 +123,36 @@ var uri, preview = document.querySelector('img#imgPreview');
     title: "Jenny's Wedding"},
   ];
 
+    // $scope.getParams = function(){
+    //   var currentCouple = [];
+    //   console.log("clickety");
+    //   console.log($stateParams);
+    //   var currentCoupleId = $stateParams.id;
+    //   var couples = $rootScope.currentData.relationships;
+    //   for(var i = 0; i<couples.length; i++){
+    //     if(currentCoupleId === couples[i]._id ){
+    //       currentCouple.push(couples[i]);
+    //     }
+    //   }
+    //   var memberOne = currentCouple[0].partnerIds.one;//change all memberOneto "oddMember" redo logic here
+    //   if( memberOne === $rootScope.currentData._id){
+    //     $rootScope.memberOne = true;
+    //   }
+    //   console.log($rootScope.memberOne);
+    // };
+
+
+      //   $scope.stories.push(story);
+      //   $scope.story = { };
+      //   console.log($scope.stories);
+      // console.log('SUBMITTING A PIC');
+      // $http.post('http://localhost:3000/story/pic', {img: uri})
+      // UserFactory.addPictures({img: photos})
+      // .success(function(data){
+      //   preview.src = "";
+      // })
+      // .error(function(err){
+      //   console.log(err);
+      // });
 
 }]);
