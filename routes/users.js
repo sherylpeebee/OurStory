@@ -36,7 +36,10 @@ router.post("/createTimeline", function(req, res, next){
     else if(timeline){
       console.log(timeline);
       User.findByIdAndUpdate(req.body._id,
-      {$push: {timelines: timeline._id}},
+      {$push: {timelines: {
+        id: timeline._id,
+        title: timeline.title
+      }}},
       {safe: true, upsert: true}, function(err, user) {
           if(err){
             console.log(err);
@@ -122,7 +125,7 @@ router.post('/updatePartner', function(req, res, next) {
 
 router.post('/findUser', cors(), function(req, res, next) {
   console.log("find User request body: ", req.body);
-  User.findOne({ 'oauth_id': req.body }).populate('relationships').exec(function(err, doc){
+  User.findOne({ 'oauth_id': req.body }).populate('timelines').exec(function(err, doc){
       if(err){
         console.log(err);
       }
@@ -232,8 +235,8 @@ router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
   }
 });
 
-router.post("/findPartner", function(req, res){
-  console.log("partner search: ", req.body);
+router.post("/findFriend", function(req, res){
+  console.log("friend search: ", req.body);
   // var searchTerm = req.body.search === "username" ? "username" : "full_name";
   // console.log("searchTerm: ", searchTerm + typeof searchTerm);
   switch(req.body.search) {
@@ -245,9 +248,13 @@ router.post("/findPartner", function(req, res){
       if(doc){
         console.log(doc);
         doc.incoming_requests.push({
-        from : req.body.from,
-        approved : false
-      });
+          from : req.body.from,
+          approved : false,
+          timeline: {
+            id: req.body.timeline.id,
+            title: req.body.timeline.title
+          }
+        });
         doc.save(function(err, updatedDoc){
           if(err){
             console.log(err);
@@ -257,7 +264,7 @@ router.post("/findPartner", function(req, res){
         });
       }
       else{
-        res.send("Invite your partner to join!");
+        res.send("We couldn't find " + req.body.name + ". " + "But you can invite them to join!");
       }
     });
         break;
@@ -269,8 +276,12 @@ router.post("/findPartner", function(req, res){
       if(doc){
         console.log(doc);
         doc.incoming_requests.push({
-        from : req.body.from,
-        approved : false
+          from : req.body.from,
+          approved : false,
+          timeline: {
+            id: req.body.timeline.id,
+            title: req.body.timeline.title
+          }
         });
         doc.save(function(err, updatedDoc){
           if(err){
@@ -281,7 +292,7 @@ router.post("/findPartner", function(req, res){
         });
       }
       else{
-        res.send("Invite your partner to join!");
+        res.send("We couldn't find " + req.body.name + ". " + "But you can invite them to join!");
       }
     });
         break;

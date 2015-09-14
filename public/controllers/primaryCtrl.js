@@ -43,6 +43,7 @@ $scope.logout = function(){
   $rootScope.authenticatedUser = null;
   $rootScope.userCheck = false;
   $state.go('home');
+  location.reload();
 };
 
 $scope.verifyInfo = function(currentData){
@@ -58,15 +59,21 @@ $scope.verifyInfo = function(currentData){
     if($rootScope.currentData && !$rootScope.currentData.timelines[0]){
       $("#newTimeline").css("display", "inline");
     }
+    if($rootScope.currentData && $rootScope.currentData.timelines[0]){
+      $("#step3").css("visibility", "hidden");
+    }
     if(currentData.incoming_requests[0]){
       $scope.newRequests = false;
     }
     return false;
   }
   else {
+    $scope.hideHint = true;
+    $scope.hideInviteForm = true;
     return true;
   }
 };
+
 
 $scope.findUser = function(){
   console.log($rootScope.authenticatedUser.oauth_id);
@@ -80,14 +87,16 @@ $scope.findUser = function(){
   });
 };
 
-$scope.findPartner = function(partner){
-  // console.log(partner);
-  partner.from = $rootScope.authenticatedUser.username;
-  UserFactory.findPartner(partner)
+$scope.findFriend = function(friend){
+  friend.from = $rootScope.authenticatedUser.username;
+  friend.timeline = {};
+   friend.timeline.id = $scope.newTimelineId;
+   friend.timeline.title = $scope.newTimelineTitle;
+  console.log(friend);
+  UserFactory.findFriend(friend)
     .success(function(response){
       // $scope.verifyInfo(currentData);
       if(typeof response !== "object"){
-        // alert(response);
         swal({
         title: response,
         text: "Provide an email:",
@@ -108,11 +117,13 @@ $scope.findPartner = function(partner){
             swal.showInputError("Please enter a valid email address.");
           }else{
             swal("Fantastic!", "We'll email an invite out to: " + inputValue, "success");
+            $scope.friend = "";
           }
         });
       }
       else{
         swal("Success! We'll send them a request for you.");
+        $scope.friend = "";
       }
   })
   .error(function(err){
@@ -193,7 +204,8 @@ $scope.createTimeline = function(timeline){
       $("#inviteFriends").css("display", "inline");
       newestTimelineIndex = data.data.timelines.length - 1;
       newestTimeline = data.data.timelines[newestTimelineIndex];
-      $scope.newTimelineId = newestTimeline;
+      $scope.newTimelineId = newestTimeline.id;
+      $scope.newTimelineTitle = newestTimeline.title;
       console.log($scope.newTimelineId);
       // console.log("new data: ", data);
       $scope.timeline = "";
@@ -201,7 +213,8 @@ $scope.createTimeline = function(timeline){
     else{
       newestTimelineIndex = data.data.timelines.length - 1;
       newestTimeline = data.data.timelines[newestTimelineIndex];
-      $scope.newTimelineId = newestTimeline;
+      $scope.newTimelineId = newestTimeline.id;
+      $scope.newTimelineTitle = newestTimeline.title;
       console.log($scope.newTimelineId);
       // console.log("old and new data: ", data);
       $scope.timeline = "";
@@ -237,45 +250,47 @@ $scope.fetchUpdatedTimelines = function(){
 
 $scope.updatePartner = function(res, req){
   console.log("RESPONSE: ",res);
-  var match;
-  var response = res;
-  // console.log("allData: ", $scope.currentData);
-  var index = $scope.currentData.incoming_requests.indexOf(req);
-  var wholeObj = $scope.currentData.incoming_requests[index];
-  var toEdit = $scope.currentData.incoming_requests[index]._id;
-  $scope.currentData.incoming_requests.forEach(function(request){
-    if(request._id === toEdit){
-      match = request;
-    }
-  });
-  match.approved = response.reject ? false : true;
-  match.reviewed = true;
-  $scope.currentData.incoming_requests.splice([index], 1, wholeObj);
-  // $scope.currentData.incoming_requests.splice(index, 1);
-  console.log($scope.currentData);
-  UserFactory.updatePartner($scope.currentData)
-  .then(function(data){
-    console.log(data);
-    UserFactory.getRequestUpdates($scope.currentData)
-    .then(function(updates){
-      console.log("updates: ", updates.config.data.incoming_requests);
-      var currentRequests = updates.config.data.incoming_requests;
-            console.log("currentRequests: ", currentRequests);
-            console.log("currentRequestslength: ", currentRequests.length);
-        for(var i = 0; i< currentRequests.length; i++){
-          console.log("currentRequests: ", currentRequests[i].reviewed);
-          if(currentRequests[i].reviewed === true){
-            currentRequests.splice(i, 1);
-            console.log($scope.currentData);
-          }
-      }
-    })
-    .catch(function(err){
-      console.log(err);
-    });
-  })
-  .catch(function(err){
-    console.log(err);
-  });
+  console.log("click");
+  // var match;
+  // var response = res;
+  // // console.log("allData: ", $scope.currentData);
+  // var index = $scope.currentData.incoming_requests.indexOf(req);
+  // var wholeObj = $scope.currentData.incoming_requests[index];
+  // var toEdit = $scope.currentData.incoming_requests[index]._id;
+  // $scope.currentData.incoming_requests.forEach(function(request){
+  //   if(request._id === toEdit){
+  //     match = request;
+  //   }
+  // });
+  // match.approved = response.reject ? false : true;
+  // match.reviewed = true;
+  // $scope.currentData.incoming_requests.splice([index], 1, wholeObj);
+  // // $scope.currentData.incoming_requests.splice(index, 1);
+  // console.log($scope.currentData);
+  // UserFactory.updatePartner($scope.currentData)
+  // .then(function(data){
+  //   console.log(data);
+  //   UserFactory.getRequestUpdates($scope.currentData)
+  //   .then(function(updates){
+  //     console.log("updates: ", updates.config.data.incoming_requests);
+  //     var currentRequests = updates.config.data.incoming_requests;
+  //           console.log("currentRequests: ", currentRequests);
+  //           console.log("currentRequestslength: ", currentRequests.length);
+  //       for(var i = 0; i< currentRequests.length; i++){
+  //         console.log("currentRequests: ", currentRequests[i].reviewed);
+  //         if(currentRequests[i].reviewed === true){
+  //           currentRequests.splice(i, 1);
+  //           console.log($scope.currentData);
+  //         }
+  //     }
+  //   })
+  //   .catch(function(err){
+  //     console.log(err);
+  //   });
+  // })
+  // .catch(function(err){
+  //   console.log(err);
+  // });
 };
+
 }]);

@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors');
 
-
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var stories = require('./routes/stories');
@@ -36,7 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));//what's path.join do?
 
 
 app.use('/', routes);

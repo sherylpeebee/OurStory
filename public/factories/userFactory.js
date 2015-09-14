@@ -9,9 +9,9 @@ angular.module("OurStory")
       // return $http.post('https://the-history-of-us.herokuapp.com/users/findUser', userAuthObj);
       return $http.post('http://localhost:8000/users/findUser', userAuthObj);
     },
-    findPartner : function (partner){
-      // return $http.post('https://the-history-of-us.herokuapp.com/users/findPartner', partner);
-      return $http.post('http://localhost:8000/users/findPartner', partner);
+    findFriend : function (friend){
+      // return $http.post('https://the-history-of-us.herokuapp.com/users/findFriend', friend);
+      return $http.post('http://localhost:8000/users/findFriend', friend);
     },
     updatePartner : function (partnerInfo){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);

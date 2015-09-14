@@ -7,8 +7,8 @@
       <!-- <a class="waves-effect waves-light btn" onclick="Materialize.toast('<span></span><a class=&quot;btn-flat yellow-text&quot; href=&quot;#!&quot;>Undo<a>', 5000)">Looks Good? Add it!</a> -->
 
       <ul class="fab-wrap">
-        <li ng-click="getUser()" class="modal-trigger" href="#entryModal"><a class="btn-floating blue"><i class="material-icons fab">mode_edit</i></a></li>
-        <li ng-click="getUser()" class="modal-trigger" href="#messageModal"><a class="btn-floating yellow darken-3 "><i class="material-icons fab">message</i></i></a></li>
+        <li class="modal-trigger" href="#entryModal"><a class="btn-floating blue"><i class="material-icons fab">mode_edit</i></a></li>
+        <li class="modal-trigger" href="#messageModal"><a class="btn-floating yellow darken-3 "><i class="material-icons fab">message</i></i></a></li>
       </ul>
     <!-- </div> -->
 
@@ -17,7 +17,7 @@
       <div class="modal-content">
           <h4 class="center-align modal-header valign">A New Page</h4>
         <div class="row">
-            <form class="col s12">
+            <form class="col s12" novalidate>
               <div class="row">
                 <div class="input-field col s12">
                   <input placeholder="The Giants Game" id="title" type="text" class="validate modal-input" ng-model="story.title" required="true">
@@ -45,8 +45,8 @@
                   </div>
                 </div>
                 <div class="input-field col s5 offset-s4" id="img_title_wrap" ng-show="showImgTitleField">
-                  <input id="img_title" type="text" class="validate" ng-model="img.title">
-                  <label for="img_title" required="true">Image Title</label>
+                  <input id="img_title" type="text" class="validate" required="true" ng-model="img.title">
+                  <label for="img_title">Image Title</label>
                 </div>
               </div>
               <div class="row" id="buttonsGroup">
@@ -128,9 +128,9 @@
           </div>
         </li>
 
-        <li ng-repeat="story in fakeStories" ng-class="{timelineInverted: oddMember}">
+        <li ng-repeat="story in fakeStories track by $index" ng-class="{timelineInverted: oddMember}">
         <!-- <li ng-repeat="story in stories"> -->
-          <div class="timeline-badge" ng-class="{warning: oddMember}"></div></div>
+          <div class="timeline-badge" ng-class="{warning: oddMember}"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">{{story.title}}</h4>

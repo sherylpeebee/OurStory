@@ -1,6 +1,7 @@
 angular.module("OurStory")
 .controller("currentUserCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', 'UserFactory', '$stateParams', function($scope, $http, AuthFactory, $rootScope, UserFactory, $stateParams){
   console.log("in currentUserCtrl");
+  console.log($rootScope.currentData);
 
   var uri, preview = document.querySelector('img#imgPreview');
   $(document).ready(function(){
@@ -18,24 +19,10 @@ angular.module("OurStory")
 
     $('.modal-trigger').leanModal();
 
-    // $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker();
     $( "#datepicker" ).datepicker( "option", "dateFormat", "DD, MM d, yy");
 
   });
-
-  $scope.getUser = function(){
-    console.log("hey");
-    UserFactory.findUser($rootScope.authenticatedUser)
-      .success(function(currentData){
-        $rootScope.currentData = currentData;
-      console.log("currentData: ", currentData);
-    })
-    .error(function(err){
-      console.log(err);
-    });
-  };
-
-
 
   $scope.previewFile = function() {
     console.log("attempting to preview");
@@ -59,6 +46,25 @@ angular.module("OurStory")
   };
 
   var photos = [];
+  function getBase64FromImageUrl(url) {
+      var img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.src = url;
+
+      img.onload = function () {// i was trying to convert urls to base64 on the frontend
+        //not so easy in the back, and i need it to convert it to an image file...
+          var canvas = document.createElement("canvas");
+          canvas.width =this.width;
+          canvas.height =this.height;
+
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(this, 0, 0);
+
+          var dataURL = canvas.toDataURL("image/png");
+
+          alert(dataURL.replace(/^data:image\/(png|jpg);base64,/, ""));
+      };
+  }
   $scope.addOnePhoto = function(img){
     if(uri && !img.url){
       img.url = uri;
@@ -68,6 +74,8 @@ angular.module("OurStory")
       $scope.showImgTitleField = false;
       // $scope.showImgTitleField = preview.src !== "" ? true : false;
     } else if (img.url) {
+      var encodedImg = getBase64FromImageUrl(img.url);
+      img.url = encodedImg;
       photos.push(img);
       $scope.img = {};
       preview.src = "";
@@ -76,7 +84,6 @@ angular.module("OurStory")
     }
     console.log(photos);
   };
-
 
 
   $scope.stories  = [];
@@ -92,11 +99,15 @@ angular.module("OurStory")
       var splitDate = date.split(" ");
       console.log(splitDate);
       story.date = splitDate.splice(0, 4).join(" ");
-      story.author = '';
     }
 
     console.log(story);
     story.image = photos;
+    var author = {};
+    author.username = $rootScope.currentData.username;
+    author.id = $rootScope.currentData._id;
+    author.picture = $rootScope.currentData.profile_picture;
+    story.author = author;
 
     $scope.fakeStories.push(story);
 

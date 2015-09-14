@@ -10,7 +10,7 @@ var userSchema = mongoose.Schema({
     profile_picture : String,
     incoming_requests     :
       [{
-        from: String, approved: Boolean, reviewed: Boolean
+        from: String, approved: Boolean, reviewed: Boolean, timeline: {id: {type: mongoose.Schema.Types.ObjectId, ref: 'Timeline'}, title: String}
       }],
     outgoing_requests     :
       [{
@@ -19,7 +19,7 @@ var userSchema = mongoose.Schema({
 
     // partner       : String,
     // relationships : [{type: mongoose.Schema.Types.ObjectId, ref: 'Couple'}],
-    timelines : [{type: mongoose.Schema.Types.ObjectId, ref: 'Timeline'}]
+    timelines : [{title: String, id: {type: mongoose.Schema.Types.ObjectId, ref: 'Timeline'}}]
 
 });
 

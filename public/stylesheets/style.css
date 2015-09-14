@@ -231,16 +231,16 @@ h4.modal-header {
 }
 body {
     background-color: #F5DF65;
-    /*background-color: rgb(244, 225, 127);*/
-    /*background-image: url("http://besthqimages.mobi/wp-content/uploads/background-transparent-tumblr-photo-4.png");*/
-    /*background-image: url("http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=83755721");*/
-    /*background-image: url("http://static.vecteezy.com/assets/footer-popup/eezy-premium-kite-32c30c86715a0044e6032c1dc9a69451.png");*/
+    /* background-color: rgb(244, 225, 127); */
+    /* background-image: url("http://besthqimages.mobi/wp-content/uploads/background-transparent-tumblr-photo-4.png"); */
+    /* background-image: url("http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=83755721"); */
+    /* background-image: url("http://static.vecteezy.com/assets/footer-popup/eezy-premium-kite-32c30c86715a0044e6032c1dc9a69451.png"); */
     background-image: url("/images/stories_illustration_transparent.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /*background-position: -5px 56px;*/
-    /*background-position: 800px 400px;*/
-    background-position: 812px 100px;
+    /* background-position: -5px 56px; */
+    /* background-position: 800px 400px; */
+    background-position: 1091px 154px;
 }
 
 textarea.modal-input, input[type=text].modal-input, input[type=email].modal-input, input[type=password].modal-input, input[type=url].modal-input, input[type=time].modal-input, input[type=number].modal-input, input[type=search].modal-input, input[type=date].modal-input {
@@ -372,10 +372,13 @@ form.ng-pristine.ng-valid {
 h5#newRequests {
     text-decoration: underline;
     line-height: 2em;
+    padding-top: 17px;
 }
+
 h5#newMessages {
     text-decoration: underline;
     line-height: 2em;
+    margin-top: -100px;
 }
 
 .btn, .btn-large, .btn-flat {
@@ -738,7 +741,7 @@ button#createTimeline {
 
 form#requestCheck {
     position: relative;
-    top: -24px;
+    top: -105px;
     margin-bottom: -8px;
 }
 
@@ -797,4 +800,20 @@ input#myfile {
 
 input#img_title {
     color: white;
+}
+
+button.btn.yellow.darken-3 {
+    margin-left: 52px;
+    margin-top: -100px;
+}
+
+button.btn.yellow.darken-3.accept.ng-pristine.ng-untouched.ng-valid {
+    margin-bottom: -100px;
+}
+
+.row.from.ng-binding {
+    margin-top: 36px;
+    /* text-align: left; */
+    margin-left: 64px;
+    margin-bottom: -20px;
 }

@@ -37,7 +37,7 @@
 <nav class="side-nav"  id="slide-out">
     <div class="row">
       <div class="header center deep-purple lighten-5"><h4 id="profileHeader">Account Details</h4></div>
-      <h6 class="update" ng-class="{ 'hidden': verifyInfo }"> You haven't created an account yet! </h6>
+      <!-- <h6 class="update" ng-class="{ 'hidden': verifyInfo }"> You haven't created an account yet! </h6> -->
         <div class="row">
           <div class="col s12 accordian_wrapper">
               <ul class="collapsible" data-collapsible="accordion" style="width:100%">
@@ -55,7 +55,7 @@
                       Get started below in three simple steps:
                     </div>
                     <div id="progress_steps">
-                      <p id="step1" class="progress_steps" ng-class="{ 'hidden': verifyInfo }">
+                      <p id="step1" class="progress_steps" ng-show="!currentData">
                         1) Create an account.
                       </p>
                       <form id="createOrUpdateAccount" ng-submit="createOrUpdateAccount(current)">
@@ -100,24 +100,24 @@
                          2) Awesome! Two down, one to go...
                         </p>
                       </div>
-                      <p id="step3" ng-class="{ 'invisible': hideInviteForm, 'progress_steps': true }">
+                      <p id="step3" class="progress_steps">
                         3) Invite friends and family to help you write history!
                       </p>
                       <form id="inviteFriends" ng-class="{ 'hidden': hideInviteForm }">
-                        <p id="timelineHint">
+                        <p id="timelineHint" ng-class="{ 'hidden': hideHint }">
                           (Hint: To get started on your timeline right now, click <a id="startLine" ui-sref="currentUser({id: newTimelineId})" ng-click="getTimeline(newTimelineId)">here</a> and complete this last step later in "Your Timelines".)
 
                         </p>
-                        <input id="partner" type="text" ng-model="current.partner.name">
+                        <input id="partner" type="text" ng-model="friend.name">
                         <label for="partner">Enter a name</label>
                         <p>
-                          <input class="with-gap" name="partner_search" type="radio" id="username_search" value="username" ng-model="current.partner.search" />
+                          <input class="with-gap" name="partner_search" type="radio" id="username_search" value="username" ng-model="friend.search" />
                           <label for="username_search">Search by username</label>
                         </p>
                         <p>
-                          <input class="with-gap" name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="current.partner.search" />
+                          <input class="with-gap" name="partner_search" type="radio" id="full_name_search" value="full_name" ng-model="friend.search" />
                           <label for="full_name_search">Search by full name</label>
-                          <a class="btn red lighten-1 search_partner waves-effect waves-light" ng-click="findPartner(current.partner)">
+                          <a class="btn red lighten-1 search_partner waves-effect waves-light" ng-click="findFriend(friend)">
                             <i class="material-icons lookup">search</i>
                           </a>
                         </p>
@@ -139,26 +139,35 @@
                   <div class="collapsible-header"><i class="material-icons">add_alert</i>Notifications</div>
                     <div class="collapsible-body side_nav" >
                       <h5 id="newRequests" style="font-weight: 100" class="center-align">New Invitations</h5>
-                      <div ng-if="!newData.incoming_requests" id="request_updates">(None right now)</div>
+                      <div ng-if="!currentData.incoming_requests[0]" id="request_updates">(None right now)</div>
                       <form id="requestCheck">
-                        <div class="incoming-requests" ng-repeat="request in newData.incoming_requests || currentData.incoming_requests track by $index">
+                        <div class="incoming-requests " ng-repeat="request in currentData.incoming_requests track by $index">
                           <!-- <div class="" ng-hide="reviewed"> -->
-                            <p class="incoming-requests" >
-                             <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}yes" value="{{request.from}}" ng-model="response.accept"/>
-                             <label for="{{request.from}}yes">{{request.from}} (accept)</label>
+                            <!-- <p class="incoming-requests" >
+                             <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}_yes" value="yes"/>
+                             <label for="{{request.from}}_yes">{{request.from}} (accept)</label>
                             </p>
                             <p class="incoming-requests" >
-                             <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}no" value="{{request.from}}yes" ng-model="response.reject"/>
-                             <label for="{{request.from}}no">{{request.from}} (reject)</label>
-                            </p>
-                            <button type="button" name="button" class="btn yellow darken-3" ng-click="updatePartner(response, request)">reply</button>
-                            <div class="divider"></div>
+                             <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}_no" value="no"/>
+                             <label for="{{request.from}}_no">{{request.from}} (decline)</label>
+                           </p> -->
+                           <div class="row from">
+                            {{request.timeline.title}} by {{request.from}} :
+                           </div>
+                           <div class="responseOptions row">
+                             <div class="col s6">
+                              <button type="button" name="button" class="btn yellow darken-3 accept" ng-model="request.from.accept" ng-click="updatePartner(request)">accept</button>
+                             </div>
+                             <div class="col s6">
+                              <button type="button" name="button" class="btn red darken-3 decline" ng-model="request.from.decline" ng-click="updatePartner(request)">decline</button>
+                             </div>
+                           </div>
+                           <div class="divider"></div>
                           <!-- </div> -->
                         </div>
                       </form>
-
                       <h5 id="newMessages" style="font-weight: 100" class="center-align">New Messages</h5>
-                      <div ng-if="!newData.messages" id="message_updates">(None right now)</div>
+                      <div ng-if="!currentData.messages" id="message_updates">(None right now)</div>
                     </div>
                 </li>
                 <li>
