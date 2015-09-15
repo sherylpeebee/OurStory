@@ -142,24 +142,15 @@
                       <div ng-if="!currentData.incoming_requests[0]" id="request_updates">(None right now)</div>
                       <form id="requestCheck">
                         <div class="incoming-requests " ng-repeat="request in currentData.incoming_requests track by $index">
-                          <!-- <div class="" ng-hide="reviewed"> -->
-                            <!-- <p class="incoming-requests" >
-                             <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}_yes" value="yes"/>
-                             <label for="{{request.from}}_yes">{{request.from}} (accept)</label>
-                            </p>
-                            <p class="incoming-requests" >
-                             <input class="with-gap" name="request{{$index}}" type="radio" id="{{request.from}}_no" value="no"/>
-                             <label for="{{request.from}}_no">{{request.from}} (decline)</label>
-                           </p> -->
                            <div class="row from">
                             {{request.timeline.title}} by {{request.from}} :
                            </div>
                            <div class="responseOptions row">
                              <div class="col s6">
-                              <button type="button" name="button" class="btn yellow darken-3 accept" ng-model="request.from.accept" ng-click="updatePartner(request)">accept</button>
+                              <button type="button" name="button" class="btn yellow darken-3 accept" ng-click="updatePartner(request, $event, $index)">accept</button>
                              </div>
                              <div class="col s6">
-                              <button type="button" name="button" class="btn red darken-3 decline" ng-model="request.from.decline" ng-click="updatePartner(request)">decline</button>
+                              <button type="button" name="button" class="btn red darken-3 decline" ng-click="updatePartner(request, $event, $index)">decline</button>
                              </div>
                            </div>
                            <div class="divider"></div>
