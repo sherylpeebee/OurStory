@@ -120,20 +120,20 @@ angular.module("OurStory")
       console.log(err);
     });
   };
-
-  $scope.fakeStories = [
-    {summary: "Sue and Biff are best friends",
-    date:"Dec 31, 1969",
-    images: [{url: "http://lorempixel.com/output/technics-q-c-640-480-10.jpg", title: "something happened"}, {url: "http://lorempixel.com/output/technics-q-c-640-480-2.jpg", title: "our picnic"}, {url: "http://lorempixel.com/output/nature-q-c-640-480-3.jpg", title: "camping"}],
-    title: "Coffee Date"},
-    {summary: "Carl and Andie hate each other but stay together",
-    date:"Dec 31, 1969",
-    images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
-    title: "On Half Dome"},
-    {summary: "Liz and Stu sometimes go for long walks but not usually",
-    images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
-    title: "Jenny's Wedding"},
-  ];
+  // 
+  // $scope.fakeStories = [
+  //   {summary: "Sue and Biff are best friends",
+  //   date:"Dec 31, 1969",
+  //   images: [{url: "http://lorempixel.com/output/technics-q-c-640-480-10.jpg", title: "something happened"}, {url: "http://lorempixel.com/output/technics-q-c-640-480-2.jpg", title: "our picnic"}, {url: "http://lorempixel.com/output/nature-q-c-640-480-3.jpg", title: "camping"}],
+  //   title: "Coffee Date"},
+  //   {summary: "Carl and Andie hate each other but stay together",
+  //   date:"Dec 31, 1969",
+  //   images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
+  //   title: "On Half Dome"},
+  //   {summary: "Liz and Stu sometimes go for long walks but not usually",
+  //   images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
+  //   title: "Jenny's Wedding"},
+  // ];
 
     // $scope.getParams = function(){
     //   var currentCouple = [];
