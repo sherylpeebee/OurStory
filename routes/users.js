@@ -12,19 +12,6 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/getRequestUpdates', function(req, res, next) {
-  console.log(req.body);
-  var id = req.body._id;
-  console.log("THE DOCUMENT YOU WERE LOKING FOR: ", id);
-  User.findOne({'_id': id}, function(err, doc){
-    if(err){
-      console.log(err);
-    }
-    console.log("THE DOCUMENT YOU WERE LOOKING FOR: ", doc);
-    res.send('super done');
-  });
-});
-
 router.post("/createTimeline", function(req, res, next){
   console.log("working!!!1ndsjfnsdofndasojfna!!@))R($&^#*&%^&(*@^(*)))");
   console.log(req.body.newTimeline);
@@ -68,60 +55,55 @@ router.post("/getTimeline", function(req, res, next){
 
 router.post('/updatePartner', function(req, res, next) {
   var id = req.body._id;
-  User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
-    if(err){
-      console.log(err);
-      res.send();
+  var requests = req.body.incoming_requests;
+  console.log("trying to update a partner: ", requests);
+  for(var i = 0; i < requests.length; i++){
+    if(requests[i].reviewed === "true"){
+      requests.splice(i, 1);
+      req.body.incoming_requests = requests;
+      console.log(requests);
     }
-    console.log("SAVED DOCCCCCC!!!!: ", doc);
-    doc.incoming_requests.forEach(function(request){
-      if(request.approved === true){
-        User.findOne({"username" : request.from}).lean().exec(function(err, person){
-          console.log("PERSONNNNNUHhhH!!: ", person);
-          var couple = new Couple({
-            names : [doc.full_name || doc.username, person.full_name || person.username],
-            partnerIds : {
-              one: doc._id, imgOne: doc.profile_picture,
-              two: person._id, imgTwo: person.profile_picture
-            },
-          });
-          couple.save(function(err, couple){
-            if(err){
-              console.log(err);
-              res.send();
-            }
-            console.log("COUPLEUPPPLEUPPPPPLELELELEDDCUPZZZZZZ: ", couple);
-            doc.relationships.push(couple._id);
-            doc.save(function(err, savedOne){
-              if(err){
-                console.log(err);
-                res.send();
-              }
-              console.log("FIRST SAVED MEMBER HEEEERRREEUHHUH$$#$#$#!", savedOne);
-            });
-            console.log("LINE 49 -- DOES THIS PERSON EXIST???!!!! SANITY CHECK HEEEERRREEUHHUH$$#$#$#!", person);
-            User.findOne({"username" : person.username}, function(err, member2){
-              member2.relationships.push(couple._id);
-              member2.save(function(err, savedTwo){
-                console.log("SEGUNDOOOOO SAVED MEMBER HEEEERRREEUHHUH$$#$#$#!", savedTwo);
-              });
-            });
-          });
-              res.send('done');
-              console.log(doc);
-        });
-      }
-      else{
-        console.log("no dice");
-      }
-    });
-
-  });
+    console.log(requests[i].reviewed);
+  }
+  console.log("after reviewed are spliced out:", requests);
+  res.send();
+  // User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
+  //   if(err){
+  //     console.log(err);
+  //     res.send();
+  //   }
+  //   console.log("Adding Partner Updates to: ", doc);
+  //   res.send(doc);//just for now. may need to take out
+  //
+  //   // doc.incoming_requests.forEach(function(request){
+  //   //   if(request.approved === true){
+  //   //     User.findOne({"username" : request.from}).lean().exec(function(err, person){
+  //   //       console.log("PERSONNNNNUHhhH!!: ", person);
+  //   //     });
+  //   //   }
+  //   //   else{
+  //   //     console.log("no dice");
+  //   //   }
+  //   // });
+  //
+  // });
 });
 // Item.find({}).populate('comments.created_by').exec(function(err, items) {
 //     console.log(items[0].comments[0].created_by.name);
-// });
+// });//this is just an example for my own reference
 
+router.post('/getRequestUpdates', function(req, res, next) {
+  console.log(req.body);
+  var id = req.body._id;
+  console.log("THE REQUEST ID: ", id);
+  User.findOne({'_id': id}, function(err, doc){
+    if(err){
+      console.log(err);
+    }
+    console.log("THE DOCUMENT YOU WERE LOOKING FOR: ", doc);
+    res.send(doc);//i appear to not ever be sending the doc back to the front (fixed?)
+  });
+});
 
 router.post('/findUser', cors(), function(req, res, next) {
   console.log("find User request body: ", req.body);

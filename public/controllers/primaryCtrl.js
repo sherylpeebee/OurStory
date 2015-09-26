@@ -252,41 +252,32 @@ $scope.updatePartner = function(req, $event, $index){
   console.log(req);
   var button = $event.target;
   var response = button.textContent;
-  var match;
-  // console.log("allData: ", $scope.currentData);
-  // var index = $scope.currentData.incoming_requests.indexOf(req);
-  var wholeObj = $scope.currentData.incoming_requests[$index];
-  var toEdit = $scope.currentData.incoming_requests[$index]._id;
-  $scope.currentData.incoming_requests.forEach(function(request){
-    if(request._id === toEdit){
-      match = request;
-    }
-  });
-  match.approved = response === "decline" ? false : true;
-  match.reviewed = true;
-  $scope.currentData.incoming_requests.splice($index, 1, wholeObj);
-  // $scope.currentData.incoming_requests.splice(index, 1);
+  // var match;
+  req.approved = response === "decline" ? false : true;
+  req.reviewed = true;
+  $scope.currentData.incoming_requests.splice($index, 1, req);
   console.log($scope.currentData);
   UserFactory.updatePartner($scope.currentData)
   .then(function(data){
-    console.log(data);
-    UserFactory.getRequestUpdates($scope.currentData)
-    .then(function(updates){
-      console.log("updates: ", updates.config.data.incoming_requests);
-      var currentRequests = updates.config.data.incoming_requests;
-            console.log("currentRequests: ", currentRequests);
-            console.log("currentRequestslength: ", currentRequests.length);
-        for(var i = 0; i< currentRequests.length; i++){
-          console.log("currentRequests: ", currentRequests[i].reviewed);
-          if(currentRequests[i].reviewed === true){
-            currentRequests.splice(i, 1);
-            console.log($scope.currentData);
-          }
-      }
-    })
-    .catch(function(err){
-      console.log(err);
-    });
+    console.log("should have spliced out reviewed requests in backend: ", data);
+
+    // UserFactory.getRequestUpdates($scope.currentData)
+    // .then(function(updates){
+    //   console.log("updates: ", updates.config.data.incoming_requests);
+    //   var currentRequests = updates.config.data.incoming_requests;
+    //   console.log("currentRequests: ", currentRequests);
+    //   console.log("currentRequestslength: ", currentRequests.length);
+    //   for(var i = 0; i< currentRequests.length; i++){
+    //     console.log("currentRequests: ", currentRequests[i].reviewed);
+    //     if(currentRequests[i].reviewed === true){
+    //       currentRequests.splice(i, 1);
+    //       console.log($scope.currentData);
+    //     }
+    //   }
+    // })
+    // .catch(function(err){
+    //   console.log(err);
+    // });
   })
   .catch(function(err){
     console.log(err);

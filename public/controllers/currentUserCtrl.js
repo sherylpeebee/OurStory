@@ -109,7 +109,7 @@ angular.module("OurStory")
     author.picture = $rootScope.currentData.profile_picture;
     story.author = author;
 
-    $scope.fakeStories.push(story);
+    // $scope.fakeStories.push(story);
 
     UserFactory.addStory(story)
     .then(function(data){
@@ -120,7 +120,7 @@ angular.module("OurStory")
       console.log(err);
     });
   };
-  // 
+
   // $scope.fakeStories = [
   //   {summary: "Sue and Biff are best friends",
   //   date:"Dec 31, 1969",

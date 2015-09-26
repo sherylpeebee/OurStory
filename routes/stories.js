@@ -51,11 +51,8 @@ router.post('/pic', function(req, res, next) {
 var importPics;
 var searchParams = /^http:\/\/|^https:\/\//i;
 router.post("/addStory", function(req, res){
-  console.log("hi");
-  console.log(req.body);
-  var imgObjArray;
+  var imgObjArray, bufferedImgsObj;
   if(req.body.image){
-    console.log("we've got images");
     importPics = function(cb){
       imgObjArray = req.body.image;
       var base64ImgObjArray = imgObjArray.map(function(imgObj){//<-- these are to be objects with 'url' and 'title' attributes
@@ -70,9 +67,7 @@ router.post("/addStory", function(req, res){
           //  }
       });
 
-      console.log("line 66: ", base64ImgObjArray);
-
-      var bufferedImgsObj = base64ImgObjArray.map(function(base64Obj){
+      bufferedImgsObj = base64ImgObjArray.map(function(base64Obj){
         // if(base64Obj.url.search(searchParams) === -1){
           var buf = new Buffer(base64Obj.url, 'base64');
           base64Obj.url = buf;
@@ -84,31 +79,34 @@ router.post("/addStory", function(req, res){
          //with urls replaced with converted strings if they were base64Imgs before
       });
 
-      console.log("line 81: ", bufferedImgsObj);
-
-      bufferedImgsObj.map(function(bufferedObj){
+      bufferedImgsObj.forEach(function(bufferedObj){
         fs.writeFile(bufferedObj.title + '.jpg', bufferedObj.url, 'binary', function(err, data){
           if (err) {
-            return console.log(err);
+            console.log(err);
           }
-          console.log(bufferedObj.title);
-          res.status(200).send('ok');
         });
       });
+      cb();
     };
-      // var upload = function (){
-      //   for(var j=0; j<imgObjArray.length; j++){
-      //     // var counter2 = 0;
-      //     cloudinary.uploader.upload('output' + j + '.jpg', function(result) {
-      //       console.log(result);
-      //       counter ++;
-      //     });
-      //   }
-      // };
-      importPics();
-      // upload
-    }
-  });
+    var upload = function (){
+      // for(var j=0; j<imgObjArray.length; j++){
+      //   // var counter = 0;
+      //   // cloudinary.uploader.upload('output' + j + '.jpg', function(result) {
+      //   //   console.log(result);
+      //   //   counter ++;
+      //   // });
+      //   console.log("img" + j);
+      // }
+      bufferedImgsObj.forEach(function(bufferedObj){
+        cloudinary.uploader.upload(bufferedObj.title + '.jpg', function(result) {
+          console.log(result);
+        });
+      });
+      res.status(200).send('done');
+    };
+    importPics(upload);
+  }
+});
   //
     // // var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
     // // var buf = new Buffer(base64, 'base64');
