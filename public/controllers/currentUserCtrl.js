@@ -1,6 +1,7 @@
 angular.module("OurStory")
 .controller("currentUserCtrl", ['$scope', '$http', 'AuthFactory', '$rootScope', 'UserFactory', '$stateParams', function($scope, $http, AuthFactory, $rootScope, UserFactory, $stateParams){
   console.log("in currentUserCtrl");
+  var paramId = $stateParams.id;
   console.log($rootScope.currentData);
 
   var uri, preview = document.querySelector('img#imgPreview');
@@ -108,6 +109,7 @@ angular.module("OurStory")
     author.id = $rootScope.currentData._id;
     author.picture = $rootScope.currentData.profile_picture;
     story.author = author;
+    story.timeline_id = paramId;
 
     // $scope.fakeStories.push(story);
 

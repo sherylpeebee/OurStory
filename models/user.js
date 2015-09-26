@@ -16,9 +16,6 @@ var userSchema = mongoose.Schema({
       [{
         to: String, approved: Boolean, reviewed: Boolean
       }],
-
-    // partner       : String,
-    // relationships : [{type: mongoose.Schema.Types.ObjectId, ref: 'Couple'}],
     timelines : [{title: String, id: {type: mongoose.Schema.Types.ObjectId, ref: 'Timeline'}}]
 
 });

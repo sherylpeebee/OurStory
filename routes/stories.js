@@ -26,34 +26,21 @@ router.post('/pic', function(req, res, next) {
   console.log('delivering a pic');
   if(req.body.img){
     var img = req.body.img;
-
-  //   var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
-  //
-  //   //store at this point in mongo for backup here; on read out, will need to prepend string with jpg, jpeg, png, etc.
-  //
-  //   var buf = new Buffer(base64, 'base64');
-  //   console.log(buf);
-  //
-  //   fs.writeFile('output.jpg', buf, 'binary', function(err, data){
-  //     if (err) {
-  //      return console.log(err);
-  //    }
-  //    console.log(data);
-  //    res.status(200).send('ok');
-  //   });
-  // }
-  // else{
-  //   res.status(200).send('no images sent');
-  //   return;
   }
 });
 
 var importPics;
 var searchParams = /^http:\/\/|^https:\/\//i;
 router.post("/addStory", function(req, res){
-  var imgObjArray, bufferedImgsObj;
+  var imgObjArray, bufferedImgsObj, storyObj = {
+    title: req.body.title,
+    author: req.body.author,
+    story: req.body.summary,
+    created_at: req.body.date
+  },
+  timeline_id = req.body.timeline_id;
   if(req.body.image){
-    importPics = function(cb){
+    importPics = function(loader){
       imgObjArray = req.body.image;
       var base64ImgObjArray = imgObjArray.map(function(imgObj){//<-- these are to be objects with 'url' and 'title' attributes
           //  if(imgObj.url.search(searchParams) === -1){
@@ -86,28 +73,57 @@ router.post("/addStory", function(req, res){
           }
         });
       });
-      cb();
+      loader(makeStory);
     };
-    var upload = function (){
-      // for(var j=0; j<imgObjArray.length; j++){
-      //   // var counter = 0;
-      //   // cloudinary.uploader.upload('output' + j + '.jpg', function(result) {
-      //   //   console.log(result);
-      //   //   counter ++;
-      //   // });
-      //   console.log("img" + j);
-      // }
+    var upload = function (storyFunc){
+    var picArray = [];
       bufferedImgsObj.forEach(function(bufferedObj){
         cloudinary.uploader.upload(bufferedObj.title + '.jpg', function(result) {
-          console.log(result);
+          picArray.push({
+            url: result.url,
+            caption: result.original_filename
+          });
+          picCheck(picArray);
         });
       });
-      res.status(200).send('done');
+      function picCheck(picArray){
+        if(picArray.length === bufferedImgsObj.length){
+          storyFunc(picArray);
+        }
+        else{
+          picCheck(picArray);
+        }
+      }
+    };
+    var makeStory = function(arr){
+      storyObj.pics = arr;
+      console.log("~~~STORY OBJ!!!~~~: ", storyObj);
+      var newStory = new Story(storyObj);
+      newStory.save(function(err, story){
+        if(err){
+          console.log(err);
+        }
+        console.log(story);
+        Timeline.findOne({_id: timeline_id}, function(err, doc){
+          if(err){
+            console.log(err);
+          }
+          console.log(story);
+          console.log(story._id);
+          console.log("WE FOUND YOUR TIMELINE!!: ", doc);
+          doc.stories.push(story._id);
+          doc.save(function(err, updatedTimeline){
+            if(err){
+              console.log(err);
+            }
+            res.status(200).send(updatedTimeline);
+          });
+        });
+      });
     };
     importPics(upload);
   }
 });
-  //
     // // var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
     // // var buf = new Buffer(base64, 'base64');
     // //

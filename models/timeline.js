@@ -6,7 +6,7 @@ var timelineSchema = mongoose.Schema({
     // names        : [String],
     created_at   : { type: Date, default: Date.now },
     // partnerIds   : [Object],
-    partnerIds      : [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    partnerIds   : [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     stories      : [{type: mongoose.Schema.Types.ObjectId, ref: 'Story'}]
 
 });
