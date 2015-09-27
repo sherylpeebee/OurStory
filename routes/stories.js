@@ -116,7 +116,12 @@ router.post("/addStory", function(req, res){
             if(err){
               console.log(err);
             }
-            res.status(200).send(updatedTimeline);
+            Timeline.findById(updatedTimeline._id).populate("stories").exec(function(err, docWithStories){
+              if(err){
+                console.log(err);
+              }
+              res.status(200).send(docWithStories);
+            });
           });
         });
       });
