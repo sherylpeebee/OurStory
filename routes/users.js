@@ -44,12 +44,11 @@ router.post("/createTimeline", function(req, res, next){
 router.post("/getTimeline", function(req, res, next){
   console.log("searching for ONE TIMELINE!!");
   var id = req.body.id;
-  Timeline.findById(id, function(err, doc){
+  Timeline.findById(id).populate("stories").exec(function(err, timeline){
     if(err){
       console.log(err);
-      return;
     }
-  res.send(doc);
+    res.send(timeline);
   });
 });
 
