@@ -72,9 +72,23 @@
         <!-- <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a> -->
       </div>
     </div>
-
-
     <ul class="timeline">
+        <li ng-repeat="story in stories track by $index" >
+          <div class="timeline-badge" ></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">{{story.title}}</h4>
+              <p><small class="text-muted">{{ story.created_at | date : longDate }}</small></p>
+            </div>
+            <div class="timeline-body">
+              <p>{{story.story}}</p>
+              <hr>
+              <a ng-repeat="pic in story.pics track by $index" href="{{pic.url}}" data-lightbox="{{story.title}}" data-title="{{pic.caption}}">
+                 <img ng-src="{{pic.url}}" alt="" class="thumbnail"/>
+              </a>
+            </div>
+          </div>
+        </li>
         <li>
           <div class="timeline-badge"></div>
           <div class="timeline-panel">
@@ -103,7 +117,6 @@
           </div>
         </li>
 
-
         <li class="timelineInverted">
           <div class="timeline-badge warning"></div>
           <div class="timeline-panel">
@@ -128,25 +141,7 @@
           </div>
         </li>
 
-        <li ng-repeat="story in fakeStories track by $index" ng-class="{timelineInverted: oddMember}">
-        <!-- <li ng-repeat="story in stories"> -->
-          <div class="timeline-badge" ng-class="{warning: oddMember}"></div>
-          <div class="timeline-panel">
-            <div class="timeline-heading">
-              <h4 class="timeline-title">{{story.title}}</h4>
-              <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{ story.date }}</small></p>
-            </div>
-            <div class="timeline-body">
-              <p>{{story.summary}}</p>
-              <hr>
-              <a ng-repeat="image in story.images track by $index" href="{{image.url}}" data-lightbox="{{story.title}}" data-title="{{image.title}}">
-                <img src="{{image.url}}" alt="" class="thumbnail"/>
-              </a>
-            </div>
-          </div>
-        </li>
-
-        <li ng-repeat="story in stories" ng-class="{timelineInverted: memberOne}">
+        <!-- <li ng-repeat="story in stories track by $index" ng-class="{timelineInverted: memberOne}">
           <div class="timeline-badge" ng-class="{warning: memberOne}"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
@@ -154,37 +149,14 @@
               <p><small class="text-muted">{{ story.date }}</small></p>
             </div>
             <div class="timeline-body">
-              <p>{{story.summary}}</p>
+              <p>{{story.story}}</p>
               <hr>
-              <a ng-repeat="image in story.images track by $index" href="{{image}}" data-lightbox="{{story.title}}" data-title="{{image.caption}}">
-                 Image {{$index}}
-                 <img ng-src="" alt="" />
+              <a ng-repeat="pic in story.pics track by $index" href="{{pic.url}}" data-lightbox="{{story.title}}" data-title="{{pic.caption}}">
+                 <img ng-src="{{pic.url}}" alt="" class="thumbnail"/>
               </a>
             </div>
           </div>
-        </li>
-
-
-        <!-- <li>
-          <div class="timeline-panel">
-            <div class="timeline-heading">
-              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-            </div>
-            <div class="timeline-body">
-              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-            </div>
-          </div>
-        </li>
-        <li class="timelineInverted">
-          <div class="timeline-badge success"><i class="glyphicon glyphicon-thumbs-up"></i></div>
-          <div class="timeline-panel">
-            <div class="timeline-heading">
-              <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-            </div>
-            <div class="timeline-body">
-              <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-            </div>
-          </div>
         </li> -->
+
     </ul>
 </div>

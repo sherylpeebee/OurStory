@@ -16,7 +16,7 @@ var userSchema = mongoose.Schema({
       [{
         to: String, approved: Boolean, reviewed: Boolean
       }],
-    timelines : [{title: String, id: {type: mongoose.Schema.Types.ObjectId, ref: 'Timeline'}}]
+    timelines : [{title: String, id: {type: mongoose.Schema.Types.ObjectId, ref: 'Timeline'}, badgeStyle: Object}]
 
 });
 
