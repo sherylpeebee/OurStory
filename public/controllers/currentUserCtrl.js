@@ -87,6 +87,7 @@ angular.module("OurStory")
   };
 
 
+  $scope.stories  = [];
   $scope.addStory = function(story){
     if(!story){
       story = {};//this is just to prevent errors; better to do a toast notification to the user
@@ -113,16 +114,28 @@ angular.module("OurStory")
     // $scope.fakeStories.push(story);
 
     UserFactory.addStory(story)
-    .then(function(res){
+    .then(function(data){
       $scope.story = {};
-      console.log(res);
-      $rootScope.stories = res.data;
+      console.log(data);
     })
     .catch(function(err){
       console.log(err);
     });
   };
 
+  // $scope.fakeStories = [
+  //   {summary: "Sue and Biff are best friends",
+  //   date:"Dec 31, 1969",
+  //   images: [{url: "http://lorempixel.com/output/technics-q-c-640-480-10.jpg", title: "something happened"}, {url: "http://lorempixel.com/output/technics-q-c-640-480-2.jpg", title: "our picnic"}, {url: "http://lorempixel.com/output/nature-q-c-640-480-3.jpg", title: "camping"}],
+  //   title: "Coffee Date"},
+  //   {summary: "Carl and Andie hate each other but stay together",
+  //   date:"Dec 31, 1969",
+  //   images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
+  //   title: "On Half Dome"},
+  //   {summary: "Liz and Stu sometimes go for long walks but not usually",
+  //   images: ["http://placehold.it/350x150", "http://placehold.it/350x150", "http://placehold.it/350x150"],
+  //   title: "Jenny's Wedding"},
+  // ];
 
     // $scope.getParams = function(){
     //   var currentCouple = [];
@@ -141,5 +154,19 @@ angular.module("OurStory")
     //   }
     //   console.log($rootScope.memberOne);
     // };
+
+
+      //   $scope.stories.push(story);
+      //   $scope.story = { };
+      //   console.log($scope.stories);
+      // console.log('SUBMITTING A PIC');
+      // $http.post('http://localhost:3000/story/pic', {img: uri})
+      // UserFactory.addPictures({img: photos})
+      // .success(function(data){
+      //   preview.src = "";
+      // })
+      // .error(function(err){
+      //   console.log(err);
+      // });
 
 }]);

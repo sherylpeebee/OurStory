@@ -13,9 +13,9 @@ angular.module("OurStory")
       // return $http.post('https://the-history-of-us.herokuapp.com/users/findFriend', friend);
       return $http.post('http://localhost:8000/users/findFriend', friend);
     },
-    reviewTimelineInvitations : function (partnerInfo){
+    updatePartner : function (partnerInfo){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/updatePartner', partnerInfo);
-      return $http.post('http://localhost:8000/users/reviewTimelineInvitations', partnerInfo);
+      return $http.post('http://localhost:8000/users/updatePartner', partnerInfo);
     },
     getRequestUpdates : function (userInfo){
       // return $http.post('https://the-history-of-us.herokuapp.com/users/getRequestUpdates', userInfo);

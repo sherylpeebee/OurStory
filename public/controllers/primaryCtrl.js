@@ -20,7 +20,7 @@ $scope.login = function(){
   if(!$rootScope.authenticatedUser){
     AuthFactory.authUser()
     .then(function(authData){
-      console.log("authData: ", authData);
+      console.log("authData", authData);
       $rootScope.userCheck = true;
       $rootScope.authData = authData;
       $rootScope.authenticatedUser = authData.twitter;
@@ -189,19 +189,8 @@ $scope.createOrUpdateAccount = function(person){
 };
 
 $scope.createTimeline = function(timeline){
-  console.log(timeline);
-  timeline.badgeStyle =
-  (function assignTimelineStyle (){
-      var badgeColors = ["primary", "success", "warning", "danger", "info"];
-      var timelineInverted = Math.round(Math.random());
-      var badge = Math.floor(Math.random() * (5 - 0));
-      var badgeStyle = {
-        timelineInverted : timelineInverted,
-        badgeColor : badgeColors[badge]
-      };
-      return badgeStyle;
-  })();
   var newestTimeline;
+  console.log(timeline);
   var appendedUserObj = $rootScope.currentData;
   appendedUserObj.newTimeline = timeline;
 
@@ -239,15 +228,9 @@ $scope.createTimeline = function(timeline){
 $scope.getTimeline = function(id){
   console.log(id);
   UserFactory.getTimeline({id : id})
-  .then(function(res){
+  .then(function(data){
     console.log('DOING STUFF');
-    console.log(res);
-    // console.log(res.data.stories);
-    $scope.stories = res.data.stories;
-    // if(!$scope.$$phase) {
-    //   $scope.$apply();
-    // }
-    console.log($scope.stories);
+    console.log(data);
   })
   .catch(function(err){
     console.log(err);
@@ -265,31 +248,36 @@ $scope.fetchUpdatedTimelines = function(){
   });
 };
 
-$scope.reviewTimelineInvitations = function(req, $event, $index){
+$scope.updatePartner = function(req, $event, $index){
   console.log(req);
   var button = $event.target;
   var response = button.textContent;
   // var match;
   req.approved = response === "decline" ? false : true;
-  if(req.approved === true){
-    req.badgeStyle =
-    (function assignTimelineStyle (){
-        var badgeColors = ["primary", "success", "warning", "danger", "info"];
-        var timelineInverted = Math.round(Math.random());
-        var badge = Math.floor(Math.random() * (5 - 0));
-        var badgeStyle = {
-          timelineInverted : timelineInverted,
-          badgeColor : badgeColors[badge]
-        };
-        return badgeStyle;
-    })();
-  }
   req.reviewed = true;
   $scope.currentData.incoming_requests.splice($index, 1, req);
   console.log($scope.currentData);
-  UserFactory.reviewTimelineInvitations($scope.currentData)
+  UserFactory.updatePartner($scope.currentData)
   .then(function(data){
     console.log("should have spliced out reviewed requests in backend: ", data);
+
+    // UserFactory.getRequestUpdates($scope.currentData)
+    // .then(function(updates){
+    //   console.log("updates: ", updates.config.data.incoming_requests);
+    //   var currentRequests = updates.config.data.incoming_requests;
+    //   console.log("currentRequests: ", currentRequests);
+    //   console.log("currentRequestslength: ", currentRequests.length);
+    //   for(var i = 0; i< currentRequests.length; i++){
+    //     console.log("currentRequests: ", currentRequests[i].reviewed);
+    //     if(currentRequests[i].reviewed === true){
+    //       currentRequests.splice(i, 1);
+    //       console.log($scope.currentData);
+    //     }
+    //   }
+    // })
+    // .catch(function(err){
+    //   console.log(err);
+    // });
   })
   .catch(function(err){
     console.log(err);

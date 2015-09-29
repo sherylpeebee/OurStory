@@ -12,34 +12,32 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-
 router.post("/createTimeline", function(req, res, next){
-  console.log(req.body);
-  var newTimeline = new Timeline({title: req.body.newTimeline.title});
+  console.log("working!!!1ndsjfnsdofndasojfna!!@))R($&^#*&%^&(*@^(*)))");
+  console.log(req.body.newTimeline);
+  var newTimeline = new Timeline(req.body.newTimeline);
   newTimeline.save(function(err, timeline){
     if(err){
       console.log(err);
     }
-    console.log("NEW TIMELINE: ", timeline);
-    var newTimelineInfo = {
-      title: timeline.title,
-      id: timeline._id,
-      badgeStyle: req.body.newTimeline.badgeStyle
-    };
-    User.findById(req.body._id, function(err, user) {
-      if(err){
-        console.log(err);
-        return res.send(err);
-      }
-      user.timelines.push(newTimelineInfo);
-      user.save(function(err, updatedUser){
-        if(err){
-          console.log(err);
-        }
-        console.log("USER WITH NEW TIMELINE: ", updatedUser);
-        res.send(updatedUser);
+    else if(timeline){
+      console.log(timeline);
+      User.findByIdAndUpdate(req.body._id,
+      {$push: {timelines: {
+        id: timeline._id,
+        title: timeline.title
+      }}},
+      {safe: true, upsert: true}, function(err, user) {
+          if(err){
+            console.log(err);
+            return res.send(err);
+          }
+          User.findById(user._id, function(err, updatedUser){
+            console.log(updatedUser);
+            res.send(updatedUser);
+          });
       });
-    });
+    }
   });
 });
 
@@ -54,56 +52,57 @@ router.post("/getTimeline", function(req, res, next){
   });
 });
 
-router.post('/reviewTimelineInvitations', function(req, res, next) {
+router.post('/updatePartner', function(req, res, next) {
   var id = req.body._id;
   var requests = req.body.incoming_requests;
   console.log("trying to update a partner: ", requests);
-  console.log("full request body: ", req.body);
   for(var i = 0; i < requests.length; i++){
-    if(requests[i].approved === true){
-      var newTimelineInfo = {
-        title: requests[i].timeline.title,
-        id: requests[i]._id,
-        badgeStyle: requests[i].badgeStyle
-      };
-    }
-    if(requests[i].reviewed === true){
+    if(requests[i].reviewed === "true"){
       requests.splice(i, 1);
+      req.body.incoming_requests = requests;
+      console.log(requests);
     }
+    console.log(requests[i].reviewed);
   }
-
-  User.findById({"_id": id}, function(err, doc){
-    if(err){
-      console.log(err);
-      res.send();
-    }
-    doc.timelines.push(newTimelineInfo);
-    doc.incoming_requests = requests;
-    doc.save(function(err, docWithUpdates){
-      if(err){
-        console.log(err);
-      }
-      console.log(docWithUpdates);
-      res.send(docWithUpdates);
-    });
-
-  });
-
-  // req.body.incoming_requests = requests;
-  // console.log("after reviewed are spliced out:", req.body.incoming_requests);
+  console.log("after reviewed are spliced out:", requests);
+  res.send();
   // User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
   //   if(err){
   //     console.log(err);
   //     res.send();
   //   }
+  //   console.log("Adding Partner Updates to: ", doc);
+  //   res.send(doc);//just for now. may need to take out
   //
+  //   // doc.incoming_requests.forEach(function(request){
+  //   //   if(request.approved === true){
+  //   //     User.findOne({"username" : request.from}).lean().exec(function(err, person){
+  //   //       console.log("PERSONNNNNUHhhH!!: ", person);
+  //   //     });
+  //   //   }
+  //   //   else{
+  //   //     console.log("no dice");
+  //   //   }
+  //   // });
   //
   // });
-  res.send();
 });
 // Item.find({}).populate('comments.created_by').exec(function(err, items) {
 //     console.log(items[0].comments[0].created_by.name);
 // });//this is just an example for my own reference
+
+router.post('/getRequestUpdates', function(req, res, next) {
+  console.log(req.body);
+  var id = req.body._id;
+  console.log("THE REQUEST ID: ", id);
+  User.findOne({'_id': id}, function(err, doc){
+    if(err){
+      console.log(err);
+    }
+    console.log("THE DOCUMENT YOU WERE LOOKING FOR: ", doc);
+    res.send(doc);//i appear to not ever be sending the doc back to the front (fixed?)
+  });
+});
 
 router.post('/findUser', cors(), function(req, res, next) {
   console.log("find User request body: ", req.body);
@@ -228,7 +227,7 @@ router.post("/findFriend", function(req, res){
         console.log(err);
       }
       if(doc){
-        console.log("FOUND YOUR FRIEND!!: ", doc);
+        console.log(doc);
         doc.incoming_requests.push({
           from : req.body.from,
           approved : false,
@@ -241,7 +240,7 @@ router.post("/findFriend", function(req, res){
           if(err){
             console.log(err);
           }
-          console.log("UPDATES TO FRIEND!!: ", updatedDoc);
+          console.log(updatedDoc);
           res.send({sentTo: updatedDoc.username});
         });
       }
