@@ -289,8 +289,7 @@ $scope.reviewTimelineInvitations = function(req, $event, $index){
   console.log($scope.currentData);
   UserFactory.reviewTimelineInvitations($scope.currentData)
   .then(function(data){
-    console.log("after review: ", data);
-    $rootScope.currentData.incoming_requests = data.incoming_requests;
+    console.log("should have spliced out reviewed requests in backend: ", data);
   })
   .catch(function(err){
     console.log(err);

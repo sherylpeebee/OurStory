@@ -71,6 +71,7 @@ router.post('/reviewTimelineInvitations', function(req, res, next) {
       requests.splice(i, 1);
     }
   }
+
   User.findById({"_id": id}, function(err, doc){
     if(err){
       console.log(err);
@@ -82,10 +83,23 @@ router.post('/reviewTimelineInvitations', function(req, res, next) {
       if(err){
         console.log(err);
       }
-      console.log("docWithUpdates spliced out reviewed: ", docWithUpdates);
+      console.log(docWithUpdates);
       res.send(docWithUpdates);
     });
+
   });
+
+  // req.body.incoming_requests = requests;
+  // console.log("after reviewed are spliced out:", req.body.incoming_requests);
+  // User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
+  //   if(err){
+  //     console.log(err);
+  //     res.send();
+  //   }
+  //
+  //
+  // });
+  res.send();
 });
 // Item.find({}).populate('comments.created_by').exec(function(err, items) {
 //     console.log(items[0].comments[0].created_by.name);
