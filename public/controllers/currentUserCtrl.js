@@ -110,8 +110,6 @@ angular.module("OurStory")
     story.author = author;
     story.timeline_id = paramId;
 
-    // $scope.fakeStories.push(story);
-
     UserFactory.addStory(story)
     .then(function(res){
       $scope.story = {};
@@ -122,7 +120,6 @@ angular.module("OurStory")
       console.log(err);
     });
   };
-
 
     // $scope.getParams = function(){
     //   var currentCouple = [];

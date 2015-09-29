@@ -22,13 +22,6 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/pic', function(req, res, next) {
-  console.log('delivering a pic');
-  if(req.body.img){
-    var img = req.body.img;
-  }
-});
-
 var importPics;
 var searchParams = /^http:\/\/|^https:\/\//i;
 router.post("/addStory", function(req, res){
