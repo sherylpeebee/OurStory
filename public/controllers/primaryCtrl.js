@@ -43,7 +43,7 @@ $scope.logout = function(){
   $rootScope.afAuthObj.$unauth();
   $rootScope.authenticatedUser = null;
   $rootScope.userCheck = false;
-  $state.go('home');
+  $state.go('splash');
   location.reload();
 };
 

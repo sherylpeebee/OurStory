@@ -861,3 +861,21 @@ i.material-icons.seeLess {
     color: black;
     font-weight: bold;
 }
+
+.why {
+    width: 70%;
+    margin-top: 8%;
+}
+
+h3.tldr.ng-scope {
+    margin-left: 24%;
+}
+
+p.reasons {
+    margin-bottom: 36px;
+    font-size: 20px;
+}
+
+.fa-heart{
+  2em;  
+}
