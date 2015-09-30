@@ -278,9 +278,9 @@ $scope.reviewTimelineInvitations = function(req, $event, $index){
     })();
   }
   req.reviewed = true;
-  $scope.currentData.incoming_requests.splice($index, 1, req);
-  console.log($scope.currentData);
-  UserFactory.reviewTimelineInvitations($scope.currentData)
+  $rootScope.currentData.incoming_requests.splice($index, 1, req);
+  console.log($rootScope.currentData);
+  UserFactory.reviewTimelineInvitations($rootScope.currentData)
   .then(function(data){
     console.log("after review: ", data);
     $rootScope.currentData.incoming_requests = data.incoming_requests;
