@@ -877,7 +877,11 @@ p.reasons {
 }
 
 .fa-heart{
-  2em;
+  font-size: 1em;
+}
+.fa-heart:hover{
+  font-size: 1em;
+  cursor: pointer;
 }
 
 .guide.ng-scope {
