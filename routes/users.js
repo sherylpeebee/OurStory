@@ -20,6 +20,7 @@ router.post("/createTimeline", function(req, res, next){
     if(err){
       console.log(err);
     }
+<<<<<<< HEAD
     else if(timeline){
       console.log(timeline);
       User.findByIdAndUpdate(req.body._id,
@@ -36,6 +37,26 @@ router.post("/createTimeline", function(req, res, next){
             console.log(updatedUser);
             res.send(updatedUser);
           });
+=======
+    console.log("NEW TIMELINE: ", timeline);
+    var newTimelineInfo = {
+      title: timeline.title,
+      id: timeline._id,
+      badgeStyle: req.body.newTimeline.badgeStyle
+    };
+    User.findById(req.body._id, function(err, user) {
+      if(err){
+        console.log(err);
+        return res.send(err);
+      }
+      user.timelines.push(newTimelineInfo);
+      user.save(function(err, updatedUser){
+        if(err){
+          console.log(err);
+        }
+        console.log("USER WITH NEW TIMELINE: ", updatedUser);
+        res.send({updatedUser: updatedUser, newTimelineInfo: newTimelineInfo});
+>>>>>>> 7110d9d6a37b9409d97abd26b24db8dedc69672f
       });
     }
   });
@@ -57,7 +78,18 @@ router.post('/updatePartner', function(req, res, next) {
   var requests = req.body.incoming_requests;
   console.log("trying to update a partner: ", requests);
   for(var i = 0; i < requests.length; i++){
+<<<<<<< HEAD
     if(requests[i].reviewed === "true"){
+=======
+    if(requests[i].approved === true){
+      var newTimelineInfo = {
+        title: requests[i].timeline.title,
+        id: requests[i].timeline.id,
+        badgeStyle: requests[i].badgeStyle
+      };
+    }
+    if(requests[i].reviewed === true){
+>>>>>>> 7110d9d6a37b9409d97abd26b24db8dedc69672f
       requests.splice(i, 1);
       req.body.incoming_requests = requests;
       console.log(requests);
@@ -218,8 +250,6 @@ router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
 
 router.post("/findFriend", function(req, res){
   console.log("friend search: ", req.body);
-  // var searchTerm = req.body.search === "username" ? "username" : "full_name";
-  // console.log("searchTerm: ", searchTerm + typeof searchTerm);
   switch(req.body.search) {
     case "username":
     User.findOne({"username" : req.body.name}, function(err, doc){

@@ -4,15 +4,13 @@
     <title>The History of Us</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- <link src="/bower_components/bootstrap/dist/css/bootstrap.css"> -->
     <link href="/bower_components/lightbox2/dist/css/lightbox.css" rel="stylesheet">
     <link href="/bower_components/toastr/toastr.css" rel="stylesheet">
     <link href="/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel='stylesheet' href="stylesheets/timeline.css"/>
     <link rel='stylesheet' href="stylesheets/style.css"/>
   </head>
@@ -172,7 +170,7 @@
                       </li>
                       <li ng-show="currentData.timelines[0]" ng-repeat="timeline in currentData.timelines track by $index">
                         <div class="timelines">
-                          <a ui-sref="currentUser({id: timeline.id})" class="partnerLink animated pulse" ng-click="getTimeline(timeline.id)">{{timeline.title}}</a>
+                          <a ui-sref="currentUser({id: timeline.id})" class="partnerLink animated pulse" ng-click="getTimeline(timeline.id, $index)">{{timeline.title}}</a>
                         </div>
                       </li>
                     </ul>

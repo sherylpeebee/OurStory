@@ -20,7 +20,7 @@ $scope.login = function(){
   if(!$rootScope.authenticatedUser){
     AuthFactory.authUser()
     .then(function(authData){
-      console.log("authData", authData);
+      console.log("authData: ", authData);
       $rootScope.userCheck = true;
       $rootScope.authData = authData;
       $rootScope.authenticatedUser = authData.twitter;
@@ -29,6 +29,7 @@ $scope.login = function(){
       $rootScope.authenticatedUser.oauth_id = {};
       $rootScope.authenticatedUser.oauth_id[provider] = id;
       $rootScope.authenticatedUser.partner = { };
+      $scope.findUser();
       $state.go('home');
     });
   }
@@ -42,7 +43,7 @@ $scope.logout = function(){
   $rootScope.afAuthObj.$unauth();
   $rootScope.authenticatedUser = null;
   $rootScope.userCheck = false;
-  $state.go('home');
+  $state.go('splash');
   location.reload();
 };
 
@@ -156,12 +157,6 @@ $scope.createOrUpdateAccount = function(person){
         UserFactory.createOrUpdateAccount(person)
         .success(function(res){
           $rootScope.currentData = res;
-          // $("#step1").css("display", "none");
-          // $("#createOrUpdateAccount").css("display", "none");
-          // $("#steps_wrapper1").fadeIn(600);
-          // if(!$rootScope.currentData.timeline[0]){
-          //   $("#newTimeline").css("display", "inline");
-          // }
           console.log("response: ", res);
           $scope.current = {};
         })
@@ -189,32 +184,39 @@ $scope.createOrUpdateAccount = function(person){
 };
 
 $scope.createTimeline = function(timeline){
-  var newestTimeline;
   console.log(timeline);
+  timeline.badgeStyle =
+  (function assignTimelineStyle (){
+      var badgeColors = ["primary", "success", "warning", "danger", "info"];
+      var timelineInverted = Math.round(Math.random());
+      var badge = Math.floor(Math.random() * (5 - 0));
+      var badgeStyle = {
+        timelineInverted : timelineInverted,
+        badgeColor : badgeColors[badge]
+      };
+      return badgeStyle;
+  })();
+  var newestTimeline;
   var appendedUserObj = $rootScope.currentData;
   appendedUserObj.newTimeline = timeline;
 
   UserFactory.createTimeline(appendedUserObj)
-  .then(function(data){
+  .then(function(res){
     if(!$rootScope.currentData.timelines[0]){
-      console.log(data);
+      console.log(res);
       $("#step2").css("display", "none");
       $("#newTimeline").css("display", "none");
       $("#steps_wrapper2").fadeIn(600);
       $("#inviteFriends").css("display", "inline");
-      newestTimelineIndex = data.data.timelines.length - 1;
-      newestTimeline = data.data.timelines[newestTimelineIndex];
-      $scope.newTimelineId = newestTimeline.id;
-      $scope.newTimelineTitle = newestTimeline.title;
+      $scope.newTimelineId = res.data.newTimelineInfo.id;
+      $scope.newTimelineTitle = res.data.newTimelineInfo.title;
       console.log($scope.newTimelineId);
       // console.log("new data: ", data);
       $scope.timeline = "";
     }
     else{
-      newestTimelineIndex = data.data.timelines.length - 1;
-      newestTimeline = data.data.timelines[newestTimelineIndex];
-      $scope.newTimelineId = newestTimeline.id;
-      $scope.newTimelineTitle = newestTimeline.title;
+      $scope.newTimelineId = res.data.newTimelineInfo.id;
+      $scope.newTimelineTitle = res.data.newTimelineInfo.title;
       console.log($scope.newTimelineId);
       // console.log("old and new data: ", data);
       $scope.timeline = "";
@@ -225,12 +227,20 @@ $scope.createTimeline = function(timeline){
   });
 };
 
-$scope.getTimeline = function(id){
+$scope.getTimeline = function(id, idx){
+  $rootScope.currentUserBadgeStyle = $rootScope.currentData.timelines[idx].badgeStyle;
+  $rootScope.timelineTitle = $rootScope.currentData.timelines[idx].title;
   console.log(id);
   UserFactory.getTimeline({id : id})
-  .then(function(data){
+  .then(function(res){
     console.log('DOING STUFF');
-    console.log(data);
+    console.log(res);
+    // console.log(resp.data.stories);
+    $rootScope.stories = res.data.stories;
+    // if(!$scope.$$phase) {
+    //   $scope.$apply();
+    // }
+    console.log($rootScope.stories);
   })
   .catch(function(err){
     console.log(err);
@@ -239,45 +249,41 @@ $scope.getTimeline = function(id){
 
 $scope.fetchUpdatedTimelines = function(){
   UserFactory.fetchUpdatedTimelines($rootScope.currentData)
-  .then(function(data){
-    console.log(data);
-    $rootScope.currentData.timelines = data.data.timelines;
+  .then(function(res){
+    console.log(res);
+    $rootScope.currentData.timelines = res.data.timelines;
   })
   .catch(function(err){
     console.log(err);
   });
 };
 
-$scope.updatePartner = function(req, $event, $index){
+$scope.reviewTimelineInvitations = function(req, $event, $index){
   console.log(req);
   var button = $event.target;
   var response = button.textContent;
   // var match;
   req.approved = response === "decline" ? false : true;
+  if(req.approved === true){
+    req.badgeStyle =
+    (function assignTimelineStyle (){
+        var badgeColors = ["primary", "success", "warning", "danger", "info"];
+        var timelineInverted = Math.round(Math.random());
+        var badge = Math.floor(Math.random() * (5 - 0));
+        var badgeStyle = {
+          timelineInverted : timelineInverted,
+          badgeColor : badgeColors[badge]
+        };
+        return badgeStyle;
+    })();
+  }
   req.reviewed = true;
   $scope.currentData.incoming_requests.splice($index, 1, req);
   console.log($scope.currentData);
-  UserFactory.updatePartner($scope.currentData)
+  UserFactory.reviewTimelineInvitations($scope.currentData)
   .then(function(data){
-    console.log("should have spliced out reviewed requests in backend: ", data);
-
-    // UserFactory.getRequestUpdates($scope.currentData)
-    // .then(function(updates){
-    //   console.log("updates: ", updates.config.data.incoming_requests);
-    //   var currentRequests = updates.config.data.incoming_requests;
-    //   console.log("currentRequests: ", currentRequests);
-    //   console.log("currentRequestslength: ", currentRequests.length);
-    //   for(var i = 0; i< currentRequests.length; i++){
-    //     console.log("currentRequests: ", currentRequests[i].reviewed);
-    //     if(currentRequests[i].reviewed === true){
-    //       currentRequests.splice(i, 1);
-    //       console.log($scope.currentData);
-    //     }
-    //   }
-    // })
-    // .catch(function(err){
-    //   console.log(err);
-    // });
+    console.log("after review: ", data);
+    $rootScope.currentData.incoming_requests = data.incoming_requests;
   })
   .catch(function(err){
     console.log(err);
