@@ -877,5 +877,13 @@ p.reasons {
 }
 
 .fa-heart{
-  2em;  
+  2em;
+}
+
+.guide.ng-scope {
+    width: 70%;
+}
+
+h4.startBy {
+    margin-top: 74px;
 }

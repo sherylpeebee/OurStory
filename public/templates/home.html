@@ -2,17 +2,23 @@
 
 <div class="container">
   <h1 id="recentStoryHeader">Recent Stories</h1>
+  <div class="guide" ng-if="!currentData.timelines">
+    <h3>You've gotta write some!</h3>
+    <h4 class="startBy">( If you haven't already, sign in, then click your username in the top right to create an account. )</h4>
+  </div>
 </div>
 
+
+
   <div class="row">
-    <div class="col l3" ng-repeat="timeline in currentData.timelines">
+    <div class="col l3" ng-repeat="timeline in currentData.timelines track by $index">
       <div class="card">
        <div class="card-image waves-effect waves-block waves-light">
          <img class="activator" src="http://lorempixel.com/output/nature-q-c-640-480-4.jpg">
        </div>
        <div class="card-content">
          <span class="card-title activator grey-text text-darken-4">{{timeline.title}}<i class="material-icons right">more_vert</i></span>
-         <p><a ui-sref="currentUser({id: timeline.id})" class="seeMore">See the Rest!</a></p>
+         <p><a ui-sref="currentUser({id: timeline.id})" ng-click="getTimeline(timeline.id, $index)" class="seeMore">See the Rest!</a></p>
        </div>
        <div class="card-reveal">
          <span class="card-title grey-text text-darken-4">{{timeline.title}}<i class="material-icons right close seeLess">close</i></span>
