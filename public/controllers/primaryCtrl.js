@@ -29,6 +29,7 @@ $scope.login = function(){
       $rootScope.authenticatedUser.oauth_id = {};
       $rootScope.authenticatedUser.oauth_id[provider] = id;
       $rootScope.authenticatedUser.partner = { };
+      $scope.findUser();
       $state.go('home');
     });
   }

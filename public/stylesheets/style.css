@@ -818,3 +818,46 @@ button.btn.yellow.darken-3.accept.ng-pristine.ng-untouched.ng-valid {
     margin-left: 64px;
     margin-bottom: -20px;
 }
+
+.col.l3.ng-scope {
+    margin-left: 100px;
+    margin-top: 65px;
+}
+
+.card .card-content {
+    padding: 20px;
+    border-radius: 0 0 2px 2px;
+    background-color: #2D1A2C;
+}
+
+.card .card-content .card-title {
+    line-height: 48px;
+    color: wheat !important;
+    letter-spacing: 5px;
+}
+
+a.seeMore {
+    color: #E5BF03;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    margin: 0.5rem 0 1rem 0;
+    background-color: #fff;
+    transition: box-shadow .25s;
+    border-radius: 10px;
+    box-shadow: 12px 14px 43px 0px;
+    border: 5px solid black;
+}
+
+i.material-icons.seeLess {
+    font-size: 35px;
+    height: 30px;
+    position: relative;
+    bottom: 2px;
+    color: black;
+    font-weight: bold;
+}

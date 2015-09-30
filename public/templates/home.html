@@ -2,23 +2,22 @@
 
 <div class="container">
   <h1 id="recentStoryHeader">Recent Stories</h1>
-
-{{stories}}
-  <!-- <div class="row">
-    <div class="col s4 m12">
-      <div class="card">
-        <div class="card-image">
-          <img src="images/sample-1.jpg">
-          <span class="card-title">{{TitleHere}}</span>
-        </div>
-        <div class="card-content">
-          <p>{{ContentHere}}</p>
-        </div>
-        <div class="card-action">
-          <a href="#">{{LinkHere}}</a>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
 </div>
+
+  <div class="row">
+    <div class="col l3" ng-repeat="timeline in currentData.timelines">
+      <div class="card">
+       <div class="card-image waves-effect waves-block waves-light">
+         <img class="activator" src="http://lorempixel.com/output/nature-q-c-640-480-4.jpg">
+       </div>
+       <div class="card-content">
+         <span class="card-title activator grey-text text-darken-4">{{timeline.title}}<i class="material-icons right">more_vert</i></span>
+         <p><a ui-sref="currentUser({id: timeline.id})" class="seeMore">See the Rest!</a></p>
+       </div>
+       <div class="card-reveal">
+         <span class="card-title grey-text text-darken-4">{{timeline.title}}<i class="material-icons right close seeLess">close</i></span>
+         <p>A story about peopleses...</p>
+       </div>
+     </div>
+    </div>
+  </div>
