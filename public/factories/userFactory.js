@@ -30,7 +30,7 @@ angular.module("OurStory")
       // return $http.post('http://localhost:8000/stories/pic', img);
     },
     addStory : function (story){
-      return $http.post('https://the-history-of-us.herokuapp.com/story/addStory', story);
+      return $http.post('https://the-history-of-us.herokuapp.com/stories/addStory', story);
       // return $http.post('http://localhost:8000/stories/addStory', story);
     },
     getTimeline : function (id){
