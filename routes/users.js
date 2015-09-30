@@ -12,32 +12,14 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+
 router.post("/createTimeline", function(req, res, next){
-  console.log("working!!!1ndsjfnsdofndasojfna!!@))R($&^#*&%^&(*@^(*)))");
-  console.log(req.body.newTimeline);
-  var newTimeline = new Timeline(req.body.newTimeline);
+  console.log(req.body);
+  var newTimeline = new Timeline({title: req.body.newTimeline.title});
   newTimeline.save(function(err, timeline){
     if(err){
       console.log(err);
     }
-<<<<<<< HEAD
-    else if(timeline){
-      console.log(timeline);
-      User.findByIdAndUpdate(req.body._id,
-      {$push: {timelines: {
-        id: timeline._id,
-        title: timeline.title
-      }}},
-      {safe: true, upsert: true}, function(err, user) {
-          if(err){
-            console.log(err);
-            return res.send(err);
-          }
-          User.findById(user._id, function(err, updatedUser){
-            console.log(updatedUser);
-            res.send(updatedUser);
-          });
-=======
     console.log("NEW TIMELINE: ", timeline);
     var newTimelineInfo = {
       title: timeline.title,
@@ -56,9 +38,8 @@ router.post("/createTimeline", function(req, res, next){
         }
         console.log("USER WITH NEW TIMELINE: ", updatedUser);
         res.send({updatedUser: updatedUser, newTimelineInfo: newTimelineInfo});
->>>>>>> 7110d9d6a37b9409d97abd26b24db8dedc69672f
       });
-    }
+    });
   });
 });
 
@@ -73,14 +54,12 @@ router.post("/getTimeline", function(req, res, next){
   });
 });
 
-router.post('/updatePartner', function(req, res, next) {
+router.post('/reviewTimelineInvitations', function(req, res, next) {
   var id = req.body._id;
   var requests = req.body.incoming_requests;
   console.log("trying to update a partner: ", requests);
+  console.log("full request body: ", req.body);
   for(var i = 0; i < requests.length; i++){
-<<<<<<< HEAD
-    if(requests[i].reviewed === "true"){
-=======
     if(requests[i].approved === true){
       var newTimelineInfo = {
         title: requests[i].timeline.title,
@@ -89,50 +68,23 @@ router.post('/updatePartner', function(req, res, next) {
       };
     }
     if(requests[i].reviewed === true){
->>>>>>> 7110d9d6a37b9409d97abd26b24db8dedc69672f
       requests.splice(i, 1);
-      req.body.incoming_requests = requests;
-      console.log(requests);
     }
-    console.log(requests[i].reviewed);
   }
-  console.log("after reviewed are spliced out:", requests);
-  res.send();
-  // User.findOneAndUpdate({"_id": id}, req.body, function(err, doc){
-  //   if(err){
-  //     console.log(err);
-  //     res.send();
-  //   }
-  //   console.log("Adding Partner Updates to: ", doc);
-  //   res.send(doc);//just for now. may need to take out
-  //
-  //   // doc.incoming_requests.forEach(function(request){
-  //   //   if(request.approved === true){
-  //   //     User.findOne({"username" : request.from}).lean().exec(function(err, person){
-  //   //       console.log("PERSONNNNNUHhhH!!: ", person);
-  //   //     });
-  //   //   }
-  //   //   else{
-  //   //     console.log("no dice");
-  //   //   }
-  //   // });
-  //
-  // });
-});
-// Item.find({}).populate('comments.created_by').exec(function(err, items) {
-//     console.log(items[0].comments[0].created_by.name);
-// });//this is just an example for my own reference
-
-router.post('/getRequestUpdates', function(req, res, next) {
-  console.log(req.body);
-  var id = req.body._id;
-  console.log("THE REQUEST ID: ", id);
-  User.findOne({'_id': id}, function(err, doc){
+  User.findById({"_id": id}, function(err, doc){
     if(err){
       console.log(err);
+      res.send();
     }
-    console.log("THE DOCUMENT YOU WERE LOOKING FOR: ", doc);
-    res.send(doc);//i appear to not ever be sending the doc back to the front (fixed?)
+    doc.timelines.push(newTimelineInfo);
+    doc.incoming_requests = requests;
+    doc.save(function(err, docWithUpdates){
+      if(err){
+        console.log(err);
+      }
+      console.log("docWithUpdates spliced out reviewed: ", docWithUpdates);
+      res.send(docWithUpdates);
+    });
   });
 });
 
@@ -257,7 +209,7 @@ router.post("/findFriend", function(req, res){
         console.log(err);
       }
       if(doc){
-        console.log(doc);
+        console.log("FOUND YOUR FRIEND!!: ", doc);
         doc.incoming_requests.push({
           from : req.body.from,
           approved : false,
@@ -270,7 +222,7 @@ router.post("/findFriend", function(req, res){
           if(err){
             console.log(err);
           }
-          console.log(updatedDoc);
+          console.log("UPDATES TO FRIEND!!: ", updatedDoc);
           res.send({sentTo: updatedDoc.username});
         });
       }
