@@ -206,26 +206,30 @@ $scope.createTimeline = function(timeline){
   appendedUserObj.newTimeline = timeline;
 
   UserFactory.createTimeline(appendedUserObj)
-  .then(function(data){
+  .then(function(res){
     if(!$rootScope.currentData.timelines[0]){
-      console.log(data);
+      console.log(res);
       $("#step2").css("display", "none");
       $("#newTimeline").css("display", "none");
       $("#steps_wrapper2").fadeIn(600);
       $("#inviteFriends").css("display", "inline");
-      newestTimelineIndex = data.data.timelines.length - 1;
-      newestTimeline = data.data.timelines[newestTimelineIndex];
-      $scope.newTimelineId = newestTimeline.id;
-      $scope.newTimelineTitle = newestTimeline.title;
+      // newestTimelineIndex = resp.data.timelines.length - 1;
+      // newestTimeline = resp.data.timelines[newestTimelineIndex];
+      // $scope.newTimelineId = newestTimeline._id;
+      // $scope.newTimelineTitle = newestTimeline.title;
+      $scope.newTimelineId = res.data.newTimelineInfo.id;
+      $scope.newTimelineTitle = res.data.newTimelineInfo.title;
       console.log($scope.newTimelineId);
       // console.log("new data: ", data);
       $scope.timeline = "";
     }
     else{
-      newestTimelineIndex = data.data.timelines.length - 1;
-      newestTimeline = data.data.timelines[newestTimelineIndex];
-      $scope.newTimelineId = newestTimeline.id;
-      $scope.newTimelineTitle = newestTimeline.title;
+      // newestTimelineIndex = resp.data.timelines.length - 1;
+      // newestTimeline = resp.data.timelines[newestTimelineIndex];
+      // $scope.newTimelineId = newestTimeline._id;
+      // $scope.newTimelineTitle = newestTimeline.title;
+      $scope.newTimelineId = res.data.newTimelineInfo.id;
+      $scope.newTimelineTitle = res.data.newTimelineInfo.title;
       console.log($scope.newTimelineId);
       // console.log("old and new data: ", data);
       $scope.timeline = "";
@@ -236,13 +240,14 @@ $scope.createTimeline = function(timeline){
   });
 };
 
-$scope.getTimeline = function(id){
+$scope.getTimeline = function(id, idx){
+  $scope.badgeStyle = $rootScope.currentData.timelines[idx].badgeStyle;
   console.log(id);
   UserFactory.getTimeline({id : id})
   .then(function(res){
     console.log('DOING STUFF');
     console.log(res);
-    // console.log(res.data.stories);
+    // console.log(resp.data.stories);
     $scope.stories = res.data.stories;
     // if(!$scope.$$phase) {
     //   $scope.$apply();
@@ -256,9 +261,9 @@ $scope.getTimeline = function(id){
 
 $scope.fetchUpdatedTimelines = function(){
   UserFactory.fetchUpdatedTimelines($rootScope.currentData)
-  .then(function(data){
-    console.log(data);
-    $rootScope.currentData.timelines = data.data.timelines;
+  .then(function(res){
+    console.log(res);
+    $rootScope.currentData.timelines = res.data.timelines;
   })
   .catch(function(err){
     console.log(err);

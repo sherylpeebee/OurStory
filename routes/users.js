@@ -37,7 +37,7 @@ router.post("/createTimeline", function(req, res, next){
           console.log(err);
         }
         console.log("USER WITH NEW TIMELINE: ", updatedUser);
-        res.send(updatedUser);
+        res.send({updatedUser: updatedUser, newTimelineInfo: newTimelineInfo});
       });
     });
   });
@@ -63,7 +63,7 @@ router.post('/reviewTimelineInvitations', function(req, res, next) {
     if(requests[i].approved === true){
       var newTimelineInfo = {
         title: requests[i].timeline.title,
-        id: requests[i]._id,
+        id: requests[i].timeline.id,
         badgeStyle: requests[i].badgeStyle
       };
     }
