@@ -1,6 +1,6 @@
 <div class="container">
     <div class="page-header">
-        <h1 id="timeline">Timeline</h1>
+        <h1 id="timeline">{{timelineTitle}}</h1>
         <!-- <a href="#"   ng-click="getUser" >click</a> -->
     </div>
 
@@ -62,7 +62,7 @@
           </div>
       </div>
     </div>
-    
+
     <div id="messageModal" class="modal">
       <div class="modal-content">
         <h4 class="center-align modal-header">Send a Message</h4>
@@ -73,8 +73,8 @@
       </div>
     </div>
     <ul class="timeline">
-        <li ng-repeat="story in stories track by $index" >
-          <div class="timeline-badge" ></div>
+        <li ng-repeat="story in stories track by $index" ng-class="{timelineInverted: story.author.badgeStyle.timelineInverted}">
+          <div class="timeline-badge" ng-class="story.author.badgeStyle.badgeColor"></div>
           <div class="timeline-panel">
             <div class="timeline-heading">
               <h4 class="timeline-title">{{story.title}}</h4>

@@ -156,12 +156,6 @@ $scope.createOrUpdateAccount = function(person){
         UserFactory.createOrUpdateAccount(person)
         .success(function(res){
           $rootScope.currentData = res;
-          // $("#step1").css("display", "none");
-          // $("#createOrUpdateAccount").css("display", "none");
-          // $("#steps_wrapper1").fadeIn(600);
-          // if(!$rootScope.currentData.timeline[0]){
-          //   $("#newTimeline").css("display", "inline");
-          // }
           console.log("response: ", res);
           $scope.current = {};
         })
@@ -213,10 +207,6 @@ $scope.createTimeline = function(timeline){
       $("#newTimeline").css("display", "none");
       $("#steps_wrapper2").fadeIn(600);
       $("#inviteFriends").css("display", "inline");
-      // newestTimelineIndex = resp.data.timelines.length - 1;
-      // newestTimeline = resp.data.timelines[newestTimelineIndex];
-      // $scope.newTimelineId = newestTimeline._id;
-      // $scope.newTimelineTitle = newestTimeline.title;
       $scope.newTimelineId = res.data.newTimelineInfo.id;
       $scope.newTimelineTitle = res.data.newTimelineInfo.title;
       console.log($scope.newTimelineId);
@@ -224,10 +214,6 @@ $scope.createTimeline = function(timeline){
       $scope.timeline = "";
     }
     else{
-      // newestTimelineIndex = resp.data.timelines.length - 1;
-      // newestTimeline = resp.data.timelines[newestTimelineIndex];
-      // $scope.newTimelineId = newestTimeline._id;
-      // $scope.newTimelineTitle = newestTimeline.title;
       $scope.newTimelineId = res.data.newTimelineInfo.id;
       $scope.newTimelineTitle = res.data.newTimelineInfo.title;
       console.log($scope.newTimelineId);
@@ -241,7 +227,8 @@ $scope.createTimeline = function(timeline){
 };
 
 $scope.getTimeline = function(id, idx){
-  $scope.badgeStyle = $rootScope.currentData.timelines[idx].badgeStyle;
+  $rootScope.currentUserBadgeStyle = $rootScope.currentData.timelines[idx].badgeStyle;
+  $rootScope.timelineTitle = $rootScope.currentData.timelines[idx].title;
   console.log(id);
   UserFactory.getTimeline({id : id})
   .then(function(res){

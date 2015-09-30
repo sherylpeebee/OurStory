@@ -3,6 +3,8 @@ angular.module("OurStory")
   console.log("in currentUserCtrl");
   var paramId = $stateParams.id;
   console.log($rootScope.currentData);
+  console.log($rootScope.currentUserBadgeStyle);
+  console.log($rootScope.timelineTitle);
 
   var uri, preview = document.querySelector('img#imgPreview');
   $(document).ready(function(){
@@ -107,6 +109,7 @@ angular.module("OurStory")
     author.username = $rootScope.currentData.username;
     author.id = $rootScope.currentData._id;
     author.picture = $rootScope.currentData.profile_picture;
+    author.badgeStyle = $rootScope.currentUserBadgeStyle;
     story.author = author;
     story.timeline_id = paramId;
 
@@ -120,23 +123,5 @@ angular.module("OurStory")
       console.log(err);
     });
   };
-
-    // $scope.getParams = function(){
-    //   var currentCouple = [];
-    //   console.log("clickety");
-    //   console.log($stateParams);
-    //   var currentCoupleId = $stateParams.id;
-    //   var couples = $rootScope.currentData.relationships;
-    //   for(var i = 0; i<couples.length; i++){
-    //     if(currentCoupleId === couples[i]._id ){
-    //       currentCouple.push(couples[i]);
-    //     }
-    //   }
-    //   var memberOne = currentCouple[0].partnerIds.one;//change all memberOneto "oddMember" redo logic here
-    //   if( memberOne === $rootScope.currentData._id){
-    //     $rootScope.memberOne = true;
-    //   }
-    //   console.log($rootScope.memberOne);
-    // };
 
 }]);

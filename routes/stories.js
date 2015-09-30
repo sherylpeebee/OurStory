@@ -16,8 +16,6 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET
 });
 
-// cloudinary.uploader.upload("output.jpg", function(result) { console.log(result); });
-
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
@@ -122,46 +120,5 @@ router.post("/addStory", function(req, res){
     importPics(upload);
   }
 });
-    // // var base64 = img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "") ;
-    // // var buf = new Buffer(base64, 'base64');
-    // //
-    // // console.log(buf);
-    //
-    // fs.writeFile('output.jpg', buf, 'binary', function(err, data){
-    //  if (err) {
-    //    return console.log(err);
-    //  }
-    //  console.log(data);
-    //  res.status(200).send('ok');
-    // });
-  // else{
-  //   res.status(200).send('no images sent');
-  //   // res.status(200).send('test');
-  //   return;
-  // }
-  // // var images = req.body.img;
-  // // var newStory = new Story({
-  // //   title: req.body.title,
-  // //   story: req.body.summary,
-  // //   created_at: req.body.date,
-  // //   // pics: req.body.img
-  // // });
-  // // newStory.save(function(err, story){
-  // //   //pics not saving here;
-  // //   if(err){
-  // //     console.log(err);
-  // //   }
-  // //   console.log(story);
-  // //   console.log(story._id);
-  // //   Story.findOneAndUpdate({"_id": story._id}, {pics: images}, {upsert: true}, function(err, affecred, raw){
-  // //     if(err){
-  // //       console.log(err);
-  // //     }
-  // //     res.send('done');
-  // //   });
-  // // });
-// });
-
-
 
 module.exports = router;

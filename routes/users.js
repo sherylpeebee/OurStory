@@ -87,9 +87,6 @@ router.post('/reviewTimelineInvitations', function(req, res, next) {
     });
   });
 });
-// Item.find({}).populate('comments.created_by').exec(function(err, items) {
-//     console.log(items[0].comments[0].created_by.name);
-// });//this is just an example for my own reference
 
 router.post('/findUser', cors(), function(req, res, next) {
   console.log("find User request body: ", req.body);
@@ -205,8 +202,6 @@ router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
 
 router.post("/findFriend", function(req, res){
   console.log("friend search: ", req.body);
-  // var searchTerm = req.body.search === "username" ? "username" : "full_name";
-  // console.log("searchTerm: ", searchTerm + typeof searchTerm);
   switch(req.body.search) {
     case "username":
     User.findOne({"username" : req.body.name}, function(err, doc){
