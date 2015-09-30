@@ -281,9 +281,9 @@ $scope.reviewTimelineInvitations = function(req, $event, $index){
   $rootScope.currentData.incoming_requests.splice($index, 1, req);
   console.log($rootScope.currentData);
   UserFactory.reviewTimelineInvitations($rootScope.currentData)
-  .then(function(data){
-    console.log("after review: ", data);
-    $rootScope.currentData.incoming_requests = data.incoming_requests;
+  .then(function(res){
+    $rootScope.currentData.incoming_requests = res.data.incoming_requests;
+    console.log("after review: ", $rootScope.currentData.incoming_requests);
   })
   .catch(function(err){
     console.log(err);
