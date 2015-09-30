@@ -579,8 +579,12 @@ p#callToAction {
 }
 
 img.thumbnail {
-    max-height: 13vh;
+    max-height: 30vh;
 }
+
+/*img.thumbnail {
+    max-height: 13vh;
+}*/
 
 div#accountPrompt {
     color: rgb(238, 110, 115);
