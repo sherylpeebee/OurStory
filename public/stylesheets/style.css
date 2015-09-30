@@ -216,7 +216,8 @@ body {
     background-image: url("/images/stories_illustration_transparent.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: 1091px 154px;
+    /*background-position: 1091px 154px;*/
+    background-position: 854px 151px;
 }
 
 textarea.modal-input, input[type=text].modal-input, input[type=email].modal-input, input[type=password].modal-input, input[type=url].modal-input, input[type=time].modal-input, input[type=number].modal-input, input[type=search].modal-input, input[type=date].modal-input {
