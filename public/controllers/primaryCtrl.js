@@ -248,11 +248,11 @@ $scope.getTimeline = function(id, idx){
     console.log('DOING STUFF');
     console.log(res);
     // console.log(resp.data.stories);
-    $scope.stories = res.data.stories;
+    $rootScope.stories = res.data.stories;
     // if(!$scope.$$phase) {
     //   $scope.$apply();
     // }
-    console.log($scope.stories);
+    console.log($rootScope.stories);
   })
   .catch(function(err){
     console.log(err);

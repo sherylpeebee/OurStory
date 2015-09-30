@@ -114,7 +114,7 @@ angular.module("OurStory")
     .then(function(res){
       $scope.story = {};
       console.log(res);
-      $rootScope.stories = res.data;
+      $rootScope.stories = res.data.stories;
     })
     .catch(function(err){
       console.log(err);
