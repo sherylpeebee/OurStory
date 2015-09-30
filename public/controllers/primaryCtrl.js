@@ -11,7 +11,6 @@ angular.module("OurStory")
       edge: 'left', // Choose the horizontal origin
       closeOnClick: false
     });
-    // $('.collapse').sideNav('hide');
     $('.tooltipped').tooltip({delay: 50});
     console.log("ready!");
   });
@@ -50,7 +49,6 @@ $scope.logout = function(){
 $scope.verifyInfo = function(currentData){
   console.log(currentData);
   console.log(Object.keys(currentData)[0]);
-  // debugger;
   if (Object.keys(currentData)[0] !== undefined){
     $rootScope.currentData = currentData;
     $scope.hideInviteForm = $rootScope.currentData.timelines[0];
@@ -211,14 +209,12 @@ $scope.createTimeline = function(timeline){
       $scope.newTimelineId = res.data.newTimelineInfo.id;
       $scope.newTimelineTitle = res.data.newTimelineInfo.title;
       console.log($scope.newTimelineId);
-      // console.log("new data: ", data);
       $scope.timeline = "";
     }
     else{
       $scope.newTimelineId = res.data.newTimelineInfo.id;
       $scope.newTimelineTitle = res.data.newTimelineInfo.title;
       console.log($scope.newTimelineId);
-      // console.log("old and new data: ", data);
       $scope.timeline = "";
     }
   })
@@ -235,11 +231,7 @@ $scope.getTimeline = function(id, idx){
   .then(function(res){
     console.log('DOING STUFF');
     console.log(res);
-    // console.log(resp.data.stories);
     $rootScope.stories = res.data.stories;
-    // if(!$scope.$$phase) {
-    //   $scope.$apply();
-    // }
     console.log($rootScope.stories);
   })
   .catch(function(err){

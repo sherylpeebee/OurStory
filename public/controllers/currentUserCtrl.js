@@ -42,7 +42,6 @@ angular.module("OurStory")
     reader.onloadend = function () {
       uri = reader.result;
       preview.src = uri;
-      // debugger;
       console.log(uri);
     };
     $scope.showImgTitleField = preview.src !== "" ? true : false;
@@ -75,7 +74,6 @@ angular.module("OurStory")
       $scope.img = {};
       preview.src = "";
       $scope.showImgTitleField = false;
-      // $scope.showImgTitleField = preview.src !== "" ? true : false;
     } else if (img.url) {
       var encodedImg = getBase64FromImageUrl(img.url);
       img.url = encodedImg;
@@ -83,7 +81,6 @@ angular.module("OurStory")
       $scope.img = {};
       preview.src = "";
       $scope.showImgTitleField = false;
-      // $scope.showImgTitleField = preview.src !== "" ? true : false;
     }
     console.log(photos);
   };
