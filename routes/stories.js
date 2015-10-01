@@ -85,7 +85,7 @@ router.post("/addStory", function(req, res){
           else{
             picCheck(picArray);
           }
-        }, 3000);
+        }, 300);
       }
     };
     var makeStory = function(arr){

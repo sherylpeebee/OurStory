@@ -42,6 +42,7 @@ angular.module("OurStory")
     reader.onloadend = function () {
       uri = reader.result;
       preview.src = uri;
+      // debugger;
       console.log(uri);
     };
     $scope.showImgTitleField = preview.src !== "" ? true : false;
@@ -74,6 +75,7 @@ angular.module("OurStory")
       $scope.img = {};
       preview.src = "";
       $scope.showImgTitleField = false;
+      // $scope.showImgTitleField = preview.src !== "" ? true : false;
     } else if (img.url) {
       var encodedImg = getBase64FromImageUrl(img.url);
       img.url = encodedImg;
@@ -81,12 +83,14 @@ angular.module("OurStory")
       $scope.img = {};
       preview.src = "";
       $scope.showImgTitleField = false;
+      // $scope.showImgTitleField = preview.src !== "" ? true : false;
     }
     console.log(photos);
   };
 
 
   $scope.addStory = function(story){
+    $scope.story = {};
     if(!story){
       story = {};//this is just to prevent errors; better to do a toast notification to the user
       //so they know no data was sent and they can try again
@@ -102,6 +106,7 @@ angular.module("OurStory")
 
     console.log(story);
     story.image = photos;
+    photos = [];
     var author = {};
     author.username = $rootScope.currentData.username;
     author.id = $rootScope.currentData._id;
@@ -112,7 +117,6 @@ angular.module("OurStory")
 
     UserFactory.addStory(story)
     .then(function(res){
-      $scope.story = {};
       console.log(res);
       $rootScope.stories = res.data.stories;
     })
