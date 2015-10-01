@@ -236,7 +236,7 @@ $scope.getTimeline = function(id, idx){
     console.log('DOING STUFF');
     console.log(res);
     // console.log(resp.data.stories);
-    $rootScope.stories = res.data.stories;
+    $rootScope.stories = res.data.stories.slice().reverse();
     // if(!$scope.$$phase) {
     //   $scope.$apply();
     // }
