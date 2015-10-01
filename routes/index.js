@@ -7,9 +7,6 @@ var User = require("../models/user.js");
 var Timeline = require("../models/timeline.js");
 var passport = require('passport');
 var InstagramStrategy = require("passport-instagram").Strategy;
-
-// var redirect_uri = 'https://the-history-of-us.herokuapp.com/auth';
-// var redirect_uri = 'http://localhost:8000/auth';
 var access_token, currentUser;
 
 /* GET home page. */

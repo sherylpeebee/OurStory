@@ -74,16 +74,18 @@ router.post("/addStory", function(req, res){
             url: result.url,
             caption: result.original_filename
           });
-          picCheck(picArray);
         });
       });
+      picCheck(picArray);
       function picCheck(picArray){
-        if(picArray.length === bufferedImgsObj.length){
-          storyFunc(picArray);
-        }
-        else{
-          picCheck(picArray);
-        }
+        setTimeout(function(){
+          if(picArray.length === bufferedImgsObj.length){//this is causing a headers setting error on 116!! weird!!
+            storyFunc(picArray);
+          }
+          else{
+            picCheck(picArray);
+          }
+        }, 3000);
       }
     };
     var makeStory = function(arr){
@@ -112,6 +114,7 @@ router.post("/addStory", function(req, res){
                 console.log(err);
               }
               res.status(200).send(docWithStories);
+              return;
             });
           });
         });
