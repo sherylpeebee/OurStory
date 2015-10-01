@@ -79,7 +79,7 @@ router.post("/addStory", function(req, res){
       picCheck(picArray);
       function picCheck(picArray){
         setTimeout(function(){
-          if(picArray.length === bufferedImgsObj.length){//this is causing a headers setting error on 116!! weird!!
+          if(picArray.length === bufferedImgsObj.length){
             storyFunc(picArray);
           }
           else{
