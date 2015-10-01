@@ -118,7 +118,7 @@ angular.module("OurStory")
     UserFactory.addStory(story)
     .then(function(res){
       console.log(res);
-      $rootScope.stories = res.data.stories;
+      $rootScope.stories = res.data.stories.reverse();
     })
     .catch(function(err){
       console.log(err);
