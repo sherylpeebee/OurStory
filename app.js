@@ -7,10 +7,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var stories = require('./routes/stories');
-
 mongoose.connect(process.env.MONGOLAB_URI);
 // mongoose.connect("mongodb://localhost/db/ourStory");
 
@@ -37,9 +33,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));//what's path.join do?
 
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/stories', stories);
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+app.use('/stories', require('./routes/stories'));
 
 
 // catch 404 and forward to error handler

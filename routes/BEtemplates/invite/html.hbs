@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>You're Invited</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+
+    <style>
+      body{
+        background-color: black;
+        color: white;
+      }
+      h1{
+        font-family: 'Dancing Script', cursive;
+      }
+      a.invite {
+        color: #f4d94e;
+        font-family: 'Montserrat', sans-serif;
+      }
+     p{
+       font-family: 'Poiret One', cursive;
+     }
+     p.smiley{
+       font-family: 'Montserrat', sans-serif;
+     }
+      span{
+        font-weight: bold;
+      }
+      a{
+        text-decoration: none;
+        color: #f4d94e;
+      }
+      div.messageBody{
+        margin: 50px;
+      }
+
+    </style>
+    <div class="messageBody">
+      <h1>Hey, there!</h1>
+      <p>Your pal, <span>{{username}}</span>, just invited you to help them write history at <i><a href="the-history-of-us.herokuapp.com">the-history-of-us.com</a></i> . </p>
+      <p>Accept their invitation by clicking <a class="invite" href="{{inviteUrl}}">here</a>!</p>
+      <p class="smiley">:),</p>
+      <p>SherylPeeBee</p>
+    </div>
+
+  </body>
+
+</html>

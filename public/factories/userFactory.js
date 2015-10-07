@@ -40,6 +40,10 @@ angular.module("OurStory")
     fetchUpdatedTimelines : function (currentData){
       return $http.post("https://the-history-of-us.herokuapp.com/users/fetchUpdatedTimelines", currentData);
       // return $http.post("users/fetchUpdatedTimelines", currentData);
+    },
+    emailInvite : function (userId, friendEmail){
+      return $http.post("https://the-history-of-us.herokuapp.com/" + userId + "/inviteFriends/" + friendEmail);
+      // return $http.post(userId + "/inviteFriends/" + friendEmail);
     }
   };
 });

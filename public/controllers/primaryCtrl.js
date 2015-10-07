@@ -119,6 +119,14 @@ $scope.findFriend = function(friend){
           }else{
             swal("Fantastic!", "We'll email an invite out to: " + inputValue, "success");
             $scope.friend = "";
+            var uid = $rootScope.currentData._id;
+            UserFactory.emailInvite(uid, inputValue)
+            .then(function(res){
+              console.log(res);
+            })
+            .catch(function(err){
+              console.log(err);
+            });
           }
         });
       }
