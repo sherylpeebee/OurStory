@@ -13,7 +13,7 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 
 var transport = nodemailer.createTransport(mandrillTransport({
   auth: {
-    apiKey: 'LxAdks7StHa7cxs5fZgkVQ'
+    apiKey: process.env.MANDRILL_KEY
   }
 }));
 
@@ -35,7 +35,7 @@ router.post("/:userId/inviteFriends/:friendEmail", function(req, res, next){
       console.log(err);
     }
     console.log(user);
-    var invitation = {username: user.username, inviteUrl: "http://localhost:8000/#/acceptInvitation/" + req.params.userId};
+    var invitation = {username: user.username, inviteUrl: "https://the-history-of-us.herokuapp.com/" + req.params.userId};
     invite.render(invitation).then(function (results) {
       console.log(results.html);
       transport.sendMail({
