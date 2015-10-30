@@ -5,11 +5,12 @@ var path = require('path');
 var mongoose = require('mongoose');
 var User = require("../models/user.js");
 var Timeline = require("../models/timeline.js");
-// var mandrill = require('mandrill-api/mandrill');
-// var mandrill_client = new mandrill.Mandrill('LxAdks7StHa7cxs5fZgkVQ');
 var nodemailer = require('nodemailer');
 var mandrillTransport = require('nodemailer-mandrill-transport');
 var EmailTemplate = require('email-templates').EmailTemplate;
+var domain = process.env.NODE_ENV === "development" ?
+ "http://localhost:8000/" :
+ "https://the-history-of-us.herokuapp.com/";
 
 var transport = nodemailer.createTransport(mandrillTransport({
   auth: {
@@ -23,8 +24,11 @@ var invite = new EmailTemplate(templateDir);
 
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'The History of US'});
+});
 
+router.get('/getDomain', function(req, res, next) {
+  res.send(domain);
 });
 
 router.post("/:userId/inviteFriends/:friendEmail", function(req, res, next){
@@ -35,7 +39,7 @@ router.post("/:userId/inviteFriends/:friendEmail", function(req, res, next){
       console.log(err);
     }
     console.log(user);
-    var invitation = {username: user.username, inviteUrl: "https://the-history-of-us.herokuapp.com/" + req.params.userId};
+    var invitation = {username: user.username, inviteUrl: domain + "#/acceptInvitation/" + req.params.userId};
     invite.render(invitation).then(function (results) {
       console.log(results.html);
       transport.sendMail({
@@ -54,9 +58,5 @@ router.post("/:userId/inviteFriends/:friendEmail", function(req, res, next){
   });
 });
 
-// router.get("//the-history-of-us.herokuapp.com/acceptInvitation/:invitationId", function(req, res, next){
-// router.get("http://localhost:8000/acceptInvitation/:invitationId", function(req, res, next){
-//   res.redirect("http://localhost:8000/acceptInvitation/:invitationId");
-// });
 
 module.exports = router;

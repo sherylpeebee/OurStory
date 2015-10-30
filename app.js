@@ -7,8 +7,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors');
 
-mongoose.connect(process.env.MONGOLAB_URI);
+// mongoose.connect(process.env.MONGOLAB_URI);
 // mongoose.connect("mongodb://localhost/db/ourStory");
+mongoose.connect(require('./secrets/db.js').MONGO_DB);
 
 var app = express();
 // app.use(cors());
