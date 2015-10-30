@@ -5,7 +5,8 @@ angular.module("OurStory")
       return $http.post('users/createOrUpdateAccount', userInfo);
     },
     findUser : function (userAuthObj){
-      return $http.post('users/findUser', userAuthObj);
+      var provider = Object.keys(userAuthObj)[0];
+      return $http.get('users/findUser?provider=' + provider + '&id=' + userAuthObj[provider]);
     },
     findFriend : function (friend){
       return $http.post('users/findFriend', friend);

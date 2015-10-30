@@ -88,9 +88,12 @@ router.post('/reviewTimelineInvitations', function(req, res, next) {
   });
 });
 
-router.post('/findUser', cors(), function(req, res, next) {
-  console.log("find User request body: ", req.body);
-  User.findOne({ 'oauth_id': req.body }).populate('timelines').exec(function(err, doc){
+router.get('/findUser', cors(), function(req, res, next) {
+  // console.log("find User request queries: ", req.query.provider, req.query.id);
+  var searchParam = {};
+  searchParam[req.query.provider] = req.query.id;
+  console.log(searchParam);
+  User.findOne({ 'oauth_id': searchParam }).populate('timelines').exec(function(err, doc){
       if(err){
         console.log(err);
       }
