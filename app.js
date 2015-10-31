@@ -9,8 +9,7 @@ var cors = require('cors');
 
 // mongoose.connect(process.env.MONGOLAB_URI);
 // mongoose.connect("mongodb://localhost/db/ourStory");
-mongoose.connect(require('./secrets/db.js').MONGO_DB || process.env.MONGOLAB_URI);
-
+mongoose.connect(process.env.MONGOLAB_URI || require('./secrets/db.js').MONGO_DB);
 var app = express();
 // app.use(cors());
 app.use(function(req, res, next) {
