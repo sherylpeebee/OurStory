@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
 
 var importPics;
 var searchParams = /^http:\/\/|^https:\/\//i;
-router.post("/addStory", function(req, res){
+router.put("/addStory", function(req, res){
   var imgObjArray, bufferedImgsObj, storyObj = {
     title: req.body.title,
     author: req.body.author,

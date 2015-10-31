@@ -43,9 +43,10 @@ router.post("/createTimeline", function(req, res, next){
   });
 });
 
-router.post("/getTimeline", function(req, res, next){
+router.get("/getTimeline/:id", function(req, res, next){
   console.log("searching for ONE TIMELINE!!");
-  var id = req.body.id;
+  var id = req.params.id;
+  console.log(id);
   Timeline.findById(id).populate("stories").exec(function(err, timeline){
     if(err){
       console.log(err);
@@ -54,7 +55,7 @@ router.post("/getTimeline", function(req, res, next){
   });
 });
 
-router.post('/reviewTimelineInvitations', function(req, res, next) {
+router.put('/reviewTimelineInvitations', function(req, res, next) {
   var id = req.body._id;
   var requests = req.body.incoming_requests;
   console.log("trying to update a partner: ", requests);
@@ -108,9 +109,11 @@ router.get('/findUser', cors(), function(req, res, next) {
   });
 });
 
-router.post('/fetchUpdatedTimelines', cors(), function(req, res, next) {
-  console.log("get updated timelines request body: ", req.body);
-  User.findOne({ 'oauth_id': req.body.oauth_id }).populate("timelines").exec(function(err, doc){
+router.get('/fetchUpdatedTimelines', cors(), function(req, res, next) {
+  console.log("get updated timelines request body: ", req.body.query);
+  var searchParam = {};
+  searchParam[req.query.provider] = req.query.id;
+  User.findOne({ 'oauth_id': searchParam }).populate("timelines").exec(function(err, doc){
       if(err){
         console.log(err);
       }
@@ -203,7 +206,7 @@ router.post('/createOrUpdateAccount', cors(), function(req, res, next) {
   }
 });
 
-router.post("/findFriend", function(req, res){
+router.put("/findFriend", function(req, res){
   console.log("friend search: ", req.body);
   switch(req.body.search) {
     case "username":

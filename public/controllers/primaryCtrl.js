@@ -243,11 +243,8 @@ $scope.getTimeline = function(id, idx){
   .then(function(res){
     console.log('DOING STUFF');
     console.log(res);
-    // console.log(resp.data.stories);
     $rootScope.stories = res.data.stories.slice().reverse();
-    // if(!$scope.$$phase) {
-    //   $scope.$apply();
-    // }
+
     console.log($rootScope.stories);
   })
   .catch(function(err){
@@ -256,6 +253,7 @@ $scope.getTimeline = function(id, idx){
 };
 
 $scope.fetchUpdatedTimelines = function(){
+  console.log($rootScope.currentData);
   UserFactory.fetchUpdatedTimelines($rootScope.currentData)
   .then(function(res){
     console.log(res);

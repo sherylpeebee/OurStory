@@ -9,28 +9,24 @@ angular.module("OurStory")
       return $http.get('users/findUser?provider=' + provider + '&id=' + userAuthObj[provider]);
     },
     findFriend : function (friend){
-      return $http.post('users/findFriend', friend);
+      return $http.put('users/findFriend', friend);
     },
     reviewTimelineInvitations : function (partnerInfo){
-      return $http.post('users/reviewTimelineInvitations', partnerInfo);
-    },
-    getRequestUpdates : function (userInfo){
-      return $http.post('users/getRequestUpdates', userInfo);
+      return $http.put('users/reviewTimelineInvitations', partnerInfo);
     },
     createTimeline : function (appendedUserObj){
       return $http.post('users/createTimeline', appendedUserObj);
     },
-    addPictures : function (img){
-      return $http.post('stories/pic', img);
-    },
     addStory : function (story){
-      return $http.post('stories/addStory', story);
+      return $http.put('stories/addStory', story);
     },
-    getTimeline : function (id){
-      return $http.post("users/getTimeline", id);
+    getTimeline : function (idObj){
+      return $http.get("users/getTimeline/" + idObj.id);
     },
     fetchUpdatedTimelines : function (currentData){
-      return $http.post("users/fetchUpdatedTimelines", currentData);
+      var provider = Object.keys(currentData.oauth_id)[0];
+      return $http.get("users/fetchUpdatedTimelines?provider=" + provider +
+      "&id=" + currentData.oauth_id[provider]);
     },
     emailInvite : function (userId, friendEmail){
       return $http.post(userId + "/inviteFriends/" + friendEmail);
